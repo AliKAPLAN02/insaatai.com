@@ -1,8 +1,36 @@
+// app/pricing/page.js
+import Link from "next/link";
+
 export default function Pricing() {
   const plans = [
-    { name: "Basic", price: "₺699/ay",  items: ["WhatsApp Inbox", "Raporlar (CSV)", "1 proje"] },
-    { name: "Pro",   price: "₺999/ay",  items: ["Dashboard + Aging", "Sınırsız proje", "Ödeme uyarıları"], featured: true },
-    { name: "Team",  price: "₺1599/ay", items: ["Kullanıcı rolleri", "Özel alanlar", "Öncelikli destek"] },
+    {
+      name: "Basic",
+      price: "₺/ay",
+      items: [
+        "yapay zeka destekli Whatsapp üzerinden inşaat ai",
+        "Anında Exel Raporları",
+        "1 proje hakkı",
+      ],
+    },
+    {
+      name: "Pro",
+      price: "₺/ay",
+      items: [
+        "özelleştirilebilir filtreleme özelikleri ",
+        "3 proje hakkı",
+        "Htırlatma ve borç takibi mesajları",
+      ],
+      featured: true,
+    },
+    {
+      name: "Team",
+      price: "₺/ay",
+      items: [
+        "Şirketinize özel inşaat yapay zekası",
+        "Sınırsız proje",
+        "7/24 canlı destek ve",
+      ],
+    },
   ];
 
   return (
@@ -18,21 +46,29 @@ export default function Pricing() {
               p.featured ? "border-slate-900 ring-2 ring-slate-200" : "border-slate-200"
             }`}
           >
-            <h2 id={`plan-${p.name}`} className="text-lg font-semibold">{p.name}</h2>
+            <h2 id={`plan-${p.name}`} className="text-lg font-semibold">
+              {p.name}
+            </h2>
             <div className="text-2xl font-extrabold mt-1">{p.price}</div>
 
             <ul className="mt-4 text-sm text-slate-600 list-disc pl-5 space-y-1.5">
-              {p.items.map((it, i) => <li key={i}>{it}</li>)}
+              {p.items.map((it, i) => (
+                <li key={i}>{it}</li>
+              ))}
             </ul>
 
-            <button
-              type="button"
-              className={`mt-6 w-full px-4 py-2 rounded-xl ${
-                p.featured ? "bg-slate-900 text-white" : "border border-slate-300"
+            <Link
+              href={{ pathname: "/kayit_ol", query: { plan: p.name.toLowerCase() } }}
+              aria-label={`${p.name} planı ile başla`}
+              className={`mt-6 inline-flex w-full items-center justify-center px-4 py-2 rounded-xl transition ${
+                p.featured
+                  ? "bg-slate-900 text-white hover:opacity-90"
+                  : "border border-slate-300 hover:bg-slate-50"
               }`}
+              data-plan={p.name}
             >
               Başla
-            </button>
+            </Link>
           </section>
         ))}
       </div>

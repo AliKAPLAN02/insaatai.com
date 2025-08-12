@@ -7,3 +7,5 @@ dist/
 # Env & local
 .env*
 .DS_Store
+
+/app/generated/prisma
