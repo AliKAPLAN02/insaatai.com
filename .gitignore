@@ -1,11 +1,45 @@
-# Node/Next
+# Node/Next build'leri
 node_modules/
 .next/
 out/
 dist/
+.vercel/
 
-# Env & local
+# Ortam & yerel
 .env*
 .DS_Store
+.vscode/
+.idea/
+.eslintcache
 
-/app/generated/prisma
+# Veritabanları
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+veritabani/
+prisma/dev.db
+
+# Veri/rapor/çıktılar (yerel)
+data/**
+!data/static/**        # (İstersen repo'da tutacağın sabit veriler için)
+uploads/**
+exports/**
+reports/**
+*.csv
+*.xls
+*.xlsx
+
+# Loglar
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Cache/temps
+.cache/
+.next/cache/
+.pnpm-store/
+.tmp/
+*.pid
