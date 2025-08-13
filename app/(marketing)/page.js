@@ -6,6 +6,11 @@ import { Hammer, LineChart, MessageSquare } from "lucide-react";
 import Spline from "@splinetool/react-spline";
 
 const SCENE_PATH = "/spline/scene.splinecode";
+/* Tüm CTA butonları için ortak sınıf */
+const CTA_BTN =
+  "inline-flex items-center justify-center rounded-xl px-5 py-2.5 bg-slate-900 text-white " +
+  "font-medium hover:opacity-90 active:opacity-80 focus:outline-none focus:ring-2 " +
+  "focus:ring-offset-2 focus:ring-slate-900 transition min-w-[140px]";
 
 export default function Page() {
   const tiltRef = useRef(null);
@@ -15,7 +20,8 @@ export default function Page() {
     if (
       matchMedia("(pointer: coarse)").matches ||
       matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) return;
+    )
+      return;
 
     const el = tiltRef.current;
     if (!el) return;
@@ -35,14 +41,18 @@ export default function Page() {
 
   const onLeave = () => {
     const el = tiltRef.current;
-    if (el) el.style.transform = "rotateX(0deg) rotateY(0deg) translateZ(0) scale(1.01)";
+    if (el)
+      el.style.transform =
+        "rotateX(0deg) rotateY(0deg) translateZ(0) scale(1.01)";
   };
 
   return (
     <main className="min-h-screen flex flex-col">
       <header className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center gap-2">
-          <div className="h-9 w-9 rounded-xl bg-slate-900 text-white grid place-items-center font-bold">İA</div>
+          <div className="h-9 w-9 rounded-xl bg-slate-900 text-white grid place-items-center font-bold">
+            İA
+          </div>
           <span className="font-semibold">İnşaat AI</span>
         </div>
       </header>
@@ -55,39 +65,54 @@ export default function Page() {
               <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
                 Hala <span className="text-blue-600">yapay zeka </span> kullanmıyor musunuz?
               </h1>
-              <p className="text-slate-600">Yapay zekayı bugün kullanın, yarın öne geçin..</p>
+              <p className="text-slate-600">
+                Yapay zekayı bugün kullanın, yarın öne geçin..
+              </p>
 
-              {/* CTA + Auth butonları yan yana */}
+              {/* ✅ Tüm CTA'lar aynı stil, eşit genişlik ve aralık */}
               <div className="flex flex-wrap items-center gap-3">
-                <Link href="/bilgi-al" className="px-5 py-2.5 rounded-xl bg-slate-900 text-white">Bilgi Al</Link>
-                <Link href="/pricing" className="px-5 py-2.5 rounded-xl border border-slate-300">Fiyatları Gör</Link>
-
-                <span className="hidden md:inline-block h-6 w-px bg-slate-200 mx-1" aria-hidden="true" />
-
-                <Link href="/signup" className="px-4 py-2 rounded-xl border border-slate-300">Kayıt Ol</Link>
-                <Link href="/app" className="px-4 py-2 rounded-xl bg-slate-900 text-white">Giriş</Link>
+                <Link href="/bilgi-al" className={CTA_BTN}>
+                  Bilgi Al
+                </Link>
+                <Link href="/pricing" className={CTA_BTN}>
+                  Fiyatları Gör
+                </Link>
+                <Link href="/signup" className={CTA_BTN}>
+                  Kayıt Ol
+                </Link>
+                <Link href="/app" className={CTA_BTN}>
+                  Giriş
+                </Link>
               </div>
 
               <div className="pt-6">
-                <div className="text-xs tracking-wider text-slate-500 font-semibold mb-2">ÖZELLİKLERİ KEŞFET</div>
+                <div className="text-xs tracking-wider text-slate-500 font-semibold mb-2">
+                  ÖZELLİKLERİ KEŞFET
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                   {[
                     {
                       icon: <MessageSquare className="h-6 w-6" />,
                       title: "WhatsApp’tan Yönet",
-                      lines: ["Sadece WhatsApp ile sahadan ya da ofisten tüm verilerinizi kolayca yönetin."],
+                      lines: [
+                        "Sadece WhatsApp ile sahadan ya da ofisten tüm verilerinizi kolayca yönetin.",
+                      ],
                       href: "/#ozellik-whatsapp",
                     },
                     {
                       icon: <LineChart className="h-6 w-6" />,
                       title: "Anında Akıllı Raporlar",
-                      lines: ["Verileriniz saniyeler içinde kârlılık, nakit akışı ve borç takibi raporlarına dönüşsün."],
+                      lines: [
+                        "Verileriniz saniyeler içinde kârlılık, nakit akışı ve borç takibi raporlarına dönüşsün.",
+                      ],
                       href: "/#ozellik-dashboard",
                     },
                     {
                       icon: <Hammer className="h-6 w-6" />,
                       title: "Müteahhitlere Özel Yapay Zeka",
-                      lines: ["İnşaat sektörüne özel geliştirilen, müteahhitlerin iş akışını bilen ilk yapay zeka."],
+                      lines: [
+                        "İnşaat sektörüne özel geliştirilen, müteahhitlerin iş akışını bilen ilk yapay zeka.",
+                      ],
                       href: "/#ozellik-insaat",
                     },
                   ].map((c, i) => (
@@ -96,10 +121,16 @@ export default function Page() {
                       href={c.href}
                       className="rounded-3xl bg-white border border-slate-200 p-6 shadow-sm hover:shadow transition group"
                     >
-                      <div className="h-12 w-12 rounded-xl bg-slate-100 grid place-items-center mb-4">{c.icon}</div>
-                      <div className="text-xl font-semibold mb-1 group-hover:text-slate-900">{c.title}</div>
+                      <div className="h-12 w-12 rounded-xl bg-slate-100 grid place-items-center mb-4">
+                        {c.icon}
+                      </div>
+                      <div className="text-xl font-semibold mb-1 group-hover:text-slate-900">
+                        {c.title}
+                      </div>
                       {c.lines.map((t, j) => (
-                        <div key={j} className="text-sm text-slate-600">{t}</div>
+                        <div key={j} className="text-sm text-slate-600">
+                          {t}
+                        </div>
                       ))}
                     </Link>
                   ))}
