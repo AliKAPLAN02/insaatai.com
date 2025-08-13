@@ -10,7 +10,7 @@ const ContactSchema = z.object({
   phone: z.string().max(40).optional().nullable(),
   company: z.string().max(120).optional().nullable(),
   message: z.string().min(5).max(5000),
-  website: z.string().optional().nullable(), // honeypot
+  website: z.string().optional().nullable(),
 });
 
 export async function POST(req) {
@@ -23,9 +23,7 @@ export async function POST(req) {
       website: body.website || null,
     });
 
-    // Bot ise sessizce OK
     if (parsed.website) return NextResponse.json({ ok: true });
-
     await sendContactMail(parsed);
     return NextResponse.json({ ok: true });
   } catch (err) {

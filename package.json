@@ -16,9 +16,11 @@
     "clsx": "2.1.1",
     "lucide-react": "0.439.0",
     "next": "14.2.5",
+    "nodemailer": "^7.0.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "recharts": "2.12.7",
+    "resend": "^6.0.1",
     "three": "^0.179.1",
     "zod": "^4.0.17"
   },

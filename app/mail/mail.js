@@ -3,7 +3,11 @@ export async function sendContactMail(data) {
     const TO = process.env.CONTACT_TO_EMAIL;
     if (!FROM || !TO) throw new Error("CONTACT_FROM_EMAIL / CONTACT_TO_EMAIL eksik.");
   
-    // Resend varsa onu kullan
+    const subject = `Yeni Bilgi Al formu — ${data.company || data.name || "Bilinmiyor"}`;
+    const html = renderHtml(data);
+    const text = renderText(data);
+  
+    // 1) Resend varsa
     const RESEND_API_KEY = process.env.RESEND_API_KEY;
     if (RESEND_API_KEY) {
       const { Resend } = await import("resend");
@@ -11,13 +15,15 @@ export async function sendContactMail(data) {
       await resend.emails.send({
         from: FROM,
         to: TO,
-        subject: `Yeni Bilgi Al formu — ${data.company || "Bilinmiyor"}`,
-        html: renderHtml(data),
+        subject,
+        html,
+        text,
+        replyTo: data.email ? `${data.name || ""} <${data.email}>` : undefined,
       });
       return;
     }
   
-    // Yoksa SMTP (nodemailer)
+    // 2) SMTP (Gmail)
     const host = process.env.SMTP_HOST;
     const port = Number(process.env.SMTP_PORT || 587);
     const secure = String(process.env.SMTP_SECURE || "false") === "true";
@@ -31,8 +37,10 @@ export async function sendContactMail(data) {
     await transporter.sendMail({
       from: FROM,
       to: TO,
-      subject: `Yeni Bilgi Al formu — ${data.company || "Bilinmiyor"}`,
-      html: renderHtml(data),
+      subject,
+      html,
+      text,
+      replyTo: data.email ? `${data.name || ""} <${data.email}>` : undefined,
     });
   }
   
@@ -45,11 +53,21 @@ export async function sendContactMail(data) {
       <p><b>Telefon:</b> ${esc(d.phone || "-")}</p>
       <p><b>Şirket:</b> ${esc(d.company || "-")}</p>
       <p><b>Mesaj:</b><br/>${esc(d.message).replace(/\n/g,"<br/>")}</p>
-      <hr/>
-      <small>Kaynak: insaatai.com</small>
+      <hr/><small>Kaynak: insaatai.com</small>
     </div>`;
   }
-  function esc(s) {
-    return (s ?? "").replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
+  function renderText(d){
+    return [
+      "Yeni Bilgi Al Formu",
+      `Ad Soyad: ${d.name}`,
+      `E-posta: ${d.email}`,
+      `Telefon: ${d.phone || "-"}`,
+      `Şirket: ${d.company || "-"}`,
+      "Mesaj:",
+      (d.message || "").replace(/\r?\n/g, "\n"),
+      "",
+      "Kaynak: insaatai.com",
+    ].join("\n");
   }
+  function esc(s){ return (s ?? "").replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c])); }
   
