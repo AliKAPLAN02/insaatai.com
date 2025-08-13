@@ -23,13 +23,10 @@ export async function POST(req) {
       website: body.website || null,
     });
 
-    if (parsed.website) return NextResponse.json({ ok: true });
+    if (parsed.website) return NextResponse.json({ ok: true }); // honeypot
     await sendContactMail(parsed);
     return NextResponse.json({ ok: true });
   } catch (err) {
-    return NextResponse.json(
-      { ok: false, error: err?.message || "Form gönderilemedi." },
-      { status: 400 }
-    );
+    return NextResponse.json({ ok: false, error: err?.message || "Form gönderilemedi." }, { status: 400 });
   }
 }
