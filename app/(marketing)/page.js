@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -6,7 +5,6 @@ import { useRef } from "react";
 import { Hammer, LineChart, MessageSquare } from "lucide-react";
 import Spline from "@splinetool/react-spline";
 
-// 👇 public/spline/ içine koyduğun export dosyalarıyla eşleşmeli
 const SCENE_PATH = "/spline/scene.splinecode";
 
 export default function Page() {
@@ -57,12 +55,17 @@ export default function Page() {
               <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
                 Hala <span className="text-blue-600">yapay zeka </span> kullanmıyor musunuz?
               </h1>
-              <p className="text-slate-600">
-                Yapay zekayı bugün kullanın, yarın öne geçin..
-              </p>
-              <div className="flex items-center gap-3">
-                <Link href="/pricing" className="px-5 py-2.5 rounded-xl bg-slate-900 text-white">Bilgi Al</Link>
+              <p className="text-slate-600">Yapay zekayı bugün kullanın, yarın öne geçin..</p>
+
+              {/* CTA + Auth butonları yan yana */}
+              <div className="flex flex-wrap items-center gap-3">
+                <Link href="/bilgi-al" className="px-5 py-2.5 rounded-xl bg-slate-900 text-white">Bilgi Al</Link>
                 <Link href="/pricing" className="px-5 py-2.5 rounded-xl border border-slate-300">Fiyatları Gör</Link>
+
+                <span className="hidden md:inline-block h-6 w-px bg-slate-200 mx-1" aria-hidden="true" />
+
+                <Link href="/signup" className="px-4 py-2 rounded-xl border border-slate-300">Kayıt Ol</Link>
+                <Link href="/app" className="px-4 py-2 rounded-xl bg-slate-900 text-white">Giriş</Link>
               </div>
 
               <div className="pt-6">
@@ -112,13 +115,6 @@ export default function Page() {
             onMouseMove={onMove}
             onMouseLeave={onLeave}
           >
-            {/* Butonlar */}
-            <div className="absolute right-4 top-4 z-10 flex items-center gap-3">
-              <Link href="/signup" className="px-4 py-2 rounded-xl bg-white/80 backdrop-blur border border-slate-200">Kayıt Ol</Link>
-              <Link href="/app" className="px-4 py-2 rounded-xl bg-slate-900 text-white">Giriş</Link>
-            </div>
-
-            {/* Clipper + Tilt */}
             <div
               className="absolute inset-0 overflow-hidden rounded-[inherit]"
               style={{ clipPath: "inset(0 round 28px)", background: "#A0ABB5" }}
@@ -128,7 +124,6 @@ export default function Page() {
                 className="absolute inset-0 will-change-transform"
                 style={{ transformStyle: "preserve-3d", transform: "scale(1.01)" }}
               >
-                {/* 👇 UZAK URL GİTTİ, LOKAL DOSYA KULLANIYORUZ */}
                 <Spline scene={SCENE_PATH} />
               </div>
             </div>
