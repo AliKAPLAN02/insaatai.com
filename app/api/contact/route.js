@@ -2,7 +2,7 @@ export const runtime = "nodejs";
 
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { sendContactMail } from "../../../lib/mail";
+import { sendContactMail } from "../../mail/mail";
 
 const ContactSchema = z.object({
   name: z.string().min(2).max(100),
