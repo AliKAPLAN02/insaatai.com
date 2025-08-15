@@ -66,7 +66,7 @@ export default function Page() {
                 Hala <span className="text-blue-600">yapay zeka </span> kullanmıyor musunuz?
               </h1>
               <p className="text-slate-600">
-                Yapay zekayı bugün kullanın, yarın öne geçin..
+              Yapay zeka devrimini inşaat projelerinize taşıyın, maliyetlerinizi düşürün ve kârlılığınızı artırın!
               </p>
 
               {/* ✅ Tüm CTA'lar aynı stil, eşit genişlik ve aralık */}
