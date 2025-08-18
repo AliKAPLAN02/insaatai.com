@@ -66,7 +66,7 @@ export default function Page() {
                 Hala <span className="text-blue-600">yapay zeka </span> kullanmıyor musunuz?
               </h1>
               <p className="text-slate-600">
-              Yapay zeka devrimini inşaat projelerinize taşıyın, maliyetlerinizi düşürün ve kârlılığınızı artırın!
+                Yapay zeka devrimini inşaat projelerinize taşıyın, maliyetlerinizi düşürün ve kârlılığınızı artırın!
               </p>
 
               {/* ✅ Tüm CTA'lar aynı stil, eşit genişlik ve aralık */}
@@ -77,10 +77,10 @@ export default function Page() {
                 <Link href="/pricing" className={CTA_BTN}>
                   Fiyatları Gör
                 </Link>
-                <Link href="/signup" className={CTA_BTN}>
+                <Link href="/kayit_ol" className={CTA_BTN}>
                   Kayıt Ol
                 </Link>
-                <Link href="/app" className={CTA_BTN}>
+                <Link href="/giris" className={CTA_BTN}>
                   Giriş
                 </Link>
               </div>
