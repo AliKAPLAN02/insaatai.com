@@ -30,7 +30,7 @@ export default function SignupPage() {
 
     if (error) {
       if (error.message.includes("already registered")) {
-        setMessage("⚠️ Bu e-posta ile zaten bir hesap mevcut. Lütfen giriş yapın.");
+        setMessage("⚠️ Bu e-posta ile zaten bir hesap mevcut. Lütfen giriş yap.");
       } else {
         setMessage("❌ Hata: " + error.message);
       }
@@ -91,7 +91,6 @@ export default function SignupPage() {
           <div className="mt-4 text-center space-y-3">
             <p className="text-sm text-gray-700">{message}</p>
 
-            {/* Doğrulamadan sonra izlenecek yollar */}
             <div className="pt-2 border-t text-sm">
               <p className="mb-2 font-medium">Doğrulama sonrası:</p>
               <div className="flex flex-col gap-2">
