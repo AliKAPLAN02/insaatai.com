@@ -2,69 +2,74 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";  // ✅ alias ile import
+import { supabase } from "@/lib/supabaseClient";
 
 export default function AuthCallback() {
   const router = useRouter();
-  const [message, setMessage] = useState("Giriş yapılıyor...");
+  const [msg, setMsg] = useState("Giriş yapılıyor...");
 
   useEffect(() => {
-    const handleAuthCallback = async () => {
+    (async () => {
       try {
-        const hash = window.location.hash;
-        if (!hash.includes("access_token")) {
-          setMessage("❌ Geçersiz bağlantı.");
+        const url = new URL(window.location.href);
+
+        // Supabase PKCE: ?code=...
+        const code = url.searchParams.get("code");
+        const errDesc = url.searchParams.get("error_description");
+        const qType = url.searchParams.get("type"); // signup, recovery, invite...
+
+        if (errDesc) {
+          setMsg("❌ " + errDesc);
           return;
         }
 
-        const params = new URLSearchParams(hash.replace("#", "?"));
-        const access_token = params.get("access_token");
-        const refresh_token = params.get("refresh_token");
-        const type = params.get("type"); // signup, recovery, invite vs.
-
-        if (!access_token || !refresh_token) {
-          setMessage("❌ Token bulunamadı.");
+        if (code) {
+          // URL’i ver; Supabase kendisi code’u parse eder
+          const { error } = await supabase.auth.exchangeCodeForSession(window.location.href);
+          if (error) {
+            setMsg("❌ Oturum açılamadı.");
+            return;
+          }
+          router.replace(qType === "recovery" ? "/reset-password" : "/dashboard");
           return;
         }
 
-        // Session oluştur
-        const { error } = await supabase.auth.setSession({
-          access_token,
-          refresh_token,
-        });
+        // Eski akış: #access_token=...
+        if (url.hash.includes("access_token")) {
+          const params = new URLSearchParams(url.hash.substring(1));
+          const access_token = params.get("access_token");
+          const refresh_token = params.get("refresh_token");
+          const hType = params.get("type");
 
-        if (error) {
-          console.error("Session hatası:", error.message);
-          setMessage("❌ Oturum başlatılamadı.");
+          if (!access_token || !refresh_token) {
+            setMsg("❌ Token bulunamadı.");
+            return;
+          }
+
+          const { error } = await supabase.auth.setSession({
+            access_token,
+            refresh_token,
+          });
+          if (error) {
+            setMsg("❌ Oturum başlatılamadı.");
+            return;
+          }
+
+          router.replace(hType === "recovery" ? "/reset-password" : "/dashboard");
           return;
         }
 
-        // Senaryolara göre yönlendirme
-        if (type === "signup") {
-          setMessage("✅ Hesap doğrulandı, yönlendiriliyorsunuz...");
-          router.push("/dashboard");
-        } else if (type === "invite") {
-          setMessage("✅ Davet kabul edildi, yönlendiriliyorsunuz...");
-          router.push("/dashboard");
-        } else if (type === "recovery") {
-          setMessage("🔑 Şifre yenileme için yönlendiriliyorsunuz...");
-          router.push("/reset-password");
-        } else {
-          setMessage("✅ Başarılı giriş, yönlendiriliyorsunuz...");
-          router.push("/dashboard");
-        }
-      } catch (err) {
-        console.error("Callback hatası:", err);
-        setMessage("❌ Beklenmedik hata oluştu.");
+        setMsg("❌ Geçersiz dönüş URL'si.");
+      } catch (e) {
+        console.error(e);
+        setMsg("❌ Beklenmedik hata.");
       }
-    };
-
-    handleAuthCallback();
+    })();
   }, [router]);
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <p className="text-lg">{message}</p>
+    <div className="flex h-screen items-center justify-center">
+      <p className="text-lg">{msg}</p>
     </div>
   );
 }
