@@ -489,7 +489,7 @@ enum factor_status {
   @@schema("auth")
 }
 
-enum factor_type {
+enum factor_type {s
   totp
   webauthn
   phone
