@@ -43,26 +43,43 @@ export default function LoginPage() {
             .single();
 
           if (cErr) {
-            console.error("Şirket kurulamadı:", cErr.message);
+            console.error("❌ Şirket kurulamadı:", cErr.message);
           } else {
-            // owner üyeliğini ekle
-            await supabase.from("company_member").insert([
-              { company_id: newCompany.id, user_id: user.id, role: "owner" },
-            ]);
+            // owner üyeliğini eklemeden önce kontrol et
+            const { data: existingOwner } = await supabase
+              .from("company_member")
+              .select("*")
+              .eq("company_id", newCompany.id)
+              .eq("user_id", user.id)
+              .single();
+
+            if (!existingOwner) {
+              await supabase.from("company_member").insert([
+                { company_id: newCompany.id, user_id: user.id, role: "owner" },
+              ]);
+            }
+
             console.log("✅ Şirket kuruldu:", newCompany);
           }
         }
 
         // Eğer inviteCode varsa → şirkete katıl
         if (inviteCode) {
-          const { error: mErr } = await supabase
+          // Önceden üye mi kontrol et
+          const { data: existingMember } = await supabase
             .from("company_member")
-            .insert([{ company_id: inviteCode, user_id: user.id, role: "worker" }]);
+            .select("*")
+            .eq("company_id", inviteCode)
+            .eq("user_id", user.id)
+            .single();
 
-          if (mErr) {
-            console.error("Şirkete katılım hatası:", mErr.message);
-          } else {
+          if (!existingMember) {
+            await supabase.from("company_member").insert([
+              { company_id: inviteCode, user_id: user.id, role: "worker" },
+            ]);
             console.log("✅ Şirkete başarıyla katıldı");
+          } else {
+            console.log("ℹ️ Kullanıcı zaten bu şirkete üye");
           }
         }
       } catch (err) {
