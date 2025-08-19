@@ -13,7 +13,7 @@ export default function AuthCallback() {
       try {
         const url = new URL(window.location.href);
 
-        // Supabase PKCE: ?code=...
+        // Yeni Supabase PKCE akışı (?code=...)
         const code = url.searchParams.get("code");
         const errDesc = url.searchParams.get("error_description");
         const qType = url.searchParams.get("type"); // signup, recovery, invite...
@@ -24,17 +24,26 @@ export default function AuthCallback() {
         }
 
         if (code) {
-          // URL’i ver; Supabase kendisi code’u parse eder
-          const { error } = await supabase.auth.exchangeCodeForSession(window.location.href);
+          // Supabase'e code verip session alıyoruz
+          const { error } = await supabase.auth.exchangeCodeForSession(
+            window.location.href
+          );
           if (error) {
+            console.error("exchangeCodeForSession hatası:", error.message);
             setMsg("❌ Oturum açılamadı.");
             return;
           }
-          router.replace(qType === "recovery" ? "/reset-password" : "/dashboard");
+
+          // recovery (şifre sıfırlama) özel yönlendirme
+          if (qType === "recovery") {
+            router.replace("/reset-password");
+          } else {
+            router.replace("/dashboard");
+          }
           return;
         }
 
-        // Eski akış: #access_token=...
+        // Eski hash akışı (#access_token=...)
         if (url.hash.includes("access_token")) {
           const params = new URLSearchParams(url.hash.substring(1));
           const access_token = params.get("access_token");
@@ -51,17 +60,23 @@ export default function AuthCallback() {
             refresh_token,
           });
           if (error) {
+            console.error("setSession hatası:", error.message);
             setMsg("❌ Oturum başlatılamadı.");
             return;
           }
 
-          router.replace(hType === "recovery" ? "/reset-password" : "/dashboard");
+          if (hType === "recovery") {
+            router.replace("/reset-password");
+          } else {
+            router.replace("/dashboard");
+          }
           return;
         }
 
+        // Hiçbiri değilse
         setMsg("❌ Geçersiz dönüş URL'si.");
       } catch (e) {
-        console.error(e);
+        console.error("Callback sayfası hatası:", e);
         setMsg("❌ Beklenmedik hata.");
       }
     })();

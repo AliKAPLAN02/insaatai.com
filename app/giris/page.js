@@ -5,8 +5,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 
-
-
 export default function LoginPage() {
   const router = useRouter();
 
@@ -78,9 +76,9 @@ export default function LoginPage() {
             .maybeSingle();
 
           if (!existingOwner) {
-            await supabase
-              .from("company_member")
-              .insert([{ company_id: companyId, user_id: user.id, role: "owner" }]);
+            await supabase.from("company_member").insert([
+              { company_id: companyId, user_id: user.id, role: "owner" },
+            ]);
           }
         }
 
@@ -102,9 +100,9 @@ export default function LoginPage() {
               .maybeSingle();
 
             if (!alreadyMember) {
-              await supabase
-                .from("company_member")
-                .insert([{ company_id: inviteCode, user_id: user.id, role: "worker" }]);
+              await supabase.from("company_member").insert([
+                { company_id: inviteCode, user_id: user.id, role: "worker" },
+              ]);
             }
           }
         }
@@ -165,6 +163,13 @@ export default function LoginPage() {
           Hesabınız yok mu?{" "}
           <Link href="/kayit_ol" className="text-blue-600 hover:underline">
             Kayıt Ol
+          </Link>
+        </p>
+
+        <p className="mt-2 text-center text-sm">
+          Şifrenizi mi unuttunuz?{" "}
+          <Link href="/sifremi-unuttum" className="text-blue-600 hover:underline">
+            Şifremi Unuttum
           </Link>
         </p>
       </div>
