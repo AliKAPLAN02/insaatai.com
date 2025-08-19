@@ -2,13 +2,15 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "../../lib/supabaseClient";
 import Link from "next/link";
+import { supabase } from "../../lib/supabaseClient";
 
 export default function LoginPage() {
   const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -17,6 +19,7 @@ export default function LoginPage() {
     setLoading(true);
     setMessage("");
 
+    // 1) Auth
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -34,53 +37,81 @@ export default function LoginPage() {
         const meta = user.user_metadata || {};
         const { full_name, phone, companyName, inviteCode, plan } = meta;
 
-        // Eğer companyName varsa → yeni şirket kur
+        // 2) Şirket kurma (idempotent)
         if (companyName) {
-          const { data: newCompany, error: cErr } = await supabase
+          // Aynı owner + aynı isimli şirket var mı?
+          const { data: existingCompany, error: exErr } = await supabase
             .from("company")
-            .insert([{ name: companyName, owner: user.id, plan: plan || "free" }])
-            .select()
-            .single();
+            .select("*")
+            .eq("owner", user.id)
+            .eq("name", companyName)
+            .maybeSingle();
+          if (exErr) throw exErr;
 
-          if (cErr) {
-            console.error("❌ Şirket kurulamadı:", cErr.message);
-          } else {
-            // owner üyeliğini eklemeden önce kontrol et
-            const { data: existingOwner } = await supabase
-              .from("company_member")
-              .select("*")
-              .eq("company_id", newCompany.id)
-              .eq("user_id", user.id)
+          let companyId = existingCompany?.id;
+
+          // Yoksa oluştur
+          if (!companyId) {
+            const { data: created, error: cErr } = await supabase
+              .from("company")
+              .insert([
+                {
+                  name: companyName,
+                  owner: user.id,
+                  plan: plan || "free",
+                },
+              ])
+              .select()
               .single();
+            if (cErr) throw cErr;
+            companyId = created.id;
+          }
 
-            if (!existingOwner) {
-              await supabase.from("company_member").insert([
-                { company_id: newCompany.id, user_id: user.id, role: "owner" },
-              ]);
-            }
+          // Owner üyeliği var mı?
+          const { data: existingOwner } = await supabase
+            .from("company_member")
+            .select("*")
+            .eq("company_id", companyId)
+            .eq("user_id", user.id)
+            .maybeSingle();
 
-            console.log("✅ Şirket kuruldu:", newCompany);
+          if (!existingOwner) {
+            await supabase
+              .from("company_member")
+              .insert([{ company_id: companyId, user_id: user.id, role: "owner" }]);
           }
         }
 
-        // Eğer inviteCode varsa → şirkete katıl
+        // 3) Davet ile katılım (idempotent)
         if (inviteCode) {
-          // Önceden üye mi kontrol et
-          const { data: existingMember } = await supabase
-            .from("company_member")
-            .select("*")
-            .eq("company_id", inviteCode)
-            .eq("user_id", user.id)
-            .single();
+          // Geçerli şirket mi?
+          const { data: targetCompany } = await supabase
+            .from("company")
+            .select("id")
+            .eq("id", inviteCode)
+            .maybeSingle();
 
-          if (!existingMember) {
-            await supabase.from("company_member").insert([
-              { company_id: inviteCode, user_id: user.id, role: "worker" },
-            ]);
-            console.log("✅ Şirkete başarıyla katıldı");
-          } else {
-            console.log("ℹ️ Kullanıcı zaten bu şirkete üye");
+          if (targetCompany?.id) {
+            const { data: alreadyMember } = await supabase
+              .from("company_member")
+              .select("*")
+              .eq("company_id", inviteCode)
+              .eq("user_id", user.id)
+              .maybeSingle();
+
+            if (!alreadyMember) {
+              await supabase
+                .from("company_member")
+                .insert([{ company_id: inviteCode, user_id: user.id, role: "worker" }]);
+            }
           }
+        }
+
+        // 4) Metadata’yı temizle (bir dahaki girişte tekrar tetiklenmesin)
+        if (companyName || inviteCode) {
+          await supabase.auth.updateUser({
+            data: { companyName: null, inviteCode: null },
+          });
         }
       } catch (err) {
         console.error("Login sonrası DB işlemleri hatası:", err);
@@ -96,6 +127,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-sm">
         <h1 className="text-2xl font-bold mb-6 text-center">Giriş Yap</h1>
+
         <form onSubmit={handleLogin} className="space-y-4">
           <input
             type="email"
@@ -113,6 +145,7 @@ export default function LoginPage() {
             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-slate-300"
             required
           />
+
           <button
             type="submit"
             disabled={loading}
