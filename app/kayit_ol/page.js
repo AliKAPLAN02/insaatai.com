@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { supabase } from "../../lib/supabaseClient";
 
 export default function SignupPage() {
+  const router = useRouter();
+
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -11,6 +14,7 @@ export default function SignupPage() {
   const [password2, setPassword2] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [inviteCode, setInviteCode] = useState("");
+  const [plan, setPlan] = useState("free");
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -20,8 +24,24 @@ export default function SignupPage() {
     setMessage("");
     setLoading(true);
 
+    // === Validation ===
     if (password !== password2) {
       setMessage("⚠️ Şifreler uyuşmuyor!");
+      setLoading(false);
+      return;
+    }
+    if (companyName && inviteCode) {
+      setMessage("⚠️ Aynı anda hem şirket kurucu hem davet kodu kullanılamaz!");
+      setLoading(false);
+      return;
+    }
+    if (!companyName && !inviteCode) {
+      setMessage("⚠️ Lütfen ya şirket adı girin ya da davet kodu girin.");
+      setLoading(false);
+      return;
+    }
+    if (companyName && !plan) {
+      setMessage("⚠️ Şirket kuruyorsanız bir paket seçmelisiniz.");
       setLoading(false);
       return;
     }
@@ -30,7 +50,10 @@ export default function SignupPage() {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { full_name: fullName, phone } },
+      options: {
+        data: { full_name: fullName, phone, companyName, inviteCode, plan },
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`, // doğrulama sonrası yönlendirme
+      },
     });
 
     if (error) {
@@ -39,40 +62,9 @@ export default function SignupPage() {
       return;
     }
 
-    const user = data?.user;
-    if (!user) {
-      setMessage("❌ Kullanıcı oluşturulamadı.");
-      setLoading(false);
-      return;
-    }
-
-    // === Şirket oluştur ===
-    if (companyName) {
-      const { error: companyError } = await supabase
-        .from("company")
-        .insert([{ name: companyName, owner: user.id }]);
-
-      if (companyError) {
-        setMessage("⚠️ Kullanıcı oluşturuldu ama şirket eklenemedi: " + companyError.message);
-        setLoading(false);
-        return;
-      }
-    }
-
-    // === Şirkete katıl ===
-    if (inviteCode) {
-      const { error: joinError } = await supabase
-        .from("company_member")
-        .insert([{ company_id: inviteCode, user_id: user.id }]);
-
-      if (joinError) {
-        setMessage("⚠️ Kullanıcı oluşturuldu ama şirkete katılamadı: " + joinError.message);
-        setLoading(false);
-        return;
-      }
-    }
-
-    setMessage("✅ Kayıt başarılı! Lütfen e-postandaki doğrulama linkine tıkla.");
+    setMessage(
+      "✅ Kayıt başarılı! Lütfen e-postandaki doğrulama linkine tıklayın. Doğruladıktan sonra otomatik dashboard’a yönlendirileceksiniz."
+    );
     setLoading(false);
   };
 
@@ -127,6 +119,7 @@ export default function SignupPage() {
             required
           />
 
+          {/* Şirket oluşturma */}
           <input
             type="text"
             placeholder="Şirket Adı (Kurucuysan)"
@@ -135,6 +128,20 @@ export default function SignupPage() {
             className="w-full px-3 py-2 border rounded-lg"
           />
 
+          {/* Paket seçimi (sadece kurucular için) */}
+          {companyName && (
+            <select
+              value={plan}
+              onChange={(e) => setPlan(e.target.value)}
+              className="w-full px-3 py-2 border rounded-lg"
+            >
+              <option value="free">Ücretsiz</option>
+              <option value="pro">Pro</option>
+              <option value="enterprise">Enterprise</option>
+            </select>
+          )}
+
+          {/* Şirkete katılma */}
           <input
             type="text"
             placeholder="Davet Kodu (Katılıyorsan)"
@@ -148,7 +155,7 @@ export default function SignupPage() {
             disabled={loading}
             className="w-full bg-slate-900 text-white py-2 rounded-lg hover:opacity-90"
           >
-            {loading ? "Kaydediliyor..." : "Kayıt Ol & Şirket Oluştur / Katıl"}
+            {loading ? "Kaydediliyor..." : "Kayıt Ol"}
           </button>
         </form>
 

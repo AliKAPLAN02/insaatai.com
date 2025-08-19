@@ -372,6 +372,7 @@ model company {
   name           String
   owner          String           @db.Uuid
   created_at     DateTime?        @default(now()) @db.Timestamptz(6)
+  plan           String           @default("free")
   borclar        borclar[]
   users          users            @relation(fields: [owner], references: [id], onDelete: NoAction, onUpdate: NoAction)
   company_member company_member[]
@@ -489,7 +490,7 @@ enum factor_status {
   @@schema("auth")
 }
 
-enum factor_type {s
+enum factor_type {
   totp
   webauthn
   phone

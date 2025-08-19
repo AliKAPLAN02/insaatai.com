@@ -331,7 +331,8 @@ exports.Prisma.CompanyScalarFieldEnum = {
   id: 'id',
   name: 'name',
   owner: 'owner',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  plan: 'plan'
 };
 
 exports.Prisma.Company_memberScalarFieldEnum = {

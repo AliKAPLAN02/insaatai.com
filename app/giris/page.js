@@ -17,17 +17,61 @@ export default function LoginPage() {
     setLoading(true);
     setMessage("");
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
     if (error) {
       setMessage("❌ Hata: " + error.message);
-    } else {
-      setMessage("✅ Giriş başarılı! Yönlendiriliyorsunuz...");
-      router.push("/dashboard"); // giriş sonrası yönlendirme
+      setLoading(false);
+      return;
     }
+
+    const user = data?.user;
+    if (user) {
+      try {
+        const meta = user.user_metadata || {};
+        const { full_name, phone, companyName, inviteCode, plan } = meta;
+
+        // Eğer companyName varsa → yeni şirket kur
+        if (companyName) {
+          const { data: newCompany, error: cErr } = await supabase
+            .from("company")
+            .insert([{ name: companyName, owner: user.id, plan: plan || "free" }])
+            .select()
+            .single();
+
+          if (cErr) {
+            console.error("Şirket kurulamadı:", cErr.message);
+          } else {
+            // owner üyeliğini ekle
+            await supabase.from("company_member").insert([
+              { company_id: newCompany.id, user_id: user.id, role: "owner" },
+            ]);
+            console.log("✅ Şirket kuruldu:", newCompany);
+          }
+        }
+
+        // Eğer inviteCode varsa → şirkete katıl
+        if (inviteCode) {
+          const { error: mErr } = await supabase
+            .from("company_member")
+            .insert([{ company_id: inviteCode, user_id: user.id, role: "worker" }]);
+
+          if (mErr) {
+            console.error("Şirkete katılım hatası:", mErr.message);
+          } else {
+            console.log("✅ Şirkete başarıyla katıldı");
+          }
+        }
+      } catch (err) {
+        console.error("Login sonrası DB işlemleri hatası:", err);
+      }
+    }
+
+    setMessage("✅ Giriş başarılı! Yönlendiriliyorsunuz...");
+    router.push("/dashboard");
     setLoading(false);
   };
 

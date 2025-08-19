@@ -6,6 +6,7 @@ import { Hammer, LineChart, MessageSquare } from "lucide-react";
 import Spline from "@splinetool/react-spline";
 
 const SCENE_PATH = "/spline/scene.splinecode";
+
 /* Tüm CTA butonları için ortak sınıf */
 const CTA_BTN =
   "inline-flex items-center justify-center rounded-xl px-5 py-2.5 bg-slate-900 text-white " +
@@ -48,6 +49,7 @@ export default function Page() {
 
   return (
     <main className="min-h-screen flex flex-col">
+      {/* Header */}
       <header className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center gap-2">
           <div className="h-9 w-9 rounded-xl bg-slate-900 text-white grid place-items-center font-bold">
@@ -57,6 +59,7 @@ export default function Page() {
         </div>
       </header>
 
+      {/* Hero Section */}
       <section className="flex-1 w-full px-6 lg:px-10 pb-10">
         <div className="w-full flex flex-col lg:flex-row items-stretch gap-8">
           {/* Sol kolon */}
@@ -69,7 +72,7 @@ export default function Page() {
                 Yapay zeka devrimini inşaat projelerinize taşıyın, maliyetlerinizi düşürün ve kârlılığınızı artırın!
               </p>
 
-              {/* ✅ Tüm CTA'lar aynı stil, eşit genişlik ve aralık */}
+              {/* CTA Butonları */}
               <div className="flex flex-wrap items-center gap-3">
                 <Link href="/bilgi-al" className={CTA_BTN}>
                   Bilgi Al
@@ -85,6 +88,7 @@ export default function Page() {
                 </Link>
               </div>
 
+              {/* Özellikler */}
               <div className="pt-6">
                 <div className="text-xs tracking-wider text-slate-500 font-semibold mb-2">
                   ÖZELLİKLERİ KEŞFET
@@ -162,8 +166,11 @@ export default function Page() {
         </div>
       </section>
 
+      {/* Footer */}
       <footer className="text-xs text-slate-500 px-6 lg:px-10 pb-5">
-        <div className="w-full text-right">© {new Date().getFullYear()} İnşaat AI</div>
+        <div className="w-full text-right">
+          © {new Date().getFullYear()} İnşaat AI
+        </div>
       </footer>
     </main>
   );

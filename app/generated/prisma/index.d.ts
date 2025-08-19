@@ -22647,6 +22647,7 @@ export namespace Prisma {
     name: string | null
     owner: string | null
     created_at: Date | null
+    plan: string | null
   }
 
   export type CompanyMaxAggregateOutputType = {
@@ -22654,6 +22655,7 @@ export namespace Prisma {
     name: string | null
     owner: string | null
     created_at: Date | null
+    plan: string | null
   }
 
   export type CompanyCountAggregateOutputType = {
@@ -22661,6 +22663,7 @@ export namespace Prisma {
     name: number
     owner: number
     created_at: number
+    plan: number
     _all: number
   }
 
@@ -22670,6 +22673,7 @@ export namespace Prisma {
     name?: true
     owner?: true
     created_at?: true
+    plan?: true
   }
 
   export type CompanyMaxAggregateInputType = {
@@ -22677,6 +22681,7 @@ export namespace Prisma {
     name?: true
     owner?: true
     created_at?: true
+    plan?: true
   }
 
   export type CompanyCountAggregateInputType = {
@@ -22684,6 +22689,7 @@ export namespace Prisma {
     name?: true
     owner?: true
     created_at?: true
+    plan?: true
     _all?: true
   }
 
@@ -22764,6 +22770,7 @@ export namespace Prisma {
     name: string
     owner: string
     created_at: Date | null
+    plan: string
     _count: CompanyCountAggregateOutputType | null
     _min: CompanyMinAggregateOutputType | null
     _max: CompanyMaxAggregateOutputType | null
@@ -22788,6 +22795,7 @@ export namespace Prisma {
     name?: boolean
     owner?: boolean
     created_at?: boolean
+    plan?: boolean
     borclar?: boolean | company$borclarArgs<ExtArgs>
     users?: boolean | usersDefaultArgs<ExtArgs>
     company_member?: boolean | company$company_memberArgs<ExtArgs>
@@ -22802,6 +22810,7 @@ export namespace Prisma {
     name?: boolean
     owner?: boolean
     created_at?: boolean
+    plan?: boolean
     users?: boolean | usersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -22810,6 +22819,7 @@ export namespace Prisma {
     name?: boolean
     owner?: boolean
     created_at?: boolean
+    plan?: boolean
     users?: boolean | usersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -22818,9 +22828,10 @@ export namespace Prisma {
     name?: boolean
     owner?: boolean
     created_at?: boolean
+    plan?: boolean
   }
 
-  export type companyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "owner" | "created_at", ExtArgs["result"]["company"]>
+  export type companyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "owner" | "created_at" | "plan", ExtArgs["result"]["company"]>
   export type companyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     borclar?: boolean | company$borclarArgs<ExtArgs>
     users?: boolean | usersDefaultArgs<ExtArgs>
@@ -22852,6 +22863,7 @@ export namespace Prisma {
       name: string
       owner: string
       created_at: Date | null
+      plan: string
     }, ExtArgs["result"]["company"]>
     composites: {}
   }
@@ -23285,6 +23297,7 @@ export namespace Prisma {
     readonly name: FieldRef<"company", 'String'>
     readonly owner: FieldRef<"company", 'String'>
     readonly created_at: FieldRef<"company", 'DateTime'>
+    readonly plan: FieldRef<"company", 'String'>
   }
     
 
@@ -28800,7 +28813,8 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     owner: 'owner',
-    created_at: 'created_at'
+    created_at: 'created_at',
+    plan: 'plan'
   };
 
   export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
@@ -30444,6 +30458,7 @@ export namespace Prisma {
     name?: StringFilter<"company"> | string
     owner?: UuidFilter<"company"> | string
     created_at?: DateTimeNullableFilter<"company"> | Date | string | null
+    plan?: StringFilter<"company"> | string
     borclar?: BorclarListRelationFilter
     users?: XOR<UsersScalarRelationFilter, usersWhereInput>
     company_member?: Company_memberListRelationFilter
@@ -30457,6 +30472,7 @@ export namespace Prisma {
     name?: SortOrder
     owner?: SortOrder
     created_at?: SortOrderInput | SortOrder
+    plan?: SortOrder
     borclar?: borclarOrderByRelationAggregateInput
     users?: usersOrderByWithRelationInput
     company_member?: company_memberOrderByRelationAggregateInput
@@ -30473,6 +30489,7 @@ export namespace Prisma {
     name?: StringFilter<"company"> | string
     owner?: UuidFilter<"company"> | string
     created_at?: DateTimeNullableFilter<"company"> | Date | string | null
+    plan?: StringFilter<"company"> | string
     borclar?: BorclarListRelationFilter
     users?: XOR<UsersScalarRelationFilter, usersWhereInput>
     company_member?: Company_memberListRelationFilter
@@ -30486,6 +30503,7 @@ export namespace Prisma {
     name?: SortOrder
     owner?: SortOrder
     created_at?: SortOrderInput | SortOrder
+    plan?: SortOrder
     _count?: companyCountOrderByAggregateInput
     _max?: companyMaxOrderByAggregateInput
     _min?: companyMinOrderByAggregateInput
@@ -30499,6 +30517,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"company"> | string
     owner?: UuidWithAggregatesFilter<"company"> | string
     created_at?: DateTimeNullableWithAggregatesFilter<"company"> | Date | string | null
+    plan?: StringWithAggregatesFilter<"company"> | string
   }
 
   export type company_memberWhereInput = {
@@ -32314,6 +32333,7 @@ export namespace Prisma {
     id?: string
     name: string
     created_at?: Date | string | null
+    plan?: string
     borclar?: borclarCreateNestedManyWithoutCompanyInput
     users: usersCreateNestedOneWithoutCompanyInput
     company_member?: company_memberCreateNestedManyWithoutCompanyInput
@@ -32327,6 +32347,7 @@ export namespace Prisma {
     name: string
     owner: string
     created_at?: Date | string | null
+    plan?: string
     borclar?: borclarUncheckedCreateNestedManyWithoutCompanyInput
     company_member?: company_memberUncheckedCreateNestedManyWithoutCompanyInput
     firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutCompanyInput
@@ -32338,6 +32359,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUpdateManyWithoutCompanyNestedInput
     users?: usersUpdateOneRequiredWithoutCompanyNestedInput
     company_member?: company_memberUpdateManyWithoutCompanyNestedInput
@@ -32351,6 +32373,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     owner?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUncheckedUpdateManyWithoutCompanyNestedInput
     company_member?: company_memberUncheckedUpdateManyWithoutCompanyNestedInput
     firma_alias?: firma_aliasUncheckedUpdateManyWithoutCompanyNestedInput
@@ -32363,12 +32386,14 @@ export namespace Prisma {
     name: string
     owner: string
     created_at?: Date | string | null
+    plan?: string
   }
 
   export type companyUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: StringFieldUpdateOperationsInput | string
   }
 
   export type companyUncheckedUpdateManyInput = {
@@ -32376,6 +32401,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     owner?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: StringFieldUpdateOperationsInput | string
   }
 
   export type company_memberCreateInput = {
@@ -34044,6 +34070,7 @@ export namespace Prisma {
     name?: SortOrder
     owner?: SortOrder
     created_at?: SortOrder
+    plan?: SortOrder
   }
 
   export type companyMaxOrderByAggregateInput = {
@@ -34051,6 +34078,7 @@ export namespace Prisma {
     name?: SortOrder
     owner?: SortOrder
     created_at?: SortOrder
+    plan?: SortOrder
   }
 
   export type companyMinOrderByAggregateInput = {
@@ -34058,6 +34086,7 @@ export namespace Prisma {
     name?: SortOrder
     owner?: SortOrder
     created_at?: SortOrder
+    plan?: SortOrder
   }
 
   export type company_memberCompany_idUser_idCompoundUniqueInput = {
@@ -38150,6 +38179,7 @@ export namespace Prisma {
     id?: string
     name: string
     created_at?: Date | string | null
+    plan?: string
     borclar?: borclarCreateNestedManyWithoutCompanyInput
     company_member?: company_memberCreateNestedManyWithoutCompanyInput
     firma_alias?: firma_aliasCreateNestedManyWithoutCompanyInput
@@ -38161,6 +38191,7 @@ export namespace Prisma {
     id?: string
     name: string
     created_at?: Date | string | null
+    plan?: string
     borclar?: borclarUncheckedCreateNestedManyWithoutCompanyInput
     company_member?: company_memberUncheckedCreateNestedManyWithoutCompanyInput
     firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutCompanyInput
@@ -38486,6 +38517,7 @@ export namespace Prisma {
     name?: StringFilter<"company"> | string
     owner?: UuidFilter<"company"> | string
     created_at?: DateTimeNullableFilter<"company"> | Date | string | null
+    plan?: StringFilter<"company"> | string
   }
 
   export type company_memberUpsertWithWhereUniqueWithoutUsersInput = {
@@ -38610,6 +38642,7 @@ export namespace Prisma {
     id?: string
     name: string
     created_at?: Date | string | null
+    plan?: string
     users: usersCreateNestedOneWithoutCompanyInput
     company_member?: company_memberCreateNestedManyWithoutCompanyInput
     firma_alias?: firma_aliasCreateNestedManyWithoutCompanyInput
@@ -38622,6 +38655,7 @@ export namespace Prisma {
     name: string
     owner: string
     created_at?: Date | string | null
+    plan?: string
     company_member?: company_memberUncheckedCreateNestedManyWithoutCompanyInput
     firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutCompanyInput
     firmalar?: firmalarUncheckedCreateNestedManyWithoutCompanyInput
@@ -38813,6 +38847,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: StringFieldUpdateOperationsInput | string
     users?: usersUpdateOneRequiredWithoutCompanyNestedInput
     company_member?: company_memberUpdateManyWithoutCompanyNestedInput
     firma_alias?: firma_aliasUpdateManyWithoutCompanyNestedInput
@@ -38825,6 +38860,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     owner?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: StringFieldUpdateOperationsInput | string
     company_member?: company_memberUncheckedUpdateManyWithoutCompanyNestedInput
     firma_alias?: firma_aliasUncheckedUpdateManyWithoutCompanyNestedInput
     firmalar?: firmalarUncheckedUpdateManyWithoutCompanyNestedInput
@@ -39462,6 +39498,7 @@ export namespace Prisma {
     id?: string
     name: string
     created_at?: Date | string | null
+    plan?: string
     borclar?: borclarCreateNestedManyWithoutCompanyInput
     users: usersCreateNestedOneWithoutCompanyInput
     firma_alias?: firma_aliasCreateNestedManyWithoutCompanyInput
@@ -39474,6 +39511,7 @@ export namespace Prisma {
     name: string
     owner: string
     created_at?: Date | string | null
+    plan?: string
     borclar?: borclarUncheckedCreateNestedManyWithoutCompanyInput
     firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutCompanyInput
     firmalar?: firmalarUncheckedCreateNestedManyWithoutCompanyInput
@@ -39599,6 +39637,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUpdateManyWithoutCompanyNestedInput
     users?: usersUpdateOneRequiredWithoutCompanyNestedInput
     firma_alias?: firma_aliasUpdateManyWithoutCompanyNestedInput
@@ -39611,6 +39650,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     owner?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUncheckedUpdateManyWithoutCompanyNestedInput
     firma_alias?: firma_aliasUncheckedUpdateManyWithoutCompanyNestedInput
     firmalar?: firmalarUncheckedUpdateManyWithoutCompanyNestedInput
@@ -39726,6 +39766,7 @@ export namespace Prisma {
     id?: string
     name: string
     created_at?: Date | string | null
+    plan?: string
     borclar?: borclarCreateNestedManyWithoutCompanyInput
     users: usersCreateNestedOneWithoutCompanyInput
     company_member?: company_memberCreateNestedManyWithoutCompanyInput
@@ -39738,6 +39779,7 @@ export namespace Prisma {
     name: string
     owner: string
     created_at?: Date | string | null
+    plan?: string
     borclar?: borclarUncheckedCreateNestedManyWithoutCompanyInput
     company_member?: company_memberUncheckedCreateNestedManyWithoutCompanyInput
     firmalar?: firmalarUncheckedCreateNestedManyWithoutCompanyInput
@@ -39888,6 +39930,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUpdateManyWithoutCompanyNestedInput
     users?: usersUpdateOneRequiredWithoutCompanyNestedInput
     company_member?: company_memberUpdateManyWithoutCompanyNestedInput
@@ -39900,6 +39943,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     owner?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUncheckedUpdateManyWithoutCompanyNestedInput
     company_member?: company_memberUncheckedUpdateManyWithoutCompanyNestedInput
     firmalar?: firmalarUncheckedUpdateManyWithoutCompanyNestedInput
@@ -40110,6 +40154,7 @@ export namespace Prisma {
     id?: string
     name: string
     created_at?: Date | string | null
+    plan?: string
     borclar?: borclarCreateNestedManyWithoutCompanyInput
     users: usersCreateNestedOneWithoutCompanyInput
     company_member?: company_memberCreateNestedManyWithoutCompanyInput
@@ -40122,6 +40167,7 @@ export namespace Prisma {
     name: string
     owner: string
     created_at?: Date | string | null
+    plan?: string
     borclar?: borclarUncheckedCreateNestedManyWithoutCompanyInput
     company_member?: company_memberUncheckedCreateNestedManyWithoutCompanyInput
     firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutCompanyInput
@@ -40325,6 +40371,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUpdateManyWithoutCompanyNestedInput
     users?: usersUpdateOneRequiredWithoutCompanyNestedInput
     company_member?: company_memberUpdateManyWithoutCompanyNestedInput
@@ -40337,6 +40384,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     owner?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUncheckedUpdateManyWithoutCompanyNestedInput
     company_member?: company_memberUncheckedUpdateManyWithoutCompanyNestedInput
     firma_alias?: firma_aliasUncheckedUpdateManyWithoutCompanyNestedInput
@@ -40504,6 +40552,7 @@ export namespace Prisma {
     id?: string
     name: string
     created_at?: Date | string | null
+    plan?: string
     borclar?: borclarCreateNestedManyWithoutCompanyInput
     users: usersCreateNestedOneWithoutCompanyInput
     company_member?: company_memberCreateNestedManyWithoutCompanyInput
@@ -40516,6 +40565,7 @@ export namespace Prisma {
     name: string
     owner: string
     created_at?: Date | string | null
+    plan?: string
     borclar?: borclarUncheckedCreateNestedManyWithoutCompanyInput
     company_member?: company_memberUncheckedCreateNestedManyWithoutCompanyInput
     firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutCompanyInput
@@ -40682,6 +40732,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUpdateManyWithoutCompanyNestedInput
     users?: usersUpdateOneRequiredWithoutCompanyNestedInput
     company_member?: company_memberUpdateManyWithoutCompanyNestedInput
@@ -40694,6 +40745,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     owner?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUncheckedUpdateManyWithoutCompanyNestedInput
     company_member?: company_memberUncheckedUpdateManyWithoutCompanyNestedInput
     firma_alias?: firma_aliasUncheckedUpdateManyWithoutCompanyNestedInput
@@ -41160,6 +41212,7 @@ export namespace Prisma {
     id?: string
     name: string
     created_at?: Date | string | null
+    plan?: string
   }
 
   export type company_memberCreateManyUsersInput = {
@@ -41390,6 +41443,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUpdateManyWithoutCompanyNestedInput
     company_member?: company_memberUpdateManyWithoutCompanyNestedInput
     firma_alias?: firma_aliasUpdateManyWithoutCompanyNestedInput
@@ -41401,6 +41455,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUncheckedUpdateManyWithoutCompanyNestedInput
     company_member?: company_memberUncheckedUpdateManyWithoutCompanyNestedInput
     firma_alias?: firma_aliasUncheckedUpdateManyWithoutCompanyNestedInput
@@ -41412,6 +41467,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: StringFieldUpdateOperationsInput | string
   }
 
   export type company_memberUpdateWithoutUsersInput = {
