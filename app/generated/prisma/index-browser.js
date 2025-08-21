@@ -316,6 +316,7 @@ exports.Prisma.UsersScalarFieldEnum = {
 exports.Prisma.BorclarScalarFieldEnum = {
   borc_id: 'borc_id',
   company_id: 'company_id',
+  project_id: 'project_id',
   islem_id: 'islem_id',
   firma_id: 'firma_id',
   group_id: 'group_id',
@@ -332,7 +333,8 @@ exports.Prisma.CompanyScalarFieldEnum = {
   name: 'name',
   owner: 'owner',
   created_at: 'created_at',
-  plan: 'plan'
+  initial_budget: 'initial_budget',
+  currency: 'currency'
 };
 
 exports.Prisma.Company_memberScalarFieldEnum = {
@@ -362,6 +364,7 @@ exports.Prisma.FirmalarScalarFieldEnum = {
 exports.Prisma.IslemlerScalarFieldEnum = {
   islem_id: 'islem_id',
   company_id: 'company_id',
+  project_id: 'project_id',
   firma_id: 'firma_id',
   group_id: 'group_id',
   islem_turu: 'islem_turu',
@@ -375,6 +378,40 @@ exports.Prisma.IslemlerScalarFieldEnum = {
   aciklama: 'aciklama',
   created_by: 'created_by',
   created_at: 'created_at'
+};
+
+exports.Prisma.Project_budget_shareScalarFieldEnum = {
+  id: 'id',
+  project_id: 'project_id',
+  company_id: 'company_id',
+  user_id: 'user_id',
+  project_budget: 'project_budget',
+  status: 'status',
+  note: 'note',
+  created_at: 'created_at',
+  created_by: 'created_by'
+};
+
+exports.Prisma.Project_membersScalarFieldEnum = {
+  project_id: 'project_id',
+  user_id: 'user_id',
+  company_id: 'company_id',
+  role: 'role'
+};
+
+exports.Prisma.ProjectsScalarFieldEnum = {
+  id: 'id',
+  company_id: 'company_id',
+  name: 'name',
+  description: 'description',
+  m2: 'm2',
+  location: 'location',
+  floor_count: 'floor_count',
+  start_date: 'start_date',
+  end_date: 'end_date',
+  created_by: 'created_by',
+  created_at: 'created_at',
+  currency: 'currency'
 };
 
 exports.Prisma.SortOrder = {
@@ -459,7 +496,10 @@ exports.Prisma.ModelName = {
   company_member: 'company_member',
   firma_alias: 'firma_alias',
   firmalar: 'firmalar',
-  islemler: 'islemler'
+  islemler: 'islemler',
+  project_budget_share: 'project_budget_share',
+  project_members: 'project_members',
+  projects: 'projects'
 };
 
 /**

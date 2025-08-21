@@ -282,41 +282,41 @@ model sso_providers {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 /// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
 model users {
-  instance_id                 String?           @db.Uuid
-  id                          String            @id @db.Uuid
-  aud                         String?           @db.VarChar(255)
-  role                        String?           @db.VarChar(255)
-  email                       String?           @db.VarChar(255)
-  encrypted_password          String?           @db.VarChar(255)
-  email_confirmed_at          DateTime?         @db.Timestamptz(6)
-  invited_at                  DateTime?         @db.Timestamptz(6)
-  confirmation_token          String?           @db.VarChar(255)
-  confirmation_sent_at        DateTime?         @db.Timestamptz(6)
-  recovery_token              String?           @db.VarChar(255)
-  recovery_sent_at            DateTime?         @db.Timestamptz(6)
-  email_change_token_new      String?           @db.VarChar(255)
-  email_change                String?           @db.VarChar(255)
-  email_change_sent_at        DateTime?         @db.Timestamptz(6)
-  last_sign_in_at             DateTime?         @db.Timestamptz(6)
+  instance_id                 String?                @db.Uuid
+  id                          String                 @id @db.Uuid
+  aud                         String?                @db.VarChar(255)
+  role                        String?                @db.VarChar(255)
+  email                       String?                @db.VarChar(255)
+  encrypted_password          String?                @db.VarChar(255)
+  email_confirmed_at          DateTime?              @db.Timestamptz(6)
+  invited_at                  DateTime?              @db.Timestamptz(6)
+  confirmation_token          String?                @db.VarChar(255)
+  confirmation_sent_at        DateTime?              @db.Timestamptz(6)
+  recovery_token              String?                @db.VarChar(255)
+  recovery_sent_at            DateTime?              @db.Timestamptz(6)
+  email_change_token_new      String?                @db.VarChar(255)
+  email_change                String?                @db.VarChar(255)
+  email_change_sent_at        DateTime?              @db.Timestamptz(6)
+  last_sign_in_at             DateTime?              @db.Timestamptz(6)
   raw_app_meta_data           Json?
   raw_user_meta_data          Json?
   is_super_admin              Boolean?
-  created_at                  DateTime?         @db.Timestamptz(6)
-  updated_at                  DateTime?         @db.Timestamptz(6)
-  phone                       String?           @unique
-  phone_confirmed_at          DateTime?         @db.Timestamptz(6)
-  phone_change                String?           @default("")
-  phone_change_token          String?           @default("") @db.VarChar(255)
-  phone_change_sent_at        DateTime?         @db.Timestamptz(6)
-  confirmed_at                DateTime?         @default(dbgenerated("LEAST(email_confirmed_at, phone_confirmed_at)")) @db.Timestamptz(6)
-  email_change_token_current  String?           @default("") @db.VarChar(255)
-  email_change_confirm_status Int?              @default(0) @db.SmallInt
-  banned_until                DateTime?         @db.Timestamptz(6)
-  reauthentication_token      String?           @default("") @db.VarChar(255)
-  reauthentication_sent_at    DateTime?         @db.Timestamptz(6)
-  is_sso_user                 Boolean           @default(false)
-  deleted_at                  DateTime?         @db.Timestamptz(6)
-  is_anonymous                Boolean           @default(false)
+  created_at                  DateTime?              @db.Timestamptz(6)
+  updated_at                  DateTime?              @db.Timestamptz(6)
+  phone                       String?                @unique
+  phone_confirmed_at          DateTime?              @db.Timestamptz(6)
+  phone_change                String?                @default("")
+  phone_change_token          String?                @default("") @db.VarChar(255)
+  phone_change_sent_at        DateTime?              @db.Timestamptz(6)
+  confirmed_at                DateTime?              @default(dbgenerated("LEAST(email_confirmed_at, phone_confirmed_at)")) @db.Timestamptz(6)
+  email_change_token_current  String?                @default("") @db.VarChar(255)
+  email_change_confirm_status Int?                   @default(0) @db.SmallInt
+  banned_until                DateTime?              @db.Timestamptz(6)
+  reauthentication_token      String?                @default("") @db.VarChar(255)
+  reauthentication_sent_at    DateTime?              @db.Timestamptz(6)
+  is_sso_user                 Boolean                @default(false)
+  deleted_at                  DateTime?              @db.Timestamptz(6)
+  is_anonymous                Boolean                @default(false)
   identities                  identities[]
   mfa_factors                 mfa_factors[]
   one_time_tokens             one_time_tokens[]
@@ -327,6 +327,9 @@ model users {
   firma_alias                 firma_alias[]
   firmalar                    firmalar[]
   islemler                    islemler[]
+  project_budget_share        project_budget_share[]
+  project_members             project_members[]
+  projects                    projects[]
 
   @@index([instance_id])
   @@index([is_anonymous])
@@ -338,6 +341,7 @@ model users {
 model borclar {
   borc_id      BigInt    @id @default(autoincrement())
   company_id   String    @db.Uuid
+  project_id   String?   @db.Uuid
   islem_id     BigInt
   firma_id     BigInt
   group_id     BigInt?
@@ -347,38 +351,38 @@ model borclar {
   odeme_durumu String    @default("ödenmedi")
   created_by   String?   @db.Uuid
   created_at   DateTime? @default(now()) @db.Timestamptz(6)
+  firmalar     firmalar  @relation(fields: [company_id, firma_id], references: [company_id, firma_id], onUpdate: NoAction)
   company      company   @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  islemler     islemler  @relation(fields: [company_id, islem_id], references: [company_id, islem_id], onDelete: Cascade, onUpdate: NoAction)
+  projects     projects? @relation(fields: [company_id, project_id], references: [company_id, id], onUpdate: NoAction)
   users        users?    @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  firmalar     firmalar  @relation(fields: [firma_id], references: [firma_id], onUpdate: NoAction)
-  islemler     islemler  @relation(fields: [islem_id], references: [islem_id], onDelete: Cascade, onUpdate: NoAction)
 
-  @@index([odeme_durumu], map: "idx_borc_durum")
-  @@index([firma_id], map: "idx_borc_firma")
-  @@index([group_id], map: "idx_borc_group")
-  @@index([odeme_tarihi], map: "idx_borc_tarih")
   @@index([company_id], map: "idx_borclar_company")
-  @@index([company_id], map: "idx_borclar_company2")
   @@index([created_by], map: "idx_borclar_created_by")
   @@index([odeme_durumu], map: "idx_borclar_durum")
   @@index([firma_id], map: "idx_borclar_firma")
-  @@index([group_id], map: "idx_borclar_group")
-  @@index([odeme_tarihi], map: "idx_borclar_tarih")
+  @@index([project_id], map: "idx_borclar_project")
+  @@index([odeme_tarihi], map: "idx_borclar_vade")
+  @@index([company_id, odeme_tarihi(sort: Desc)], map: "ix_borclar_company2")
   @@schema("public")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model company {
-  id             String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name           String
-  owner          String           @db.Uuid
-  created_at     DateTime?        @default(now()) @db.Timestamptz(6)
-  plan           String           @default("free")
-  borclar        borclar[]
-  users          users            @relation(fields: [owner], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  company_member company_member[]
-  firma_alias    firma_alias[]
-  firmalar       firmalar[]
-  islemler       islemler[]
+  id                   String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                 String
+  owner                String                 @db.Uuid
+  created_at           DateTime?              @default(now()) @db.Timestamptz(6)
+  initial_budget       Decimal                @default(0) @db.Decimal
+  currency             String                 @default("TRY")
+  borclar              borclar[]
+  users                users                  @relation(fields: [owner], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  company_member       company_member[]
+  firmalar             firmalar[]
+  islemler             islemler[]
+  project_budget_share project_budget_share[]
+  project_members      project_members[]
+  projects             projects[]
 
   @@schema("public")
 }
@@ -388,7 +392,7 @@ model company {
 model company_member {
   company_id String  @db.Uuid
   user_id    String  @db.Uuid
-  role       String? @default("user")
+  role       String  @default("worker")
   company    company @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   users      users   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
@@ -406,9 +410,8 @@ model firma_alias {
   alias_adi  String
   created_by String?   @db.Uuid
   created_at DateTime? @default(now()) @db.Timestamptz(6)
-  company    company   @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  firmalar   firmalar  @relation(fields: [company_id, firma_id], references: [company_id, firma_id], onUpdate: NoAction)
   users      users?    @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  firmalar   firmalar  @relation(fields: [firma_id], references: [firma_id], onUpdate: NoAction)
 
   @@index([company_id], map: "idx_firma_alias_company")
   @@index([created_by], map: "idx_firma_alias_created_by")
@@ -416,6 +419,7 @@ model firma_alias {
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+/// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
 model firmalar {
   firma_id    BigInt        @id @default(autoincrement())
   company_id  String        @db.Uuid
@@ -428,8 +432,8 @@ model firmalar {
   users       users?        @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
   islemler    islemler[]
 
+  @@unique([company_id, firma_id])
   @@index([company_id], map: "idx_firmalar_company")
-  @@index([created_by], map: "idx_firmalar_created_by")
   @@schema("public")
 }
 
@@ -438,6 +442,7 @@ model firmalar {
 model islemler {
   islem_id     BigInt    @id @default(autoincrement())
   company_id   String    @db.Uuid
+  project_id   String?   @db.Uuid
   firma_id     BigInt
   group_id     BigInt?
   islem_turu   String?
@@ -452,19 +457,86 @@ model islemler {
   created_by   String?   @db.Uuid
   created_at   DateTime? @default(now()) @db.Timestamptz(6)
   borclar      borclar[]
+  firmalar     firmalar  @relation(fields: [company_id, firma_id], references: [company_id, firma_id], onUpdate: NoAction)
   company      company   @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  projects     projects? @relation(fields: [company_id, project_id], references: [company_id, id], onUpdate: NoAction)
   users        users?    @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  firmalar     firmalar  @relation(fields: [firma_id], references: [firma_id], onUpdate: NoAction)
 
-  @@index([firma_id], map: "idx_islem_firma")
-  @@index([islem_tarihi], map: "idx_islem_tarih")
+  @@unique([company_id, islem_id])
   @@index([company_id], map: "idx_islemler_company")
-  @@index([company_id], map: "idx_islemler_company2")
   @@index([created_by], map: "idx_islemler_created_by")
   @@index([firma_id], map: "idx_islemler_firma")
-  @@index([group_id], map: "idx_islemler_group")
-  @@index([odeme_tarihi], map: "idx_islemler_odeme")
-  @@index([islem_tarihi], map: "idx_islemler_tarih")
+  @@index([islem_tarihi], map: "idx_islemler_islem_tarihi")
+  @@index([odeme_tarihi], map: "idx_islemler_odeme_tarihi")
+  @@index([project_id], map: "idx_islemler_project")
+  @@index([company_id, islem_tarihi(sort: Desc)], map: "ix_islemler_company2")
+  @@schema("public")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model project_budget_share {
+  id             BigInt    @id @default(autoincrement())
+  project_id     String    @db.Uuid
+  company_id     String    @db.Uuid
+  user_id        String    @db.Uuid
+  project_budget Decimal   @db.Decimal
+  status         String    @default("pending")
+  note           String?
+  created_at     DateTime? @default(now()) @db.Timestamptz(6)
+  created_by     String?   @default(dbgenerated("auth.uid()")) @db.Uuid
+  company        company   @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  projects       projects  @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users          users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([company_id], map: "ix_pbs_company")
+  @@index([project_id], map: "ix_pbs_project")
+  @@index([status], map: "ix_pbs_status")
+  @@index([user_id], map: "ix_pbs_user")
+  @@schema("public")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model project_members {
+  project_id String   @db.Uuid
+  user_id    String   @db.Uuid
+  company_id String   @db.Uuid
+  role       String   @default("worker")
+  company    company  @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  projects   projects @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users      users    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([project_id, user_id])
+  @@unique([project_id, user_id], map: "ux_project_members")
+  @@index([company_id], map: "ix_project_members_comp")
+  @@index([user_id], map: "ix_project_members_user")
+  @@schema("public")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model projects {
+  id                   String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  company_id           String                 @db.Uuid
+  name                 String
+  description          String?
+  m2                   Decimal?               @db.Decimal
+  location             String?
+  floor_count          Int?
+  start_date           DateTime?              @db.Date
+  end_date             DateTime?              @db.Date
+  created_by           String?                @db.Uuid
+  created_at           DateTime?              @default(now()) @db.Timestamptz(6)
+  currency             String                 @default("TRY")
+  borclar              borclar[]
+  islemler             islemler[]
+  project_budget_share project_budget_share[]
+  project_members      project_members[]
+  company              company                @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users                users?                 @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([company_id, id])
+  @@index([company_id], map: "ix_projects_company")
   @@schema("public")
 }
 

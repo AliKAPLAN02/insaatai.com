@@ -143,6 +143,7 @@ export type firma_alias = $Result.DefaultSelection<Prisma.$firma_aliasPayload>
 /**
  * Model firmalar
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ * This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
  */
 export type firmalar = $Result.DefaultSelection<Prisma.$firmalarPayload>
 /**
@@ -151,6 +152,23 @@ export type firmalar = $Result.DefaultSelection<Prisma.$firmalarPayload>
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
  */
 export type islemler = $Result.DefaultSelection<Prisma.$islemlerPayload>
+/**
+ * Model project_budget_share
+ * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ */
+export type project_budget_share = $Result.DefaultSelection<Prisma.$project_budget_sharePayload>
+/**
+ * Model project_members
+ * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ */
+export type project_members = $Result.DefaultSelection<Prisma.$project_membersPayload>
+/**
+ * Model projects
+ * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ */
+export type projects = $Result.DefaultSelection<Prisma.$projectsPayload>
 
 /**
  * Enums
@@ -567,6 +585,36 @@ export class PrismaClient<
     * ```
     */
   get islemler(): Prisma.islemlerDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.project_budget_share`: Exposes CRUD operations for the **project_budget_share** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Project_budget_shares
+    * const project_budget_shares = await prisma.project_budget_share.findMany()
+    * ```
+    */
+  get project_budget_share(): Prisma.project_budget_shareDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.project_members`: Exposes CRUD operations for the **project_members** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Project_members
+    * const project_members = await prisma.project_members.findMany()
+    * ```
+    */
+  get project_members(): Prisma.project_membersDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.projects`: Exposes CRUD operations for the **projects** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Projects
+    * const projects = await prisma.projects.findMany()
+    * ```
+    */
+  get projects(): Prisma.projectsDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1028,7 +1076,10 @@ export namespace Prisma {
     company_member: 'company_member',
     firma_alias: 'firma_alias',
     firmalar: 'firmalar',
-    islemler: 'islemler'
+    islemler: 'islemler',
+    project_budget_share: 'project_budget_share',
+    project_members: 'project_members',
+    projects: 'projects'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1047,7 +1098,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "audit_log_entries" | "flow_state" | "identities" | "instances" | "mfa_amr_claims" | "mfa_challenges" | "mfa_factors" | "one_time_tokens" | "refresh_tokens" | "saml_providers" | "saml_relay_states" | "schema_migrations" | "sessions" | "sso_domains" | "sso_providers" | "users" | "borclar" | "company" | "company_member" | "firma_alias" | "firmalar" | "islemler"
+      modelProps: "audit_log_entries" | "flow_state" | "identities" | "instances" | "mfa_amr_claims" | "mfa_challenges" | "mfa_factors" | "one_time_tokens" | "refresh_tokens" | "saml_providers" | "saml_relay_states" | "schema_migrations" | "sessions" | "sso_domains" | "sso_providers" | "users" | "borclar" | "company" | "company_member" | "firma_alias" | "firmalar" | "islemler" | "project_budget_share" | "project_members" | "projects"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2679,6 +2730,228 @@ export namespace Prisma {
           }
         }
       }
+      project_budget_share: {
+        payload: Prisma.$project_budget_sharePayload<ExtArgs>
+        fields: Prisma.project_budget_shareFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.project_budget_shareFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_budget_sharePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.project_budget_shareFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_budget_sharePayload>
+          }
+          findFirst: {
+            args: Prisma.project_budget_shareFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_budget_sharePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.project_budget_shareFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_budget_sharePayload>
+          }
+          findMany: {
+            args: Prisma.project_budget_shareFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_budget_sharePayload>[]
+          }
+          create: {
+            args: Prisma.project_budget_shareCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_budget_sharePayload>
+          }
+          createMany: {
+            args: Prisma.project_budget_shareCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.project_budget_shareCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_budget_sharePayload>[]
+          }
+          delete: {
+            args: Prisma.project_budget_shareDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_budget_sharePayload>
+          }
+          update: {
+            args: Prisma.project_budget_shareUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_budget_sharePayload>
+          }
+          deleteMany: {
+            args: Prisma.project_budget_shareDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.project_budget_shareUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.project_budget_shareUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_budget_sharePayload>[]
+          }
+          upsert: {
+            args: Prisma.project_budget_shareUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_budget_sharePayload>
+          }
+          aggregate: {
+            args: Prisma.Project_budget_shareAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProject_budget_share>
+          }
+          groupBy: {
+            args: Prisma.project_budget_shareGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Project_budget_shareGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.project_budget_shareCountArgs<ExtArgs>
+            result: $Utils.Optional<Project_budget_shareCountAggregateOutputType> | number
+          }
+        }
+      }
+      project_members: {
+        payload: Prisma.$project_membersPayload<ExtArgs>
+        fields: Prisma.project_membersFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.project_membersFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_membersPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.project_membersFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_membersPayload>
+          }
+          findFirst: {
+            args: Prisma.project_membersFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_membersPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.project_membersFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_membersPayload>
+          }
+          findMany: {
+            args: Prisma.project_membersFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_membersPayload>[]
+          }
+          create: {
+            args: Prisma.project_membersCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_membersPayload>
+          }
+          createMany: {
+            args: Prisma.project_membersCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.project_membersCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_membersPayload>[]
+          }
+          delete: {
+            args: Prisma.project_membersDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_membersPayload>
+          }
+          update: {
+            args: Prisma.project_membersUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_membersPayload>
+          }
+          deleteMany: {
+            args: Prisma.project_membersDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.project_membersUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.project_membersUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_membersPayload>[]
+          }
+          upsert: {
+            args: Prisma.project_membersUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$project_membersPayload>
+          }
+          aggregate: {
+            args: Prisma.Project_membersAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProject_members>
+          }
+          groupBy: {
+            args: Prisma.project_membersGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Project_membersGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.project_membersCountArgs<ExtArgs>
+            result: $Utils.Optional<Project_membersCountAggregateOutputType> | number
+          }
+        }
+      }
+      projects: {
+        payload: Prisma.$projectsPayload<ExtArgs>
+        fields: Prisma.projectsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.projectsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$projectsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.projectsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$projectsPayload>
+          }
+          findFirst: {
+            args: Prisma.projectsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$projectsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.projectsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$projectsPayload>
+          }
+          findMany: {
+            args: Prisma.projectsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$projectsPayload>[]
+          }
+          create: {
+            args: Prisma.projectsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$projectsPayload>
+          }
+          createMany: {
+            args: Prisma.projectsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.projectsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$projectsPayload>[]
+          }
+          delete: {
+            args: Prisma.projectsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$projectsPayload>
+          }
+          update: {
+            args: Prisma.projectsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$projectsPayload>
+          }
+          deleteMany: {
+            args: Prisma.projectsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.projectsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.projectsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$projectsPayload>[]
+          }
+          upsert: {
+            args: Prisma.projectsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$projectsPayload>
+          }
+          aggregate: {
+            args: Prisma.ProjectsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProjects>
+          }
+          groupBy: {
+            args: Prisma.projectsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProjectsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.projectsCountArgs<ExtArgs>
+            result: $Utils.Optional<ProjectsCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2793,6 +3066,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasOmit
     firmalar?: firmalarOmit
     islemler?: islemlerOmit
+    project_budget_share?: project_budget_shareOmit
+    project_members?: project_membersOmit
+    projects?: projectsOmit
   }
 
   /* Types for Logging */
@@ -3053,6 +3329,9 @@ export namespace Prisma {
     firma_alias: number
     firmalar: number
     islemler: number
+    project_budget_share: number
+    project_members: number
+    projects: number
   }
 
   export type UsersCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3066,6 +3345,9 @@ export namespace Prisma {
     firma_alias?: boolean | UsersCountOutputTypeCountFirma_aliasArgs
     firmalar?: boolean | UsersCountOutputTypeCountFirmalarArgs
     islemler?: boolean | UsersCountOutputTypeCountIslemlerArgs
+    project_budget_share?: boolean | UsersCountOutputTypeCountProject_budget_shareArgs
+    project_members?: boolean | UsersCountOutputTypeCountProject_membersArgs
+    projects?: boolean | UsersCountOutputTypeCountProjectsArgs
   }
 
   // Custom InputTypes
@@ -3149,6 +3431,27 @@ export namespace Prisma {
     where?: islemlerWhereInput
   }
 
+  /**
+   * UsersCountOutputType without action
+   */
+  export type UsersCountOutputTypeCountProject_budget_shareArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: project_budget_shareWhereInput
+  }
+
+  /**
+   * UsersCountOutputType without action
+   */
+  export type UsersCountOutputTypeCountProject_membersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: project_membersWhereInput
+  }
+
+  /**
+   * UsersCountOutputType without action
+   */
+  export type UsersCountOutputTypeCountProjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: projectsWhereInput
+  }
+
 
   /**
    * Count Type CompanyCountOutputType
@@ -3157,17 +3460,21 @@ export namespace Prisma {
   export type CompanyCountOutputType = {
     borclar: number
     company_member: number
-    firma_alias: number
     firmalar: number
     islemler: number
+    project_budget_share: number
+    project_members: number
+    projects: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     borclar?: boolean | CompanyCountOutputTypeCountBorclarArgs
     company_member?: boolean | CompanyCountOutputTypeCountCompany_memberArgs
-    firma_alias?: boolean | CompanyCountOutputTypeCountFirma_aliasArgs
     firmalar?: boolean | CompanyCountOutputTypeCountFirmalarArgs
     islemler?: boolean | CompanyCountOutputTypeCountIslemlerArgs
+    project_budget_share?: boolean | CompanyCountOutputTypeCountProject_budget_shareArgs
+    project_members?: boolean | CompanyCountOutputTypeCountProject_membersArgs
+    projects?: boolean | CompanyCountOutputTypeCountProjectsArgs
   }
 
   // Custom InputTypes
@@ -3198,13 +3505,6 @@ export namespace Prisma {
   /**
    * CompanyCountOutputType without action
    */
-  export type CompanyCountOutputTypeCountFirma_aliasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: firma_aliasWhereInput
-  }
-
-  /**
-   * CompanyCountOutputType without action
-   */
   export type CompanyCountOutputTypeCountFirmalarArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: firmalarWhereInput
   }
@@ -3214,6 +3514,27 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountIslemlerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: islemlerWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountProject_budget_shareArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: project_budget_shareWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountProject_membersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: project_membersWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountProjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: projectsWhereInput
   }
 
 
@@ -3294,6 +3615,64 @@ export namespace Prisma {
    */
   export type IslemlerCountOutputTypeCountBorclarArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: borclarWhereInput
+  }
+
+
+  /**
+   * Count Type ProjectsCountOutputType
+   */
+
+  export type ProjectsCountOutputType = {
+    borclar: number
+    islemler: number
+    project_budget_share: number
+    project_members: number
+  }
+
+  export type ProjectsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    borclar?: boolean | ProjectsCountOutputTypeCountBorclarArgs
+    islemler?: boolean | ProjectsCountOutputTypeCountIslemlerArgs
+    project_budget_share?: boolean | ProjectsCountOutputTypeCountProject_budget_shareArgs
+    project_members?: boolean | ProjectsCountOutputTypeCountProject_membersArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ProjectsCountOutputType without action
+   */
+  export type ProjectsCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectsCountOutputType
+     */
+    select?: ProjectsCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ProjectsCountOutputType without action
+   */
+  export type ProjectsCountOutputTypeCountBorclarArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: borclarWhereInput
+  }
+
+  /**
+   * ProjectsCountOutputType without action
+   */
+  export type ProjectsCountOutputTypeCountIslemlerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: islemlerWhereInput
+  }
+
+  /**
+   * ProjectsCountOutputType without action
+   */
+  export type ProjectsCountOutputTypeCountProject_budget_shareArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: project_budget_shareWhereInput
+  }
+
+  /**
+   * ProjectsCountOutputType without action
+   */
+  export type ProjectsCountOutputTypeCountProject_membersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: project_membersWhereInput
   }
 
 
@@ -20105,6 +20484,9 @@ export namespace Prisma {
     firma_alias?: boolean | users$firma_aliasArgs<ExtArgs>
     firmalar?: boolean | users$firmalarArgs<ExtArgs>
     islemler?: boolean | users$islemlerArgs<ExtArgs>
+    project_budget_share?: boolean | users$project_budget_shareArgs<ExtArgs>
+    project_members?: boolean | users$project_membersArgs<ExtArgs>
+    projects?: boolean | users$projectsArgs<ExtArgs>
     _count?: boolean | UsersCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["users"]>
 
@@ -20234,6 +20616,9 @@ export namespace Prisma {
     firma_alias?: boolean | users$firma_aliasArgs<ExtArgs>
     firmalar?: boolean | users$firmalarArgs<ExtArgs>
     islemler?: boolean | users$islemlerArgs<ExtArgs>
+    project_budget_share?: boolean | users$project_budget_shareArgs<ExtArgs>
+    project_members?: boolean | users$project_membersArgs<ExtArgs>
+    projects?: boolean | users$projectsArgs<ExtArgs>
     _count?: boolean | UsersCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type usersIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -20252,6 +20637,9 @@ export namespace Prisma {
       firma_alias: Prisma.$firma_aliasPayload<ExtArgs>[]
       firmalar: Prisma.$firmalarPayload<ExtArgs>[]
       islemler: Prisma.$islemlerPayload<ExtArgs>[]
+      project_budget_share: Prisma.$project_budget_sharePayload<ExtArgs>[]
+      project_members: Prisma.$project_membersPayload<ExtArgs>[]
+      projects: Prisma.$projectsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       instance_id: string | null
@@ -20693,6 +21081,9 @@ export namespace Prisma {
     firma_alias<T extends users$firma_aliasArgs<ExtArgs> = {}>(args?: Subset<T, users$firma_aliasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$firma_aliasPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     firmalar<T extends users$firmalarArgs<ExtArgs> = {}>(args?: Subset<T, users$firmalarArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$firmalarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     islemler<T extends users$islemlerArgs<ExtArgs> = {}>(args?: Subset<T, users$islemlerArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$islemlerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    project_budget_share<T extends users$project_budget_shareArgs<ExtArgs> = {}>(args?: Subset<T, users$project_budget_shareArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$project_budget_sharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    project_members<T extends users$project_membersArgs<ExtArgs> = {}>(args?: Subset<T, users$project_membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$project_membersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    projects<T extends users$projectsArgs<ExtArgs> = {}>(args?: Subset<T, users$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$projectsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -21385,6 +21776,78 @@ export namespace Prisma {
   }
 
   /**
+   * users.project_budget_share
+   */
+  export type users$project_budget_shareArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_budget_share
+     */
+    select?: project_budget_shareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_budget_share
+     */
+    omit?: project_budget_shareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_budget_shareInclude<ExtArgs> | null
+    where?: project_budget_shareWhereInput
+    orderBy?: project_budget_shareOrderByWithRelationInput | project_budget_shareOrderByWithRelationInput[]
+    cursor?: project_budget_shareWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Project_budget_shareScalarFieldEnum | Project_budget_shareScalarFieldEnum[]
+  }
+
+  /**
+   * users.project_members
+   */
+  export type users$project_membersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_members
+     */
+    select?: project_membersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_members
+     */
+    omit?: project_membersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_membersInclude<ExtArgs> | null
+    where?: project_membersWhereInput
+    orderBy?: project_membersOrderByWithRelationInput | project_membersOrderByWithRelationInput[]
+    cursor?: project_membersWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Project_membersScalarFieldEnum | Project_membersScalarFieldEnum[]
+  }
+
+  /**
+   * users.projects
+   */
+  export type users$projectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the projects
+     */
+    select?: projectsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the projects
+     */
+    omit?: projectsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: projectsInclude<ExtArgs> | null
+    where?: projectsWhereInput
+    orderBy?: projectsOrderByWithRelationInput | projectsOrderByWithRelationInput[]
+    cursor?: projectsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectsScalarFieldEnum | ProjectsScalarFieldEnum[]
+  }
+
+  /**
    * users without action
    */
   export type usersDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -21434,6 +21897,7 @@ export namespace Prisma {
   export type BorclarMinAggregateOutputType = {
     borc_id: bigint | null
     company_id: string | null
+    project_id: string | null
     islem_id: bigint | null
     firma_id: bigint | null
     group_id: bigint | null
@@ -21448,6 +21912,7 @@ export namespace Prisma {
   export type BorclarMaxAggregateOutputType = {
     borc_id: bigint | null
     company_id: string | null
+    project_id: string | null
     islem_id: bigint | null
     firma_id: bigint | null
     group_id: bigint | null
@@ -21462,6 +21927,7 @@ export namespace Prisma {
   export type BorclarCountAggregateOutputType = {
     borc_id: number
     company_id: number
+    project_id: number
     islem_id: number
     firma_id: number
     group_id: number
@@ -21494,6 +21960,7 @@ export namespace Prisma {
   export type BorclarMinAggregateInputType = {
     borc_id?: true
     company_id?: true
+    project_id?: true
     islem_id?: true
     firma_id?: true
     group_id?: true
@@ -21508,6 +21975,7 @@ export namespace Prisma {
   export type BorclarMaxAggregateInputType = {
     borc_id?: true
     company_id?: true
+    project_id?: true
     islem_id?: true
     firma_id?: true
     group_id?: true
@@ -21522,6 +21990,7 @@ export namespace Prisma {
   export type BorclarCountAggregateInputType = {
     borc_id?: true
     company_id?: true
+    project_id?: true
     islem_id?: true
     firma_id?: true
     group_id?: true
@@ -21623,6 +22092,7 @@ export namespace Prisma {
   export type BorclarGroupByOutputType = {
     borc_id: bigint
     company_id: string
+    project_id: string | null
     islem_id: bigint
     firma_id: bigint
     group_id: bigint | null
@@ -21656,6 +22126,7 @@ export namespace Prisma {
   export type borclarSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     borc_id?: boolean
     company_id?: boolean
+    project_id?: boolean
     islem_id?: boolean
     firma_id?: boolean
     group_id?: boolean
@@ -21665,15 +22136,17 @@ export namespace Prisma {
     odeme_durumu?: boolean
     created_by?: boolean
     created_at?: boolean
-    company?: boolean | companyDefaultArgs<ExtArgs>
-    users?: boolean | borclar$usersArgs<ExtArgs>
     firmalar?: boolean | firmalarDefaultArgs<ExtArgs>
+    company?: boolean | companyDefaultArgs<ExtArgs>
     islemler?: boolean | islemlerDefaultArgs<ExtArgs>
+    projects?: boolean | borclar$projectsArgs<ExtArgs>
+    users?: boolean | borclar$usersArgs<ExtArgs>
   }, ExtArgs["result"]["borclar"]>
 
   export type borclarSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     borc_id?: boolean
     company_id?: boolean
+    project_id?: boolean
     islem_id?: boolean
     firma_id?: boolean
     group_id?: boolean
@@ -21683,15 +22156,17 @@ export namespace Prisma {
     odeme_durumu?: boolean
     created_by?: boolean
     created_at?: boolean
-    company?: boolean | companyDefaultArgs<ExtArgs>
-    users?: boolean | borclar$usersArgs<ExtArgs>
     firmalar?: boolean | firmalarDefaultArgs<ExtArgs>
+    company?: boolean | companyDefaultArgs<ExtArgs>
     islemler?: boolean | islemlerDefaultArgs<ExtArgs>
+    projects?: boolean | borclar$projectsArgs<ExtArgs>
+    users?: boolean | borclar$usersArgs<ExtArgs>
   }, ExtArgs["result"]["borclar"]>
 
   export type borclarSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     borc_id?: boolean
     company_id?: boolean
+    project_id?: boolean
     islem_id?: boolean
     firma_id?: boolean
     group_id?: boolean
@@ -21701,15 +22176,17 @@ export namespace Prisma {
     odeme_durumu?: boolean
     created_by?: boolean
     created_at?: boolean
-    company?: boolean | companyDefaultArgs<ExtArgs>
-    users?: boolean | borclar$usersArgs<ExtArgs>
     firmalar?: boolean | firmalarDefaultArgs<ExtArgs>
+    company?: boolean | companyDefaultArgs<ExtArgs>
     islemler?: boolean | islemlerDefaultArgs<ExtArgs>
+    projects?: boolean | borclar$projectsArgs<ExtArgs>
+    users?: boolean | borclar$usersArgs<ExtArgs>
   }, ExtArgs["result"]["borclar"]>
 
   export type borclarSelectScalar = {
     borc_id?: boolean
     company_id?: boolean
+    project_id?: boolean
     islem_id?: boolean
     firma_id?: boolean
     group_id?: boolean
@@ -21721,37 +22198,42 @@ export namespace Prisma {
     created_at?: boolean
   }
 
-  export type borclarOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"borc_id" | "company_id" | "islem_id" | "firma_id" | "group_id" | "satir_tipi" | "tutar" | "odeme_tarihi" | "odeme_durumu" | "created_by" | "created_at", ExtArgs["result"]["borclar"]>
+  export type borclarOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"borc_id" | "company_id" | "project_id" | "islem_id" | "firma_id" | "group_id" | "satir_tipi" | "tutar" | "odeme_tarihi" | "odeme_durumu" | "created_by" | "created_at", ExtArgs["result"]["borclar"]>
   export type borclarInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    company?: boolean | companyDefaultArgs<ExtArgs>
-    users?: boolean | borclar$usersArgs<ExtArgs>
     firmalar?: boolean | firmalarDefaultArgs<ExtArgs>
+    company?: boolean | companyDefaultArgs<ExtArgs>
     islemler?: boolean | islemlerDefaultArgs<ExtArgs>
+    projects?: boolean | borclar$projectsArgs<ExtArgs>
+    users?: boolean | borclar$usersArgs<ExtArgs>
   }
   export type borclarIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    company?: boolean | companyDefaultArgs<ExtArgs>
-    users?: boolean | borclar$usersArgs<ExtArgs>
     firmalar?: boolean | firmalarDefaultArgs<ExtArgs>
+    company?: boolean | companyDefaultArgs<ExtArgs>
     islemler?: boolean | islemlerDefaultArgs<ExtArgs>
+    projects?: boolean | borclar$projectsArgs<ExtArgs>
+    users?: boolean | borclar$usersArgs<ExtArgs>
   }
   export type borclarIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    company?: boolean | companyDefaultArgs<ExtArgs>
-    users?: boolean | borclar$usersArgs<ExtArgs>
     firmalar?: boolean | firmalarDefaultArgs<ExtArgs>
+    company?: boolean | companyDefaultArgs<ExtArgs>
     islemler?: boolean | islemlerDefaultArgs<ExtArgs>
+    projects?: boolean | borclar$projectsArgs<ExtArgs>
+    users?: boolean | borclar$usersArgs<ExtArgs>
   }
 
   export type $borclarPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "borclar"
     objects: {
-      company: Prisma.$companyPayload<ExtArgs>
-      users: Prisma.$usersPayload<ExtArgs> | null
       firmalar: Prisma.$firmalarPayload<ExtArgs>
+      company: Prisma.$companyPayload<ExtArgs>
       islemler: Prisma.$islemlerPayload<ExtArgs>
+      projects: Prisma.$projectsPayload<ExtArgs> | null
+      users: Prisma.$usersPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       borc_id: bigint
       company_id: string
+      project_id: string | null
       islem_id: bigint
       firma_id: bigint
       group_id: bigint | null
@@ -22155,10 +22637,11 @@ export namespace Prisma {
    */
   export interface Prisma__borclarClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    company<T extends companyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, companyDefaultArgs<ExtArgs>>): Prisma__companyClient<$Result.GetResult<Prisma.$companyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    users<T extends borclar$usersArgs<ExtArgs> = {}>(args?: Subset<T, borclar$usersArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     firmalar<T extends firmalarDefaultArgs<ExtArgs> = {}>(args?: Subset<T, firmalarDefaultArgs<ExtArgs>>): Prisma__firmalarClient<$Result.GetResult<Prisma.$firmalarPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    company<T extends companyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, companyDefaultArgs<ExtArgs>>): Prisma__companyClient<$Result.GetResult<Prisma.$companyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     islemler<T extends islemlerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, islemlerDefaultArgs<ExtArgs>>): Prisma__islemlerClient<$Result.GetResult<Prisma.$islemlerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    projects<T extends borclar$projectsArgs<ExtArgs> = {}>(args?: Subset<T, borclar$projectsArgs<ExtArgs>>): Prisma__projectsClient<$Result.GetResult<Prisma.$projectsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    users<T extends borclar$usersArgs<ExtArgs> = {}>(args?: Subset<T, borclar$usersArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -22190,6 +22673,7 @@ export namespace Prisma {
   interface borclarFieldRefs {
     readonly borc_id: FieldRef<"borclar", 'BigInt'>
     readonly company_id: FieldRef<"borclar", 'String'>
+    readonly project_id: FieldRef<"borclar", 'String'>
     readonly islem_id: FieldRef<"borclar", 'BigInt'>
     readonly firma_id: FieldRef<"borclar", 'BigInt'>
     readonly group_id: FieldRef<"borclar", 'BigInt'>
@@ -22595,6 +23079,25 @@ export namespace Prisma {
   }
 
   /**
+   * borclar.projects
+   */
+  export type borclar$projectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the projects
+     */
+    select?: projectsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the projects
+     */
+    omit?: projectsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: projectsInclude<ExtArgs> | null
+    where?: projectsWhereInput
+  }
+
+  /**
    * borclar.users
    */
   export type borclar$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -22638,8 +23141,18 @@ export namespace Prisma {
 
   export type AggregateCompany = {
     _count: CompanyCountAggregateOutputType | null
+    _avg: CompanyAvgAggregateOutputType | null
+    _sum: CompanySumAggregateOutputType | null
     _min: CompanyMinAggregateOutputType | null
     _max: CompanyMaxAggregateOutputType | null
+  }
+
+  export type CompanyAvgAggregateOutputType = {
+    initial_budget: Decimal | null
+  }
+
+  export type CompanySumAggregateOutputType = {
+    initial_budget: Decimal | null
   }
 
   export type CompanyMinAggregateOutputType = {
@@ -22647,7 +23160,8 @@ export namespace Prisma {
     name: string | null
     owner: string | null
     created_at: Date | null
-    plan: string | null
+    initial_budget: Decimal | null
+    currency: string | null
   }
 
   export type CompanyMaxAggregateOutputType = {
@@ -22655,7 +23169,8 @@ export namespace Prisma {
     name: string | null
     owner: string | null
     created_at: Date | null
-    plan: string | null
+    initial_budget: Decimal | null
+    currency: string | null
   }
 
   export type CompanyCountAggregateOutputType = {
@@ -22663,17 +23178,27 @@ export namespace Prisma {
     name: number
     owner: number
     created_at: number
-    plan: number
+    initial_budget: number
+    currency: number
     _all: number
   }
 
+
+  export type CompanyAvgAggregateInputType = {
+    initial_budget?: true
+  }
+
+  export type CompanySumAggregateInputType = {
+    initial_budget?: true
+  }
 
   export type CompanyMinAggregateInputType = {
     id?: true
     name?: true
     owner?: true
     created_at?: true
-    plan?: true
+    initial_budget?: true
+    currency?: true
   }
 
   export type CompanyMaxAggregateInputType = {
@@ -22681,7 +23206,8 @@ export namespace Prisma {
     name?: true
     owner?: true
     created_at?: true
-    plan?: true
+    initial_budget?: true
+    currency?: true
   }
 
   export type CompanyCountAggregateInputType = {
@@ -22689,7 +23215,8 @@ export namespace Prisma {
     name?: true
     owner?: true
     created_at?: true
-    plan?: true
+    initial_budget?: true
+    currency?: true
     _all?: true
   }
 
@@ -22731,6 +23258,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: CompanyAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CompanySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: CompanyMinAggregateInputType
@@ -22761,6 +23300,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: CompanyCountAggregateInputType | true
+    _avg?: CompanyAvgAggregateInputType
+    _sum?: CompanySumAggregateInputType
     _min?: CompanyMinAggregateInputType
     _max?: CompanyMaxAggregateInputType
   }
@@ -22770,8 +23311,11 @@ export namespace Prisma {
     name: string
     owner: string
     created_at: Date | null
-    plan: string
+    initial_budget: Decimal
+    currency: string
     _count: CompanyCountAggregateOutputType | null
+    _avg: CompanyAvgAggregateOutputType | null
+    _sum: CompanySumAggregateOutputType | null
     _min: CompanyMinAggregateOutputType | null
     _max: CompanyMaxAggregateOutputType | null
   }
@@ -22795,13 +23339,16 @@ export namespace Prisma {
     name?: boolean
     owner?: boolean
     created_at?: boolean
-    plan?: boolean
+    initial_budget?: boolean
+    currency?: boolean
     borclar?: boolean | company$borclarArgs<ExtArgs>
     users?: boolean | usersDefaultArgs<ExtArgs>
     company_member?: boolean | company$company_memberArgs<ExtArgs>
-    firma_alias?: boolean | company$firma_aliasArgs<ExtArgs>
     firmalar?: boolean | company$firmalarArgs<ExtArgs>
     islemler?: boolean | company$islemlerArgs<ExtArgs>
+    project_budget_share?: boolean | company$project_budget_shareArgs<ExtArgs>
+    project_members?: boolean | company$project_membersArgs<ExtArgs>
+    projects?: boolean | company$projectsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -22810,7 +23357,8 @@ export namespace Prisma {
     name?: boolean
     owner?: boolean
     created_at?: boolean
-    plan?: boolean
+    initial_budget?: boolean
+    currency?: boolean
     users?: boolean | usersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -22819,7 +23367,8 @@ export namespace Prisma {
     name?: boolean
     owner?: boolean
     created_at?: boolean
-    plan?: boolean
+    initial_budget?: boolean
+    currency?: boolean
     users?: boolean | usersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -22828,17 +23377,20 @@ export namespace Prisma {
     name?: boolean
     owner?: boolean
     created_at?: boolean
-    plan?: boolean
+    initial_budget?: boolean
+    currency?: boolean
   }
 
-  export type companyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "owner" | "created_at" | "plan", ExtArgs["result"]["company"]>
+  export type companyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "owner" | "created_at" | "initial_budget" | "currency", ExtArgs["result"]["company"]>
   export type companyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     borclar?: boolean | company$borclarArgs<ExtArgs>
     users?: boolean | usersDefaultArgs<ExtArgs>
     company_member?: boolean | company$company_memberArgs<ExtArgs>
-    firma_alias?: boolean | company$firma_aliasArgs<ExtArgs>
     firmalar?: boolean | company$firmalarArgs<ExtArgs>
     islemler?: boolean | company$islemlerArgs<ExtArgs>
+    project_budget_share?: boolean | company$project_budget_shareArgs<ExtArgs>
+    project_members?: boolean | company$project_membersArgs<ExtArgs>
+    projects?: boolean | company$projectsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type companyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -22854,16 +23406,19 @@ export namespace Prisma {
       borclar: Prisma.$borclarPayload<ExtArgs>[]
       users: Prisma.$usersPayload<ExtArgs>
       company_member: Prisma.$company_memberPayload<ExtArgs>[]
-      firma_alias: Prisma.$firma_aliasPayload<ExtArgs>[]
       firmalar: Prisma.$firmalarPayload<ExtArgs>[]
       islemler: Prisma.$islemlerPayload<ExtArgs>[]
+      project_budget_share: Prisma.$project_budget_sharePayload<ExtArgs>[]
+      project_members: Prisma.$project_membersPayload<ExtArgs>[]
+      projects: Prisma.$projectsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
       owner: string
       created_at: Date | null
-      plan: string
+      initial_budget: Prisma.Decimal
+      currency: string
     }, ExtArgs["result"]["company"]>
     composites: {}
   }
@@ -23261,9 +23816,11 @@ export namespace Prisma {
     borclar<T extends company$borclarArgs<ExtArgs> = {}>(args?: Subset<T, company$borclarArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$borclarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     users<T extends usersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, usersDefaultArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     company_member<T extends company$company_memberArgs<ExtArgs> = {}>(args?: Subset<T, company$company_memberArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$company_memberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    firma_alias<T extends company$firma_aliasArgs<ExtArgs> = {}>(args?: Subset<T, company$firma_aliasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$firma_aliasPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     firmalar<T extends company$firmalarArgs<ExtArgs> = {}>(args?: Subset<T, company$firmalarArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$firmalarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     islemler<T extends company$islemlerArgs<ExtArgs> = {}>(args?: Subset<T, company$islemlerArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$islemlerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    project_budget_share<T extends company$project_budget_shareArgs<ExtArgs> = {}>(args?: Subset<T, company$project_budget_shareArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$project_budget_sharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    project_members<T extends company$project_membersArgs<ExtArgs> = {}>(args?: Subset<T, company$project_membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$project_membersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    projects<T extends company$projectsArgs<ExtArgs> = {}>(args?: Subset<T, company$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$projectsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -23297,7 +23854,8 @@ export namespace Prisma {
     readonly name: FieldRef<"company", 'String'>
     readonly owner: FieldRef<"company", 'String'>
     readonly created_at: FieldRef<"company", 'DateTime'>
-    readonly plan: FieldRef<"company", 'String'>
+    readonly initial_budget: FieldRef<"company", 'Decimal'>
+    readonly currency: FieldRef<"company", 'String'>
   }
     
 
@@ -23742,30 +24300,6 @@ export namespace Prisma {
   }
 
   /**
-   * company.firma_alias
-   */
-  export type company$firma_aliasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the firma_alias
-     */
-    select?: firma_aliasSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the firma_alias
-     */
-    omit?: firma_aliasOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: firma_aliasInclude<ExtArgs> | null
-    where?: firma_aliasWhereInput
-    orderBy?: firma_aliasOrderByWithRelationInput | firma_aliasOrderByWithRelationInput[]
-    cursor?: firma_aliasWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Firma_aliasScalarFieldEnum | Firma_aliasScalarFieldEnum[]
-  }
-
-  /**
    * company.firmalar
    */
   export type company$firmalarArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -23811,6 +24345,78 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: IslemlerScalarFieldEnum | IslemlerScalarFieldEnum[]
+  }
+
+  /**
+   * company.project_budget_share
+   */
+  export type company$project_budget_shareArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_budget_share
+     */
+    select?: project_budget_shareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_budget_share
+     */
+    omit?: project_budget_shareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_budget_shareInclude<ExtArgs> | null
+    where?: project_budget_shareWhereInput
+    orderBy?: project_budget_shareOrderByWithRelationInput | project_budget_shareOrderByWithRelationInput[]
+    cursor?: project_budget_shareWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Project_budget_shareScalarFieldEnum | Project_budget_shareScalarFieldEnum[]
+  }
+
+  /**
+   * company.project_members
+   */
+  export type company$project_membersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_members
+     */
+    select?: project_membersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_members
+     */
+    omit?: project_membersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_membersInclude<ExtArgs> | null
+    where?: project_membersWhereInput
+    orderBy?: project_membersOrderByWithRelationInput | project_membersOrderByWithRelationInput[]
+    cursor?: project_membersWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Project_membersScalarFieldEnum | Project_membersScalarFieldEnum[]
+  }
+
+  /**
+   * company.projects
+   */
+  export type company$projectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the projects
+     */
+    select?: projectsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the projects
+     */
+    omit?: projectsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: projectsInclude<ExtArgs> | null
+    where?: projectsWhereInput
+    orderBy?: projectsOrderByWithRelationInput | projectsOrderByWithRelationInput[]
+    cursor?: projectsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectsScalarFieldEnum | ProjectsScalarFieldEnum[]
   }
 
   /**
@@ -23956,7 +24562,7 @@ export namespace Prisma {
   export type Company_memberGroupByOutputType = {
     company_id: string
     user_id: string
-    role: string | null
+    role: string
     _count: Company_memberCountAggregateOutputType | null
     _min: Company_memberMinAggregateOutputType | null
     _max: Company_memberMaxAggregateOutputType | null
@@ -24029,7 +24635,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       company_id: string
       user_id: string
-      role: string | null
+      role: string
     }, ExtArgs["result"]["company_member"]>
     composites: {}
   }
@@ -25090,9 +25696,8 @@ export namespace Prisma {
     alias_adi?: boolean
     created_by?: boolean
     created_at?: boolean
-    company?: boolean | companyDefaultArgs<ExtArgs>
-    users?: boolean | firma_alias$usersArgs<ExtArgs>
     firmalar?: boolean | firmalarDefaultArgs<ExtArgs>
+    users?: boolean | firma_alias$usersArgs<ExtArgs>
   }, ExtArgs["result"]["firma_alias"]>
 
   export type firma_aliasSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -25103,9 +25708,8 @@ export namespace Prisma {
     alias_adi?: boolean
     created_by?: boolean
     created_at?: boolean
-    company?: boolean | companyDefaultArgs<ExtArgs>
-    users?: boolean | firma_alias$usersArgs<ExtArgs>
     firmalar?: boolean | firmalarDefaultArgs<ExtArgs>
+    users?: boolean | firma_alias$usersArgs<ExtArgs>
   }, ExtArgs["result"]["firma_alias"]>
 
   export type firma_aliasSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -25116,9 +25720,8 @@ export namespace Prisma {
     alias_adi?: boolean
     created_by?: boolean
     created_at?: boolean
-    company?: boolean | companyDefaultArgs<ExtArgs>
-    users?: boolean | firma_alias$usersArgs<ExtArgs>
     firmalar?: boolean | firmalarDefaultArgs<ExtArgs>
+    users?: boolean | firma_alias$usersArgs<ExtArgs>
   }, ExtArgs["result"]["firma_alias"]>
 
   export type firma_aliasSelectScalar = {
@@ -25133,27 +25736,23 @@ export namespace Prisma {
 
   export type firma_aliasOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"alias_id" | "company_id" | "firma_id" | "urun" | "alias_adi" | "created_by" | "created_at", ExtArgs["result"]["firma_alias"]>
   export type firma_aliasInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    company?: boolean | companyDefaultArgs<ExtArgs>
-    users?: boolean | firma_alias$usersArgs<ExtArgs>
     firmalar?: boolean | firmalarDefaultArgs<ExtArgs>
+    users?: boolean | firma_alias$usersArgs<ExtArgs>
   }
   export type firma_aliasIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    company?: boolean | companyDefaultArgs<ExtArgs>
-    users?: boolean | firma_alias$usersArgs<ExtArgs>
     firmalar?: boolean | firmalarDefaultArgs<ExtArgs>
+    users?: boolean | firma_alias$usersArgs<ExtArgs>
   }
   export type firma_aliasIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    company?: boolean | companyDefaultArgs<ExtArgs>
-    users?: boolean | firma_alias$usersArgs<ExtArgs>
     firmalar?: boolean | firmalarDefaultArgs<ExtArgs>
+    users?: boolean | firma_alias$usersArgs<ExtArgs>
   }
 
   export type $firma_aliasPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "firma_alias"
     objects: {
-      company: Prisma.$companyPayload<ExtArgs>
-      users: Prisma.$usersPayload<ExtArgs> | null
       firmalar: Prisma.$firmalarPayload<ExtArgs>
+      users: Prisma.$usersPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       alias_id: bigint
@@ -25557,9 +26156,8 @@ export namespace Prisma {
    */
   export interface Prisma__firma_aliasClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    company<T extends companyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, companyDefaultArgs<ExtArgs>>): Prisma__companyClient<$Result.GetResult<Prisma.$companyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    users<T extends firma_alias$usersArgs<ExtArgs> = {}>(args?: Subset<T, firma_alias$usersArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     firmalar<T extends firmalarDefaultArgs<ExtArgs> = {}>(args?: Subset<T, firmalarDefaultArgs<ExtArgs>>): Prisma__firmalarClient<$Result.GetResult<Prisma.$firmalarPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    users<T extends firma_alias$usersArgs<ExtArgs> = {}>(args?: Subset<T, firma_alias$usersArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -27265,6 +27863,7 @@ export namespace Prisma {
   export type IslemlerMinAggregateOutputType = {
     islem_id: bigint | null
     company_id: string | null
+    project_id: string | null
     firma_id: bigint | null
     group_id: bigint | null
     islem_turu: string | null
@@ -27283,6 +27882,7 @@ export namespace Prisma {
   export type IslemlerMaxAggregateOutputType = {
     islem_id: bigint | null
     company_id: string | null
+    project_id: string | null
     firma_id: bigint | null
     group_id: bigint | null
     islem_turu: string | null
@@ -27301,6 +27901,7 @@ export namespace Prisma {
   export type IslemlerCountAggregateOutputType = {
     islem_id: number
     company_id: number
+    project_id: number
     firma_id: number
     group_id: number
     islem_turu: number
@@ -27337,6 +27938,7 @@ export namespace Prisma {
   export type IslemlerMinAggregateInputType = {
     islem_id?: true
     company_id?: true
+    project_id?: true
     firma_id?: true
     group_id?: true
     islem_turu?: true
@@ -27355,6 +27957,7 @@ export namespace Prisma {
   export type IslemlerMaxAggregateInputType = {
     islem_id?: true
     company_id?: true
+    project_id?: true
     firma_id?: true
     group_id?: true
     islem_turu?: true
@@ -27373,6 +27976,7 @@ export namespace Prisma {
   export type IslemlerCountAggregateInputType = {
     islem_id?: true
     company_id?: true
+    project_id?: true
     firma_id?: true
     group_id?: true
     islem_turu?: true
@@ -27478,6 +28082,7 @@ export namespace Prisma {
   export type IslemlerGroupByOutputType = {
     islem_id: bigint
     company_id: string
+    project_id: string | null
     firma_id: bigint
     group_id: bigint | null
     islem_turu: string | null
@@ -27515,6 +28120,7 @@ export namespace Prisma {
   export type islemlerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     islem_id?: boolean
     company_id?: boolean
+    project_id?: boolean
     firma_id?: boolean
     group_id?: boolean
     islem_turu?: boolean
@@ -27529,15 +28135,17 @@ export namespace Prisma {
     created_by?: boolean
     created_at?: boolean
     borclar?: boolean | islemler$borclarArgs<ExtArgs>
-    company?: boolean | companyDefaultArgs<ExtArgs>
-    users?: boolean | islemler$usersArgs<ExtArgs>
     firmalar?: boolean | firmalarDefaultArgs<ExtArgs>
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    projects?: boolean | islemler$projectsArgs<ExtArgs>
+    users?: boolean | islemler$usersArgs<ExtArgs>
     _count?: boolean | IslemlerCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["islemler"]>
 
   export type islemlerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     islem_id?: boolean
     company_id?: boolean
+    project_id?: boolean
     firma_id?: boolean
     group_id?: boolean
     islem_turu?: boolean
@@ -27551,14 +28159,16 @@ export namespace Prisma {
     aciklama?: boolean
     created_by?: boolean
     created_at?: boolean
-    company?: boolean | companyDefaultArgs<ExtArgs>
-    users?: boolean | islemler$usersArgs<ExtArgs>
     firmalar?: boolean | firmalarDefaultArgs<ExtArgs>
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    projects?: boolean | islemler$projectsArgs<ExtArgs>
+    users?: boolean | islemler$usersArgs<ExtArgs>
   }, ExtArgs["result"]["islemler"]>
 
   export type islemlerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     islem_id?: boolean
     company_id?: boolean
+    project_id?: boolean
     firma_id?: boolean
     group_id?: boolean
     islem_turu?: boolean
@@ -27572,14 +28182,16 @@ export namespace Prisma {
     aciklama?: boolean
     created_by?: boolean
     created_at?: boolean
-    company?: boolean | companyDefaultArgs<ExtArgs>
-    users?: boolean | islemler$usersArgs<ExtArgs>
     firmalar?: boolean | firmalarDefaultArgs<ExtArgs>
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    projects?: boolean | islemler$projectsArgs<ExtArgs>
+    users?: boolean | islemler$usersArgs<ExtArgs>
   }, ExtArgs["result"]["islemler"]>
 
   export type islemlerSelectScalar = {
     islem_id?: boolean
     company_id?: boolean
+    project_id?: boolean
     firma_id?: boolean
     group_id?: boolean
     islem_turu?: boolean
@@ -27595,36 +28207,41 @@ export namespace Prisma {
     created_at?: boolean
   }
 
-  export type islemlerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"islem_id" | "company_id" | "firma_id" | "group_id" | "islem_turu" | "isim" | "urun_hizmet" | "miktar" | "birim" | "fiyat" | "islem_tarihi" | "odeme_tarihi" | "aciklama" | "created_by" | "created_at", ExtArgs["result"]["islemler"]>
+  export type islemlerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"islem_id" | "company_id" | "project_id" | "firma_id" | "group_id" | "islem_turu" | "isim" | "urun_hizmet" | "miktar" | "birim" | "fiyat" | "islem_tarihi" | "odeme_tarihi" | "aciklama" | "created_by" | "created_at", ExtArgs["result"]["islemler"]>
   export type islemlerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     borclar?: boolean | islemler$borclarArgs<ExtArgs>
-    company?: boolean | companyDefaultArgs<ExtArgs>
-    users?: boolean | islemler$usersArgs<ExtArgs>
     firmalar?: boolean | firmalarDefaultArgs<ExtArgs>
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    projects?: boolean | islemler$projectsArgs<ExtArgs>
+    users?: boolean | islemler$usersArgs<ExtArgs>
     _count?: boolean | IslemlerCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type islemlerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    company?: boolean | companyDefaultArgs<ExtArgs>
-    users?: boolean | islemler$usersArgs<ExtArgs>
     firmalar?: boolean | firmalarDefaultArgs<ExtArgs>
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    projects?: boolean | islemler$projectsArgs<ExtArgs>
+    users?: boolean | islemler$usersArgs<ExtArgs>
   }
   export type islemlerIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    company?: boolean | companyDefaultArgs<ExtArgs>
-    users?: boolean | islemler$usersArgs<ExtArgs>
     firmalar?: boolean | firmalarDefaultArgs<ExtArgs>
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    projects?: boolean | islemler$projectsArgs<ExtArgs>
+    users?: boolean | islemler$usersArgs<ExtArgs>
   }
 
   export type $islemlerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "islemler"
     objects: {
       borclar: Prisma.$borclarPayload<ExtArgs>[]
-      company: Prisma.$companyPayload<ExtArgs>
-      users: Prisma.$usersPayload<ExtArgs> | null
       firmalar: Prisma.$firmalarPayload<ExtArgs>
+      company: Prisma.$companyPayload<ExtArgs>
+      projects: Prisma.$projectsPayload<ExtArgs> | null
+      users: Prisma.$usersPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       islem_id: bigint
       company_id: string
+      project_id: string | null
       firma_id: bigint
       group_id: bigint | null
       islem_turu: string | null
@@ -28033,9 +28650,10 @@ export namespace Prisma {
   export interface Prisma__islemlerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     borclar<T extends islemler$borclarArgs<ExtArgs> = {}>(args?: Subset<T, islemler$borclarArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$borclarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    company<T extends companyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, companyDefaultArgs<ExtArgs>>): Prisma__companyClient<$Result.GetResult<Prisma.$companyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    users<T extends islemler$usersArgs<ExtArgs> = {}>(args?: Subset<T, islemler$usersArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     firmalar<T extends firmalarDefaultArgs<ExtArgs> = {}>(args?: Subset<T, firmalarDefaultArgs<ExtArgs>>): Prisma__firmalarClient<$Result.GetResult<Prisma.$firmalarPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    company<T extends companyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, companyDefaultArgs<ExtArgs>>): Prisma__companyClient<$Result.GetResult<Prisma.$companyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    projects<T extends islemler$projectsArgs<ExtArgs> = {}>(args?: Subset<T, islemler$projectsArgs<ExtArgs>>): Prisma__projectsClient<$Result.GetResult<Prisma.$projectsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    users<T extends islemler$usersArgs<ExtArgs> = {}>(args?: Subset<T, islemler$usersArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -28067,6 +28685,7 @@ export namespace Prisma {
   interface islemlerFieldRefs {
     readonly islem_id: FieldRef<"islemler", 'BigInt'>
     readonly company_id: FieldRef<"islemler", 'String'>
+    readonly project_id: FieldRef<"islemler", 'String'>
     readonly firma_id: FieldRef<"islemler", 'BigInt'>
     readonly group_id: FieldRef<"islemler", 'BigInt'>
     readonly islem_turu: FieldRef<"islemler", 'String'>
@@ -28500,6 +29119,25 @@ export namespace Prisma {
   }
 
   /**
+   * islemler.projects
+   */
+  export type islemler$projectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the projects
+     */
+    select?: projectsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the projects
+     */
+    omit?: projectsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: projectsInclude<ExtArgs> | null
+    where?: projectsWhereInput
+  }
+
+  /**
    * islemler.users
    */
   export type islemler$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -28534,6 +29172,3559 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: islemlerInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model project_budget_share
+   */
+
+  export type AggregateProject_budget_share = {
+    _count: Project_budget_shareCountAggregateOutputType | null
+    _avg: Project_budget_shareAvgAggregateOutputType | null
+    _sum: Project_budget_shareSumAggregateOutputType | null
+    _min: Project_budget_shareMinAggregateOutputType | null
+    _max: Project_budget_shareMaxAggregateOutputType | null
+  }
+
+  export type Project_budget_shareAvgAggregateOutputType = {
+    id: number | null
+    project_budget: Decimal | null
+  }
+
+  export type Project_budget_shareSumAggregateOutputType = {
+    id: bigint | null
+    project_budget: Decimal | null
+  }
+
+  export type Project_budget_shareMinAggregateOutputType = {
+    id: bigint | null
+    project_id: string | null
+    company_id: string | null
+    user_id: string | null
+    project_budget: Decimal | null
+    status: string | null
+    note: string | null
+    created_at: Date | null
+    created_by: string | null
+  }
+
+  export type Project_budget_shareMaxAggregateOutputType = {
+    id: bigint | null
+    project_id: string | null
+    company_id: string | null
+    user_id: string | null
+    project_budget: Decimal | null
+    status: string | null
+    note: string | null
+    created_at: Date | null
+    created_by: string | null
+  }
+
+  export type Project_budget_shareCountAggregateOutputType = {
+    id: number
+    project_id: number
+    company_id: number
+    user_id: number
+    project_budget: number
+    status: number
+    note: number
+    created_at: number
+    created_by: number
+    _all: number
+  }
+
+
+  export type Project_budget_shareAvgAggregateInputType = {
+    id?: true
+    project_budget?: true
+  }
+
+  export type Project_budget_shareSumAggregateInputType = {
+    id?: true
+    project_budget?: true
+  }
+
+  export type Project_budget_shareMinAggregateInputType = {
+    id?: true
+    project_id?: true
+    company_id?: true
+    user_id?: true
+    project_budget?: true
+    status?: true
+    note?: true
+    created_at?: true
+    created_by?: true
+  }
+
+  export type Project_budget_shareMaxAggregateInputType = {
+    id?: true
+    project_id?: true
+    company_id?: true
+    user_id?: true
+    project_budget?: true
+    status?: true
+    note?: true
+    created_at?: true
+    created_by?: true
+  }
+
+  export type Project_budget_shareCountAggregateInputType = {
+    id?: true
+    project_id?: true
+    company_id?: true
+    user_id?: true
+    project_budget?: true
+    status?: true
+    note?: true
+    created_at?: true
+    created_by?: true
+    _all?: true
+  }
+
+  export type Project_budget_shareAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which project_budget_share to aggregate.
+     */
+    where?: project_budget_shareWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of project_budget_shares to fetch.
+     */
+    orderBy?: project_budget_shareOrderByWithRelationInput | project_budget_shareOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: project_budget_shareWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` project_budget_shares from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` project_budget_shares.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned project_budget_shares
+    **/
+    _count?: true | Project_budget_shareCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Project_budget_shareAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Project_budget_shareSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Project_budget_shareMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Project_budget_shareMaxAggregateInputType
+  }
+
+  export type GetProject_budget_shareAggregateType<T extends Project_budget_shareAggregateArgs> = {
+        [P in keyof T & keyof AggregateProject_budget_share]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProject_budget_share[P]>
+      : GetScalarType<T[P], AggregateProject_budget_share[P]>
+  }
+
+
+
+
+  export type project_budget_shareGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: project_budget_shareWhereInput
+    orderBy?: project_budget_shareOrderByWithAggregationInput | project_budget_shareOrderByWithAggregationInput[]
+    by: Project_budget_shareScalarFieldEnum[] | Project_budget_shareScalarFieldEnum
+    having?: project_budget_shareScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Project_budget_shareCountAggregateInputType | true
+    _avg?: Project_budget_shareAvgAggregateInputType
+    _sum?: Project_budget_shareSumAggregateInputType
+    _min?: Project_budget_shareMinAggregateInputType
+    _max?: Project_budget_shareMaxAggregateInputType
+  }
+
+  export type Project_budget_shareGroupByOutputType = {
+    id: bigint
+    project_id: string
+    company_id: string
+    user_id: string
+    project_budget: Decimal
+    status: string
+    note: string | null
+    created_at: Date | null
+    created_by: string | null
+    _count: Project_budget_shareCountAggregateOutputType | null
+    _avg: Project_budget_shareAvgAggregateOutputType | null
+    _sum: Project_budget_shareSumAggregateOutputType | null
+    _min: Project_budget_shareMinAggregateOutputType | null
+    _max: Project_budget_shareMaxAggregateOutputType | null
+  }
+
+  type GetProject_budget_shareGroupByPayload<T extends project_budget_shareGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Project_budget_shareGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Project_budget_shareGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Project_budget_shareGroupByOutputType[P]>
+            : GetScalarType<T[P], Project_budget_shareGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type project_budget_shareSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    project_id?: boolean
+    company_id?: boolean
+    user_id?: boolean
+    project_budget?: boolean
+    status?: boolean
+    note?: boolean
+    created_at?: boolean
+    created_by?: boolean
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    projects?: boolean | projectsDefaultArgs<ExtArgs>
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["project_budget_share"]>
+
+  export type project_budget_shareSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    project_id?: boolean
+    company_id?: boolean
+    user_id?: boolean
+    project_budget?: boolean
+    status?: boolean
+    note?: boolean
+    created_at?: boolean
+    created_by?: boolean
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    projects?: boolean | projectsDefaultArgs<ExtArgs>
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["project_budget_share"]>
+
+  export type project_budget_shareSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    project_id?: boolean
+    company_id?: boolean
+    user_id?: boolean
+    project_budget?: boolean
+    status?: boolean
+    note?: boolean
+    created_at?: boolean
+    created_by?: boolean
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    projects?: boolean | projectsDefaultArgs<ExtArgs>
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["project_budget_share"]>
+
+  export type project_budget_shareSelectScalar = {
+    id?: boolean
+    project_id?: boolean
+    company_id?: boolean
+    user_id?: boolean
+    project_budget?: boolean
+    status?: boolean
+    note?: boolean
+    created_at?: boolean
+    created_by?: boolean
+  }
+
+  export type project_budget_shareOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "project_id" | "company_id" | "user_id" | "project_budget" | "status" | "note" | "created_at" | "created_by", ExtArgs["result"]["project_budget_share"]>
+  export type project_budget_shareInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    projects?: boolean | projectsDefaultArgs<ExtArgs>
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }
+  export type project_budget_shareIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    projects?: boolean | projectsDefaultArgs<ExtArgs>
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }
+  export type project_budget_shareIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    projects?: boolean | projectsDefaultArgs<ExtArgs>
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }
+
+  export type $project_budget_sharePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "project_budget_share"
+    objects: {
+      company: Prisma.$companyPayload<ExtArgs>
+      projects: Prisma.$projectsPayload<ExtArgs>
+      users: Prisma.$usersPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      project_id: string
+      company_id: string
+      user_id: string
+      project_budget: Prisma.Decimal
+      status: string
+      note: string | null
+      created_at: Date | null
+      created_by: string | null
+    }, ExtArgs["result"]["project_budget_share"]>
+    composites: {}
+  }
+
+  type project_budget_shareGetPayload<S extends boolean | null | undefined | project_budget_shareDefaultArgs> = $Result.GetResult<Prisma.$project_budget_sharePayload, S>
+
+  type project_budget_shareCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<project_budget_shareFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Project_budget_shareCountAggregateInputType | true
+    }
+
+  export interface project_budget_shareDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['project_budget_share'], meta: { name: 'project_budget_share' } }
+    /**
+     * Find zero or one Project_budget_share that matches the filter.
+     * @param {project_budget_shareFindUniqueArgs} args - Arguments to find a Project_budget_share
+     * @example
+     * // Get one Project_budget_share
+     * const project_budget_share = await prisma.project_budget_share.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends project_budget_shareFindUniqueArgs>(args: SelectSubset<T, project_budget_shareFindUniqueArgs<ExtArgs>>): Prisma__project_budget_shareClient<$Result.GetResult<Prisma.$project_budget_sharePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Project_budget_share that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {project_budget_shareFindUniqueOrThrowArgs} args - Arguments to find a Project_budget_share
+     * @example
+     * // Get one Project_budget_share
+     * const project_budget_share = await prisma.project_budget_share.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends project_budget_shareFindUniqueOrThrowArgs>(args: SelectSubset<T, project_budget_shareFindUniqueOrThrowArgs<ExtArgs>>): Prisma__project_budget_shareClient<$Result.GetResult<Prisma.$project_budget_sharePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Project_budget_share that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {project_budget_shareFindFirstArgs} args - Arguments to find a Project_budget_share
+     * @example
+     * // Get one Project_budget_share
+     * const project_budget_share = await prisma.project_budget_share.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends project_budget_shareFindFirstArgs>(args?: SelectSubset<T, project_budget_shareFindFirstArgs<ExtArgs>>): Prisma__project_budget_shareClient<$Result.GetResult<Prisma.$project_budget_sharePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Project_budget_share that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {project_budget_shareFindFirstOrThrowArgs} args - Arguments to find a Project_budget_share
+     * @example
+     * // Get one Project_budget_share
+     * const project_budget_share = await prisma.project_budget_share.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends project_budget_shareFindFirstOrThrowArgs>(args?: SelectSubset<T, project_budget_shareFindFirstOrThrowArgs<ExtArgs>>): Prisma__project_budget_shareClient<$Result.GetResult<Prisma.$project_budget_sharePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Project_budget_shares that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {project_budget_shareFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Project_budget_shares
+     * const project_budget_shares = await prisma.project_budget_share.findMany()
+     * 
+     * // Get first 10 Project_budget_shares
+     * const project_budget_shares = await prisma.project_budget_share.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const project_budget_shareWithIdOnly = await prisma.project_budget_share.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends project_budget_shareFindManyArgs>(args?: SelectSubset<T, project_budget_shareFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$project_budget_sharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Project_budget_share.
+     * @param {project_budget_shareCreateArgs} args - Arguments to create a Project_budget_share.
+     * @example
+     * // Create one Project_budget_share
+     * const Project_budget_share = await prisma.project_budget_share.create({
+     *   data: {
+     *     // ... data to create a Project_budget_share
+     *   }
+     * })
+     * 
+     */
+    create<T extends project_budget_shareCreateArgs>(args: SelectSubset<T, project_budget_shareCreateArgs<ExtArgs>>): Prisma__project_budget_shareClient<$Result.GetResult<Prisma.$project_budget_sharePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Project_budget_shares.
+     * @param {project_budget_shareCreateManyArgs} args - Arguments to create many Project_budget_shares.
+     * @example
+     * // Create many Project_budget_shares
+     * const project_budget_share = await prisma.project_budget_share.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends project_budget_shareCreateManyArgs>(args?: SelectSubset<T, project_budget_shareCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Project_budget_shares and returns the data saved in the database.
+     * @param {project_budget_shareCreateManyAndReturnArgs} args - Arguments to create many Project_budget_shares.
+     * @example
+     * // Create many Project_budget_shares
+     * const project_budget_share = await prisma.project_budget_share.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Project_budget_shares and only return the `id`
+     * const project_budget_shareWithIdOnly = await prisma.project_budget_share.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends project_budget_shareCreateManyAndReturnArgs>(args?: SelectSubset<T, project_budget_shareCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$project_budget_sharePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Project_budget_share.
+     * @param {project_budget_shareDeleteArgs} args - Arguments to delete one Project_budget_share.
+     * @example
+     * // Delete one Project_budget_share
+     * const Project_budget_share = await prisma.project_budget_share.delete({
+     *   where: {
+     *     // ... filter to delete one Project_budget_share
+     *   }
+     * })
+     * 
+     */
+    delete<T extends project_budget_shareDeleteArgs>(args: SelectSubset<T, project_budget_shareDeleteArgs<ExtArgs>>): Prisma__project_budget_shareClient<$Result.GetResult<Prisma.$project_budget_sharePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Project_budget_share.
+     * @param {project_budget_shareUpdateArgs} args - Arguments to update one Project_budget_share.
+     * @example
+     * // Update one Project_budget_share
+     * const project_budget_share = await prisma.project_budget_share.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends project_budget_shareUpdateArgs>(args: SelectSubset<T, project_budget_shareUpdateArgs<ExtArgs>>): Prisma__project_budget_shareClient<$Result.GetResult<Prisma.$project_budget_sharePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Project_budget_shares.
+     * @param {project_budget_shareDeleteManyArgs} args - Arguments to filter Project_budget_shares to delete.
+     * @example
+     * // Delete a few Project_budget_shares
+     * const { count } = await prisma.project_budget_share.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends project_budget_shareDeleteManyArgs>(args?: SelectSubset<T, project_budget_shareDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Project_budget_shares.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {project_budget_shareUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Project_budget_shares
+     * const project_budget_share = await prisma.project_budget_share.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends project_budget_shareUpdateManyArgs>(args: SelectSubset<T, project_budget_shareUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Project_budget_shares and returns the data updated in the database.
+     * @param {project_budget_shareUpdateManyAndReturnArgs} args - Arguments to update many Project_budget_shares.
+     * @example
+     * // Update many Project_budget_shares
+     * const project_budget_share = await prisma.project_budget_share.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Project_budget_shares and only return the `id`
+     * const project_budget_shareWithIdOnly = await prisma.project_budget_share.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends project_budget_shareUpdateManyAndReturnArgs>(args: SelectSubset<T, project_budget_shareUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$project_budget_sharePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Project_budget_share.
+     * @param {project_budget_shareUpsertArgs} args - Arguments to update or create a Project_budget_share.
+     * @example
+     * // Update or create a Project_budget_share
+     * const project_budget_share = await prisma.project_budget_share.upsert({
+     *   create: {
+     *     // ... data to create a Project_budget_share
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Project_budget_share we want to update
+     *   }
+     * })
+     */
+    upsert<T extends project_budget_shareUpsertArgs>(args: SelectSubset<T, project_budget_shareUpsertArgs<ExtArgs>>): Prisma__project_budget_shareClient<$Result.GetResult<Prisma.$project_budget_sharePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Project_budget_shares.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {project_budget_shareCountArgs} args - Arguments to filter Project_budget_shares to count.
+     * @example
+     * // Count the number of Project_budget_shares
+     * const count = await prisma.project_budget_share.count({
+     *   where: {
+     *     // ... the filter for the Project_budget_shares we want to count
+     *   }
+     * })
+    **/
+    count<T extends project_budget_shareCountArgs>(
+      args?: Subset<T, project_budget_shareCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Project_budget_shareCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Project_budget_share.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Project_budget_shareAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Project_budget_shareAggregateArgs>(args: Subset<T, Project_budget_shareAggregateArgs>): Prisma.PrismaPromise<GetProject_budget_shareAggregateType<T>>
+
+    /**
+     * Group by Project_budget_share.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {project_budget_shareGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends project_budget_shareGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: project_budget_shareGroupByArgs['orderBy'] }
+        : { orderBy?: project_budget_shareGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, project_budget_shareGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProject_budget_shareGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the project_budget_share model
+   */
+  readonly fields: project_budget_shareFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for project_budget_share.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__project_budget_shareClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends companyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, companyDefaultArgs<ExtArgs>>): Prisma__companyClient<$Result.GetResult<Prisma.$companyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    projects<T extends projectsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, projectsDefaultArgs<ExtArgs>>): Prisma__projectsClient<$Result.GetResult<Prisma.$projectsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    users<T extends usersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, usersDefaultArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the project_budget_share model
+   */
+  interface project_budget_shareFieldRefs {
+    readonly id: FieldRef<"project_budget_share", 'BigInt'>
+    readonly project_id: FieldRef<"project_budget_share", 'String'>
+    readonly company_id: FieldRef<"project_budget_share", 'String'>
+    readonly user_id: FieldRef<"project_budget_share", 'String'>
+    readonly project_budget: FieldRef<"project_budget_share", 'Decimal'>
+    readonly status: FieldRef<"project_budget_share", 'String'>
+    readonly note: FieldRef<"project_budget_share", 'String'>
+    readonly created_at: FieldRef<"project_budget_share", 'DateTime'>
+    readonly created_by: FieldRef<"project_budget_share", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * project_budget_share findUnique
+   */
+  export type project_budget_shareFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_budget_share
+     */
+    select?: project_budget_shareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_budget_share
+     */
+    omit?: project_budget_shareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_budget_shareInclude<ExtArgs> | null
+    /**
+     * Filter, which project_budget_share to fetch.
+     */
+    where: project_budget_shareWhereUniqueInput
+  }
+
+  /**
+   * project_budget_share findUniqueOrThrow
+   */
+  export type project_budget_shareFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_budget_share
+     */
+    select?: project_budget_shareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_budget_share
+     */
+    omit?: project_budget_shareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_budget_shareInclude<ExtArgs> | null
+    /**
+     * Filter, which project_budget_share to fetch.
+     */
+    where: project_budget_shareWhereUniqueInput
+  }
+
+  /**
+   * project_budget_share findFirst
+   */
+  export type project_budget_shareFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_budget_share
+     */
+    select?: project_budget_shareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_budget_share
+     */
+    omit?: project_budget_shareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_budget_shareInclude<ExtArgs> | null
+    /**
+     * Filter, which project_budget_share to fetch.
+     */
+    where?: project_budget_shareWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of project_budget_shares to fetch.
+     */
+    orderBy?: project_budget_shareOrderByWithRelationInput | project_budget_shareOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for project_budget_shares.
+     */
+    cursor?: project_budget_shareWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` project_budget_shares from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` project_budget_shares.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of project_budget_shares.
+     */
+    distinct?: Project_budget_shareScalarFieldEnum | Project_budget_shareScalarFieldEnum[]
+  }
+
+  /**
+   * project_budget_share findFirstOrThrow
+   */
+  export type project_budget_shareFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_budget_share
+     */
+    select?: project_budget_shareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_budget_share
+     */
+    omit?: project_budget_shareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_budget_shareInclude<ExtArgs> | null
+    /**
+     * Filter, which project_budget_share to fetch.
+     */
+    where?: project_budget_shareWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of project_budget_shares to fetch.
+     */
+    orderBy?: project_budget_shareOrderByWithRelationInput | project_budget_shareOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for project_budget_shares.
+     */
+    cursor?: project_budget_shareWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` project_budget_shares from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` project_budget_shares.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of project_budget_shares.
+     */
+    distinct?: Project_budget_shareScalarFieldEnum | Project_budget_shareScalarFieldEnum[]
+  }
+
+  /**
+   * project_budget_share findMany
+   */
+  export type project_budget_shareFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_budget_share
+     */
+    select?: project_budget_shareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_budget_share
+     */
+    omit?: project_budget_shareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_budget_shareInclude<ExtArgs> | null
+    /**
+     * Filter, which project_budget_shares to fetch.
+     */
+    where?: project_budget_shareWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of project_budget_shares to fetch.
+     */
+    orderBy?: project_budget_shareOrderByWithRelationInput | project_budget_shareOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing project_budget_shares.
+     */
+    cursor?: project_budget_shareWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` project_budget_shares from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` project_budget_shares.
+     */
+    skip?: number
+    distinct?: Project_budget_shareScalarFieldEnum | Project_budget_shareScalarFieldEnum[]
+  }
+
+  /**
+   * project_budget_share create
+   */
+  export type project_budget_shareCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_budget_share
+     */
+    select?: project_budget_shareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_budget_share
+     */
+    omit?: project_budget_shareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_budget_shareInclude<ExtArgs> | null
+    /**
+     * The data needed to create a project_budget_share.
+     */
+    data: XOR<project_budget_shareCreateInput, project_budget_shareUncheckedCreateInput>
+  }
+
+  /**
+   * project_budget_share createMany
+   */
+  export type project_budget_shareCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many project_budget_shares.
+     */
+    data: project_budget_shareCreateManyInput | project_budget_shareCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * project_budget_share createManyAndReturn
+   */
+  export type project_budget_shareCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_budget_share
+     */
+    select?: project_budget_shareSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_budget_share
+     */
+    omit?: project_budget_shareOmit<ExtArgs> | null
+    /**
+     * The data used to create many project_budget_shares.
+     */
+    data: project_budget_shareCreateManyInput | project_budget_shareCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_budget_shareIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * project_budget_share update
+   */
+  export type project_budget_shareUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_budget_share
+     */
+    select?: project_budget_shareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_budget_share
+     */
+    omit?: project_budget_shareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_budget_shareInclude<ExtArgs> | null
+    /**
+     * The data needed to update a project_budget_share.
+     */
+    data: XOR<project_budget_shareUpdateInput, project_budget_shareUncheckedUpdateInput>
+    /**
+     * Choose, which project_budget_share to update.
+     */
+    where: project_budget_shareWhereUniqueInput
+  }
+
+  /**
+   * project_budget_share updateMany
+   */
+  export type project_budget_shareUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update project_budget_shares.
+     */
+    data: XOR<project_budget_shareUpdateManyMutationInput, project_budget_shareUncheckedUpdateManyInput>
+    /**
+     * Filter which project_budget_shares to update
+     */
+    where?: project_budget_shareWhereInput
+    /**
+     * Limit how many project_budget_shares to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * project_budget_share updateManyAndReturn
+   */
+  export type project_budget_shareUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_budget_share
+     */
+    select?: project_budget_shareSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_budget_share
+     */
+    omit?: project_budget_shareOmit<ExtArgs> | null
+    /**
+     * The data used to update project_budget_shares.
+     */
+    data: XOR<project_budget_shareUpdateManyMutationInput, project_budget_shareUncheckedUpdateManyInput>
+    /**
+     * Filter which project_budget_shares to update
+     */
+    where?: project_budget_shareWhereInput
+    /**
+     * Limit how many project_budget_shares to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_budget_shareIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * project_budget_share upsert
+   */
+  export type project_budget_shareUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_budget_share
+     */
+    select?: project_budget_shareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_budget_share
+     */
+    omit?: project_budget_shareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_budget_shareInclude<ExtArgs> | null
+    /**
+     * The filter to search for the project_budget_share to update in case it exists.
+     */
+    where: project_budget_shareWhereUniqueInput
+    /**
+     * In case the project_budget_share found by the `where` argument doesn't exist, create a new project_budget_share with this data.
+     */
+    create: XOR<project_budget_shareCreateInput, project_budget_shareUncheckedCreateInput>
+    /**
+     * In case the project_budget_share was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<project_budget_shareUpdateInput, project_budget_shareUncheckedUpdateInput>
+  }
+
+  /**
+   * project_budget_share delete
+   */
+  export type project_budget_shareDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_budget_share
+     */
+    select?: project_budget_shareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_budget_share
+     */
+    omit?: project_budget_shareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_budget_shareInclude<ExtArgs> | null
+    /**
+     * Filter which project_budget_share to delete.
+     */
+    where: project_budget_shareWhereUniqueInput
+  }
+
+  /**
+   * project_budget_share deleteMany
+   */
+  export type project_budget_shareDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which project_budget_shares to delete
+     */
+    where?: project_budget_shareWhereInput
+    /**
+     * Limit how many project_budget_shares to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * project_budget_share without action
+   */
+  export type project_budget_shareDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_budget_share
+     */
+    select?: project_budget_shareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_budget_share
+     */
+    omit?: project_budget_shareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_budget_shareInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model project_members
+   */
+
+  export type AggregateProject_members = {
+    _count: Project_membersCountAggregateOutputType | null
+    _min: Project_membersMinAggregateOutputType | null
+    _max: Project_membersMaxAggregateOutputType | null
+  }
+
+  export type Project_membersMinAggregateOutputType = {
+    project_id: string | null
+    user_id: string | null
+    company_id: string | null
+    role: string | null
+  }
+
+  export type Project_membersMaxAggregateOutputType = {
+    project_id: string | null
+    user_id: string | null
+    company_id: string | null
+    role: string | null
+  }
+
+  export type Project_membersCountAggregateOutputType = {
+    project_id: number
+    user_id: number
+    company_id: number
+    role: number
+    _all: number
+  }
+
+
+  export type Project_membersMinAggregateInputType = {
+    project_id?: true
+    user_id?: true
+    company_id?: true
+    role?: true
+  }
+
+  export type Project_membersMaxAggregateInputType = {
+    project_id?: true
+    user_id?: true
+    company_id?: true
+    role?: true
+  }
+
+  export type Project_membersCountAggregateInputType = {
+    project_id?: true
+    user_id?: true
+    company_id?: true
+    role?: true
+    _all?: true
+  }
+
+  export type Project_membersAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which project_members to aggregate.
+     */
+    where?: project_membersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of project_members to fetch.
+     */
+    orderBy?: project_membersOrderByWithRelationInput | project_membersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: project_membersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` project_members from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` project_members.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned project_members
+    **/
+    _count?: true | Project_membersCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Project_membersMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Project_membersMaxAggregateInputType
+  }
+
+  export type GetProject_membersAggregateType<T extends Project_membersAggregateArgs> = {
+        [P in keyof T & keyof AggregateProject_members]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProject_members[P]>
+      : GetScalarType<T[P], AggregateProject_members[P]>
+  }
+
+
+
+
+  export type project_membersGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: project_membersWhereInput
+    orderBy?: project_membersOrderByWithAggregationInput | project_membersOrderByWithAggregationInput[]
+    by: Project_membersScalarFieldEnum[] | Project_membersScalarFieldEnum
+    having?: project_membersScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Project_membersCountAggregateInputType | true
+    _min?: Project_membersMinAggregateInputType
+    _max?: Project_membersMaxAggregateInputType
+  }
+
+  export type Project_membersGroupByOutputType = {
+    project_id: string
+    user_id: string
+    company_id: string
+    role: string
+    _count: Project_membersCountAggregateOutputType | null
+    _min: Project_membersMinAggregateOutputType | null
+    _max: Project_membersMaxAggregateOutputType | null
+  }
+
+  type GetProject_membersGroupByPayload<T extends project_membersGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Project_membersGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Project_membersGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Project_membersGroupByOutputType[P]>
+            : GetScalarType<T[P], Project_membersGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type project_membersSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    project_id?: boolean
+    user_id?: boolean
+    company_id?: boolean
+    role?: boolean
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    projects?: boolean | projectsDefaultArgs<ExtArgs>
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["project_members"]>
+
+  export type project_membersSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    project_id?: boolean
+    user_id?: boolean
+    company_id?: boolean
+    role?: boolean
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    projects?: boolean | projectsDefaultArgs<ExtArgs>
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["project_members"]>
+
+  export type project_membersSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    project_id?: boolean
+    user_id?: boolean
+    company_id?: boolean
+    role?: boolean
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    projects?: boolean | projectsDefaultArgs<ExtArgs>
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["project_members"]>
+
+  export type project_membersSelectScalar = {
+    project_id?: boolean
+    user_id?: boolean
+    company_id?: boolean
+    role?: boolean
+  }
+
+  export type project_membersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"project_id" | "user_id" | "company_id" | "role", ExtArgs["result"]["project_members"]>
+  export type project_membersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    projects?: boolean | projectsDefaultArgs<ExtArgs>
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }
+  export type project_membersIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    projects?: boolean | projectsDefaultArgs<ExtArgs>
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }
+  export type project_membersIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    projects?: boolean | projectsDefaultArgs<ExtArgs>
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }
+
+  export type $project_membersPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "project_members"
+    objects: {
+      company: Prisma.$companyPayload<ExtArgs>
+      projects: Prisma.$projectsPayload<ExtArgs>
+      users: Prisma.$usersPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      project_id: string
+      user_id: string
+      company_id: string
+      role: string
+    }, ExtArgs["result"]["project_members"]>
+    composites: {}
+  }
+
+  type project_membersGetPayload<S extends boolean | null | undefined | project_membersDefaultArgs> = $Result.GetResult<Prisma.$project_membersPayload, S>
+
+  type project_membersCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<project_membersFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Project_membersCountAggregateInputType | true
+    }
+
+  export interface project_membersDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['project_members'], meta: { name: 'project_members' } }
+    /**
+     * Find zero or one Project_members that matches the filter.
+     * @param {project_membersFindUniqueArgs} args - Arguments to find a Project_members
+     * @example
+     * // Get one Project_members
+     * const project_members = await prisma.project_members.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends project_membersFindUniqueArgs>(args: SelectSubset<T, project_membersFindUniqueArgs<ExtArgs>>): Prisma__project_membersClient<$Result.GetResult<Prisma.$project_membersPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Project_members that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {project_membersFindUniqueOrThrowArgs} args - Arguments to find a Project_members
+     * @example
+     * // Get one Project_members
+     * const project_members = await prisma.project_members.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends project_membersFindUniqueOrThrowArgs>(args: SelectSubset<T, project_membersFindUniqueOrThrowArgs<ExtArgs>>): Prisma__project_membersClient<$Result.GetResult<Prisma.$project_membersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Project_members that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {project_membersFindFirstArgs} args - Arguments to find a Project_members
+     * @example
+     * // Get one Project_members
+     * const project_members = await prisma.project_members.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends project_membersFindFirstArgs>(args?: SelectSubset<T, project_membersFindFirstArgs<ExtArgs>>): Prisma__project_membersClient<$Result.GetResult<Prisma.$project_membersPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Project_members that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {project_membersFindFirstOrThrowArgs} args - Arguments to find a Project_members
+     * @example
+     * // Get one Project_members
+     * const project_members = await prisma.project_members.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends project_membersFindFirstOrThrowArgs>(args?: SelectSubset<T, project_membersFindFirstOrThrowArgs<ExtArgs>>): Prisma__project_membersClient<$Result.GetResult<Prisma.$project_membersPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Project_members that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {project_membersFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Project_members
+     * const project_members = await prisma.project_members.findMany()
+     * 
+     * // Get first 10 Project_members
+     * const project_members = await prisma.project_members.findMany({ take: 10 })
+     * 
+     * // Only select the `project_id`
+     * const project_membersWithProject_idOnly = await prisma.project_members.findMany({ select: { project_id: true } })
+     * 
+     */
+    findMany<T extends project_membersFindManyArgs>(args?: SelectSubset<T, project_membersFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$project_membersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Project_members.
+     * @param {project_membersCreateArgs} args - Arguments to create a Project_members.
+     * @example
+     * // Create one Project_members
+     * const Project_members = await prisma.project_members.create({
+     *   data: {
+     *     // ... data to create a Project_members
+     *   }
+     * })
+     * 
+     */
+    create<T extends project_membersCreateArgs>(args: SelectSubset<T, project_membersCreateArgs<ExtArgs>>): Prisma__project_membersClient<$Result.GetResult<Prisma.$project_membersPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Project_members.
+     * @param {project_membersCreateManyArgs} args - Arguments to create many Project_members.
+     * @example
+     * // Create many Project_members
+     * const project_members = await prisma.project_members.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends project_membersCreateManyArgs>(args?: SelectSubset<T, project_membersCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Project_members and returns the data saved in the database.
+     * @param {project_membersCreateManyAndReturnArgs} args - Arguments to create many Project_members.
+     * @example
+     * // Create many Project_members
+     * const project_members = await prisma.project_members.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Project_members and only return the `project_id`
+     * const project_membersWithProject_idOnly = await prisma.project_members.createManyAndReturn({
+     *   select: { project_id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends project_membersCreateManyAndReturnArgs>(args?: SelectSubset<T, project_membersCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$project_membersPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Project_members.
+     * @param {project_membersDeleteArgs} args - Arguments to delete one Project_members.
+     * @example
+     * // Delete one Project_members
+     * const Project_members = await prisma.project_members.delete({
+     *   where: {
+     *     // ... filter to delete one Project_members
+     *   }
+     * })
+     * 
+     */
+    delete<T extends project_membersDeleteArgs>(args: SelectSubset<T, project_membersDeleteArgs<ExtArgs>>): Prisma__project_membersClient<$Result.GetResult<Prisma.$project_membersPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Project_members.
+     * @param {project_membersUpdateArgs} args - Arguments to update one Project_members.
+     * @example
+     * // Update one Project_members
+     * const project_members = await prisma.project_members.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends project_membersUpdateArgs>(args: SelectSubset<T, project_membersUpdateArgs<ExtArgs>>): Prisma__project_membersClient<$Result.GetResult<Prisma.$project_membersPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Project_members.
+     * @param {project_membersDeleteManyArgs} args - Arguments to filter Project_members to delete.
+     * @example
+     * // Delete a few Project_members
+     * const { count } = await prisma.project_members.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends project_membersDeleteManyArgs>(args?: SelectSubset<T, project_membersDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Project_members.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {project_membersUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Project_members
+     * const project_members = await prisma.project_members.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends project_membersUpdateManyArgs>(args: SelectSubset<T, project_membersUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Project_members and returns the data updated in the database.
+     * @param {project_membersUpdateManyAndReturnArgs} args - Arguments to update many Project_members.
+     * @example
+     * // Update many Project_members
+     * const project_members = await prisma.project_members.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Project_members and only return the `project_id`
+     * const project_membersWithProject_idOnly = await prisma.project_members.updateManyAndReturn({
+     *   select: { project_id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends project_membersUpdateManyAndReturnArgs>(args: SelectSubset<T, project_membersUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$project_membersPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Project_members.
+     * @param {project_membersUpsertArgs} args - Arguments to update or create a Project_members.
+     * @example
+     * // Update or create a Project_members
+     * const project_members = await prisma.project_members.upsert({
+     *   create: {
+     *     // ... data to create a Project_members
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Project_members we want to update
+     *   }
+     * })
+     */
+    upsert<T extends project_membersUpsertArgs>(args: SelectSubset<T, project_membersUpsertArgs<ExtArgs>>): Prisma__project_membersClient<$Result.GetResult<Prisma.$project_membersPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Project_members.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {project_membersCountArgs} args - Arguments to filter Project_members to count.
+     * @example
+     * // Count the number of Project_members
+     * const count = await prisma.project_members.count({
+     *   where: {
+     *     // ... the filter for the Project_members we want to count
+     *   }
+     * })
+    **/
+    count<T extends project_membersCountArgs>(
+      args?: Subset<T, project_membersCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Project_membersCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Project_members.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Project_membersAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Project_membersAggregateArgs>(args: Subset<T, Project_membersAggregateArgs>): Prisma.PrismaPromise<GetProject_membersAggregateType<T>>
+
+    /**
+     * Group by Project_members.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {project_membersGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends project_membersGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: project_membersGroupByArgs['orderBy'] }
+        : { orderBy?: project_membersGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, project_membersGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProject_membersGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the project_members model
+   */
+  readonly fields: project_membersFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for project_members.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__project_membersClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends companyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, companyDefaultArgs<ExtArgs>>): Prisma__companyClient<$Result.GetResult<Prisma.$companyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    projects<T extends projectsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, projectsDefaultArgs<ExtArgs>>): Prisma__projectsClient<$Result.GetResult<Prisma.$projectsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    users<T extends usersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, usersDefaultArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the project_members model
+   */
+  interface project_membersFieldRefs {
+    readonly project_id: FieldRef<"project_members", 'String'>
+    readonly user_id: FieldRef<"project_members", 'String'>
+    readonly company_id: FieldRef<"project_members", 'String'>
+    readonly role: FieldRef<"project_members", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * project_members findUnique
+   */
+  export type project_membersFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_members
+     */
+    select?: project_membersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_members
+     */
+    omit?: project_membersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_membersInclude<ExtArgs> | null
+    /**
+     * Filter, which project_members to fetch.
+     */
+    where: project_membersWhereUniqueInput
+  }
+
+  /**
+   * project_members findUniqueOrThrow
+   */
+  export type project_membersFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_members
+     */
+    select?: project_membersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_members
+     */
+    omit?: project_membersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_membersInclude<ExtArgs> | null
+    /**
+     * Filter, which project_members to fetch.
+     */
+    where: project_membersWhereUniqueInput
+  }
+
+  /**
+   * project_members findFirst
+   */
+  export type project_membersFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_members
+     */
+    select?: project_membersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_members
+     */
+    omit?: project_membersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_membersInclude<ExtArgs> | null
+    /**
+     * Filter, which project_members to fetch.
+     */
+    where?: project_membersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of project_members to fetch.
+     */
+    orderBy?: project_membersOrderByWithRelationInput | project_membersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for project_members.
+     */
+    cursor?: project_membersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` project_members from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` project_members.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of project_members.
+     */
+    distinct?: Project_membersScalarFieldEnum | Project_membersScalarFieldEnum[]
+  }
+
+  /**
+   * project_members findFirstOrThrow
+   */
+  export type project_membersFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_members
+     */
+    select?: project_membersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_members
+     */
+    omit?: project_membersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_membersInclude<ExtArgs> | null
+    /**
+     * Filter, which project_members to fetch.
+     */
+    where?: project_membersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of project_members to fetch.
+     */
+    orderBy?: project_membersOrderByWithRelationInput | project_membersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for project_members.
+     */
+    cursor?: project_membersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` project_members from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` project_members.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of project_members.
+     */
+    distinct?: Project_membersScalarFieldEnum | Project_membersScalarFieldEnum[]
+  }
+
+  /**
+   * project_members findMany
+   */
+  export type project_membersFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_members
+     */
+    select?: project_membersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_members
+     */
+    omit?: project_membersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_membersInclude<ExtArgs> | null
+    /**
+     * Filter, which project_members to fetch.
+     */
+    where?: project_membersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of project_members to fetch.
+     */
+    orderBy?: project_membersOrderByWithRelationInput | project_membersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing project_members.
+     */
+    cursor?: project_membersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` project_members from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` project_members.
+     */
+    skip?: number
+    distinct?: Project_membersScalarFieldEnum | Project_membersScalarFieldEnum[]
+  }
+
+  /**
+   * project_members create
+   */
+  export type project_membersCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_members
+     */
+    select?: project_membersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_members
+     */
+    omit?: project_membersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_membersInclude<ExtArgs> | null
+    /**
+     * The data needed to create a project_members.
+     */
+    data: XOR<project_membersCreateInput, project_membersUncheckedCreateInput>
+  }
+
+  /**
+   * project_members createMany
+   */
+  export type project_membersCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many project_members.
+     */
+    data: project_membersCreateManyInput | project_membersCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * project_members createManyAndReturn
+   */
+  export type project_membersCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_members
+     */
+    select?: project_membersSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_members
+     */
+    omit?: project_membersOmit<ExtArgs> | null
+    /**
+     * The data used to create many project_members.
+     */
+    data: project_membersCreateManyInput | project_membersCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_membersIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * project_members update
+   */
+  export type project_membersUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_members
+     */
+    select?: project_membersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_members
+     */
+    omit?: project_membersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_membersInclude<ExtArgs> | null
+    /**
+     * The data needed to update a project_members.
+     */
+    data: XOR<project_membersUpdateInput, project_membersUncheckedUpdateInput>
+    /**
+     * Choose, which project_members to update.
+     */
+    where: project_membersWhereUniqueInput
+  }
+
+  /**
+   * project_members updateMany
+   */
+  export type project_membersUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update project_members.
+     */
+    data: XOR<project_membersUpdateManyMutationInput, project_membersUncheckedUpdateManyInput>
+    /**
+     * Filter which project_members to update
+     */
+    where?: project_membersWhereInput
+    /**
+     * Limit how many project_members to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * project_members updateManyAndReturn
+   */
+  export type project_membersUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_members
+     */
+    select?: project_membersSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_members
+     */
+    omit?: project_membersOmit<ExtArgs> | null
+    /**
+     * The data used to update project_members.
+     */
+    data: XOR<project_membersUpdateManyMutationInput, project_membersUncheckedUpdateManyInput>
+    /**
+     * Filter which project_members to update
+     */
+    where?: project_membersWhereInput
+    /**
+     * Limit how many project_members to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_membersIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * project_members upsert
+   */
+  export type project_membersUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_members
+     */
+    select?: project_membersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_members
+     */
+    omit?: project_membersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_membersInclude<ExtArgs> | null
+    /**
+     * The filter to search for the project_members to update in case it exists.
+     */
+    where: project_membersWhereUniqueInput
+    /**
+     * In case the project_members found by the `where` argument doesn't exist, create a new project_members with this data.
+     */
+    create: XOR<project_membersCreateInput, project_membersUncheckedCreateInput>
+    /**
+     * In case the project_members was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<project_membersUpdateInput, project_membersUncheckedUpdateInput>
+  }
+
+  /**
+   * project_members delete
+   */
+  export type project_membersDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_members
+     */
+    select?: project_membersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_members
+     */
+    omit?: project_membersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_membersInclude<ExtArgs> | null
+    /**
+     * Filter which project_members to delete.
+     */
+    where: project_membersWhereUniqueInput
+  }
+
+  /**
+   * project_members deleteMany
+   */
+  export type project_membersDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which project_members to delete
+     */
+    where?: project_membersWhereInput
+    /**
+     * Limit how many project_members to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * project_members without action
+   */
+  export type project_membersDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_members
+     */
+    select?: project_membersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_members
+     */
+    omit?: project_membersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_membersInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model projects
+   */
+
+  export type AggregateProjects = {
+    _count: ProjectsCountAggregateOutputType | null
+    _avg: ProjectsAvgAggregateOutputType | null
+    _sum: ProjectsSumAggregateOutputType | null
+    _min: ProjectsMinAggregateOutputType | null
+    _max: ProjectsMaxAggregateOutputType | null
+  }
+
+  export type ProjectsAvgAggregateOutputType = {
+    m2: Decimal | null
+    floor_count: number | null
+  }
+
+  export type ProjectsSumAggregateOutputType = {
+    m2: Decimal | null
+    floor_count: number | null
+  }
+
+  export type ProjectsMinAggregateOutputType = {
+    id: string | null
+    company_id: string | null
+    name: string | null
+    description: string | null
+    m2: Decimal | null
+    location: string | null
+    floor_count: number | null
+    start_date: Date | null
+    end_date: Date | null
+    created_by: string | null
+    created_at: Date | null
+    currency: string | null
+  }
+
+  export type ProjectsMaxAggregateOutputType = {
+    id: string | null
+    company_id: string | null
+    name: string | null
+    description: string | null
+    m2: Decimal | null
+    location: string | null
+    floor_count: number | null
+    start_date: Date | null
+    end_date: Date | null
+    created_by: string | null
+    created_at: Date | null
+    currency: string | null
+  }
+
+  export type ProjectsCountAggregateOutputType = {
+    id: number
+    company_id: number
+    name: number
+    description: number
+    m2: number
+    location: number
+    floor_count: number
+    start_date: number
+    end_date: number
+    created_by: number
+    created_at: number
+    currency: number
+    _all: number
+  }
+
+
+  export type ProjectsAvgAggregateInputType = {
+    m2?: true
+    floor_count?: true
+  }
+
+  export type ProjectsSumAggregateInputType = {
+    m2?: true
+    floor_count?: true
+  }
+
+  export type ProjectsMinAggregateInputType = {
+    id?: true
+    company_id?: true
+    name?: true
+    description?: true
+    m2?: true
+    location?: true
+    floor_count?: true
+    start_date?: true
+    end_date?: true
+    created_by?: true
+    created_at?: true
+    currency?: true
+  }
+
+  export type ProjectsMaxAggregateInputType = {
+    id?: true
+    company_id?: true
+    name?: true
+    description?: true
+    m2?: true
+    location?: true
+    floor_count?: true
+    start_date?: true
+    end_date?: true
+    created_by?: true
+    created_at?: true
+    currency?: true
+  }
+
+  export type ProjectsCountAggregateInputType = {
+    id?: true
+    company_id?: true
+    name?: true
+    description?: true
+    m2?: true
+    location?: true
+    floor_count?: true
+    start_date?: true
+    end_date?: true
+    created_by?: true
+    created_at?: true
+    currency?: true
+    _all?: true
+  }
+
+  export type ProjectsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which projects to aggregate.
+     */
+    where?: projectsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of projects to fetch.
+     */
+    orderBy?: projectsOrderByWithRelationInput | projectsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: projectsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` projects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` projects.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned projects
+    **/
+    _count?: true | ProjectsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ProjectsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ProjectsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProjectsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProjectsMaxAggregateInputType
+  }
+
+  export type GetProjectsAggregateType<T extends ProjectsAggregateArgs> = {
+        [P in keyof T & keyof AggregateProjects]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProjects[P]>
+      : GetScalarType<T[P], AggregateProjects[P]>
+  }
+
+
+
+
+  export type projectsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: projectsWhereInput
+    orderBy?: projectsOrderByWithAggregationInput | projectsOrderByWithAggregationInput[]
+    by: ProjectsScalarFieldEnum[] | ProjectsScalarFieldEnum
+    having?: projectsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProjectsCountAggregateInputType | true
+    _avg?: ProjectsAvgAggregateInputType
+    _sum?: ProjectsSumAggregateInputType
+    _min?: ProjectsMinAggregateInputType
+    _max?: ProjectsMaxAggregateInputType
+  }
+
+  export type ProjectsGroupByOutputType = {
+    id: string
+    company_id: string
+    name: string
+    description: string | null
+    m2: Decimal | null
+    location: string | null
+    floor_count: number | null
+    start_date: Date | null
+    end_date: Date | null
+    created_by: string | null
+    created_at: Date | null
+    currency: string
+    _count: ProjectsCountAggregateOutputType | null
+    _avg: ProjectsAvgAggregateOutputType | null
+    _sum: ProjectsSumAggregateOutputType | null
+    _min: ProjectsMinAggregateOutputType | null
+    _max: ProjectsMaxAggregateOutputType | null
+  }
+
+  type GetProjectsGroupByPayload<T extends projectsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProjectsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProjectsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProjectsGroupByOutputType[P]>
+            : GetScalarType<T[P], ProjectsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type projectsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    company_id?: boolean
+    name?: boolean
+    description?: boolean
+    m2?: boolean
+    location?: boolean
+    floor_count?: boolean
+    start_date?: boolean
+    end_date?: boolean
+    created_by?: boolean
+    created_at?: boolean
+    currency?: boolean
+    borclar?: boolean | projects$borclarArgs<ExtArgs>
+    islemler?: boolean | projects$islemlerArgs<ExtArgs>
+    project_budget_share?: boolean | projects$project_budget_shareArgs<ExtArgs>
+    project_members?: boolean | projects$project_membersArgs<ExtArgs>
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    users?: boolean | projects$usersArgs<ExtArgs>
+    _count?: boolean | ProjectsCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projects"]>
+
+  export type projectsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    company_id?: boolean
+    name?: boolean
+    description?: boolean
+    m2?: boolean
+    location?: boolean
+    floor_count?: boolean
+    start_date?: boolean
+    end_date?: boolean
+    created_by?: boolean
+    created_at?: boolean
+    currency?: boolean
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    users?: boolean | projects$usersArgs<ExtArgs>
+  }, ExtArgs["result"]["projects"]>
+
+  export type projectsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    company_id?: boolean
+    name?: boolean
+    description?: boolean
+    m2?: boolean
+    location?: boolean
+    floor_count?: boolean
+    start_date?: boolean
+    end_date?: boolean
+    created_by?: boolean
+    created_at?: boolean
+    currency?: boolean
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    users?: boolean | projects$usersArgs<ExtArgs>
+  }, ExtArgs["result"]["projects"]>
+
+  export type projectsSelectScalar = {
+    id?: boolean
+    company_id?: boolean
+    name?: boolean
+    description?: boolean
+    m2?: boolean
+    location?: boolean
+    floor_count?: boolean
+    start_date?: boolean
+    end_date?: boolean
+    created_by?: boolean
+    created_at?: boolean
+    currency?: boolean
+  }
+
+  export type projectsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "company_id" | "name" | "description" | "m2" | "location" | "floor_count" | "start_date" | "end_date" | "created_by" | "created_at" | "currency", ExtArgs["result"]["projects"]>
+  export type projectsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    borclar?: boolean | projects$borclarArgs<ExtArgs>
+    islemler?: boolean | projects$islemlerArgs<ExtArgs>
+    project_budget_share?: boolean | projects$project_budget_shareArgs<ExtArgs>
+    project_members?: boolean | projects$project_membersArgs<ExtArgs>
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    users?: boolean | projects$usersArgs<ExtArgs>
+    _count?: boolean | ProjectsCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type projectsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    users?: boolean | projects$usersArgs<ExtArgs>
+  }
+  export type projectsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | companyDefaultArgs<ExtArgs>
+    users?: boolean | projects$usersArgs<ExtArgs>
+  }
+
+  export type $projectsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "projects"
+    objects: {
+      borclar: Prisma.$borclarPayload<ExtArgs>[]
+      islemler: Prisma.$islemlerPayload<ExtArgs>[]
+      project_budget_share: Prisma.$project_budget_sharePayload<ExtArgs>[]
+      project_members: Prisma.$project_membersPayload<ExtArgs>[]
+      company: Prisma.$companyPayload<ExtArgs>
+      users: Prisma.$usersPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      company_id: string
+      name: string
+      description: string | null
+      m2: Prisma.Decimal | null
+      location: string | null
+      floor_count: number | null
+      start_date: Date | null
+      end_date: Date | null
+      created_by: string | null
+      created_at: Date | null
+      currency: string
+    }, ExtArgs["result"]["projects"]>
+    composites: {}
+  }
+
+  type projectsGetPayload<S extends boolean | null | undefined | projectsDefaultArgs> = $Result.GetResult<Prisma.$projectsPayload, S>
+
+  type projectsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<projectsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProjectsCountAggregateInputType | true
+    }
+
+  export interface projectsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['projects'], meta: { name: 'projects' } }
+    /**
+     * Find zero or one Projects that matches the filter.
+     * @param {projectsFindUniqueArgs} args - Arguments to find a Projects
+     * @example
+     * // Get one Projects
+     * const projects = await prisma.projects.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends projectsFindUniqueArgs>(args: SelectSubset<T, projectsFindUniqueArgs<ExtArgs>>): Prisma__projectsClient<$Result.GetResult<Prisma.$projectsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Projects that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {projectsFindUniqueOrThrowArgs} args - Arguments to find a Projects
+     * @example
+     * // Get one Projects
+     * const projects = await prisma.projects.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends projectsFindUniqueOrThrowArgs>(args: SelectSubset<T, projectsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__projectsClient<$Result.GetResult<Prisma.$projectsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Projects that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {projectsFindFirstArgs} args - Arguments to find a Projects
+     * @example
+     * // Get one Projects
+     * const projects = await prisma.projects.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends projectsFindFirstArgs>(args?: SelectSubset<T, projectsFindFirstArgs<ExtArgs>>): Prisma__projectsClient<$Result.GetResult<Prisma.$projectsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Projects that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {projectsFindFirstOrThrowArgs} args - Arguments to find a Projects
+     * @example
+     * // Get one Projects
+     * const projects = await prisma.projects.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends projectsFindFirstOrThrowArgs>(args?: SelectSubset<T, projectsFindFirstOrThrowArgs<ExtArgs>>): Prisma__projectsClient<$Result.GetResult<Prisma.$projectsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Projects that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {projectsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Projects
+     * const projects = await prisma.projects.findMany()
+     * 
+     * // Get first 10 Projects
+     * const projects = await prisma.projects.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const projectsWithIdOnly = await prisma.projects.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends projectsFindManyArgs>(args?: SelectSubset<T, projectsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$projectsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Projects.
+     * @param {projectsCreateArgs} args - Arguments to create a Projects.
+     * @example
+     * // Create one Projects
+     * const Projects = await prisma.projects.create({
+     *   data: {
+     *     // ... data to create a Projects
+     *   }
+     * })
+     * 
+     */
+    create<T extends projectsCreateArgs>(args: SelectSubset<T, projectsCreateArgs<ExtArgs>>): Prisma__projectsClient<$Result.GetResult<Prisma.$projectsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Projects.
+     * @param {projectsCreateManyArgs} args - Arguments to create many Projects.
+     * @example
+     * // Create many Projects
+     * const projects = await prisma.projects.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends projectsCreateManyArgs>(args?: SelectSubset<T, projectsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Projects and returns the data saved in the database.
+     * @param {projectsCreateManyAndReturnArgs} args - Arguments to create many Projects.
+     * @example
+     * // Create many Projects
+     * const projects = await prisma.projects.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Projects and only return the `id`
+     * const projectsWithIdOnly = await prisma.projects.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends projectsCreateManyAndReturnArgs>(args?: SelectSubset<T, projectsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$projectsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Projects.
+     * @param {projectsDeleteArgs} args - Arguments to delete one Projects.
+     * @example
+     * // Delete one Projects
+     * const Projects = await prisma.projects.delete({
+     *   where: {
+     *     // ... filter to delete one Projects
+     *   }
+     * })
+     * 
+     */
+    delete<T extends projectsDeleteArgs>(args: SelectSubset<T, projectsDeleteArgs<ExtArgs>>): Prisma__projectsClient<$Result.GetResult<Prisma.$projectsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Projects.
+     * @param {projectsUpdateArgs} args - Arguments to update one Projects.
+     * @example
+     * // Update one Projects
+     * const projects = await prisma.projects.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends projectsUpdateArgs>(args: SelectSubset<T, projectsUpdateArgs<ExtArgs>>): Prisma__projectsClient<$Result.GetResult<Prisma.$projectsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Projects.
+     * @param {projectsDeleteManyArgs} args - Arguments to filter Projects to delete.
+     * @example
+     * // Delete a few Projects
+     * const { count } = await prisma.projects.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends projectsDeleteManyArgs>(args?: SelectSubset<T, projectsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Projects.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {projectsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Projects
+     * const projects = await prisma.projects.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends projectsUpdateManyArgs>(args: SelectSubset<T, projectsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Projects and returns the data updated in the database.
+     * @param {projectsUpdateManyAndReturnArgs} args - Arguments to update many Projects.
+     * @example
+     * // Update many Projects
+     * const projects = await prisma.projects.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Projects and only return the `id`
+     * const projectsWithIdOnly = await prisma.projects.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends projectsUpdateManyAndReturnArgs>(args: SelectSubset<T, projectsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$projectsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Projects.
+     * @param {projectsUpsertArgs} args - Arguments to update or create a Projects.
+     * @example
+     * // Update or create a Projects
+     * const projects = await prisma.projects.upsert({
+     *   create: {
+     *     // ... data to create a Projects
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Projects we want to update
+     *   }
+     * })
+     */
+    upsert<T extends projectsUpsertArgs>(args: SelectSubset<T, projectsUpsertArgs<ExtArgs>>): Prisma__projectsClient<$Result.GetResult<Prisma.$projectsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Projects.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {projectsCountArgs} args - Arguments to filter Projects to count.
+     * @example
+     * // Count the number of Projects
+     * const count = await prisma.projects.count({
+     *   where: {
+     *     // ... the filter for the Projects we want to count
+     *   }
+     * })
+    **/
+    count<T extends projectsCountArgs>(
+      args?: Subset<T, projectsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProjectsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Projects.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProjectsAggregateArgs>(args: Subset<T, ProjectsAggregateArgs>): Prisma.PrismaPromise<GetProjectsAggregateType<T>>
+
+    /**
+     * Group by Projects.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {projectsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends projectsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: projectsGroupByArgs['orderBy'] }
+        : { orderBy?: projectsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, projectsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProjectsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the projects model
+   */
+  readonly fields: projectsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for projects.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__projectsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    borclar<T extends projects$borclarArgs<ExtArgs> = {}>(args?: Subset<T, projects$borclarArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$borclarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    islemler<T extends projects$islemlerArgs<ExtArgs> = {}>(args?: Subset<T, projects$islemlerArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$islemlerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    project_budget_share<T extends projects$project_budget_shareArgs<ExtArgs> = {}>(args?: Subset<T, projects$project_budget_shareArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$project_budget_sharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    project_members<T extends projects$project_membersArgs<ExtArgs> = {}>(args?: Subset<T, projects$project_membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$project_membersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    company<T extends companyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, companyDefaultArgs<ExtArgs>>): Prisma__companyClient<$Result.GetResult<Prisma.$companyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    users<T extends projects$usersArgs<ExtArgs> = {}>(args?: Subset<T, projects$usersArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the projects model
+   */
+  interface projectsFieldRefs {
+    readonly id: FieldRef<"projects", 'String'>
+    readonly company_id: FieldRef<"projects", 'String'>
+    readonly name: FieldRef<"projects", 'String'>
+    readonly description: FieldRef<"projects", 'String'>
+    readonly m2: FieldRef<"projects", 'Decimal'>
+    readonly location: FieldRef<"projects", 'String'>
+    readonly floor_count: FieldRef<"projects", 'Int'>
+    readonly start_date: FieldRef<"projects", 'DateTime'>
+    readonly end_date: FieldRef<"projects", 'DateTime'>
+    readonly created_by: FieldRef<"projects", 'String'>
+    readonly created_at: FieldRef<"projects", 'DateTime'>
+    readonly currency: FieldRef<"projects", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * projects findUnique
+   */
+  export type projectsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the projects
+     */
+    select?: projectsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the projects
+     */
+    omit?: projectsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: projectsInclude<ExtArgs> | null
+    /**
+     * Filter, which projects to fetch.
+     */
+    where: projectsWhereUniqueInput
+  }
+
+  /**
+   * projects findUniqueOrThrow
+   */
+  export type projectsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the projects
+     */
+    select?: projectsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the projects
+     */
+    omit?: projectsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: projectsInclude<ExtArgs> | null
+    /**
+     * Filter, which projects to fetch.
+     */
+    where: projectsWhereUniqueInput
+  }
+
+  /**
+   * projects findFirst
+   */
+  export type projectsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the projects
+     */
+    select?: projectsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the projects
+     */
+    omit?: projectsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: projectsInclude<ExtArgs> | null
+    /**
+     * Filter, which projects to fetch.
+     */
+    where?: projectsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of projects to fetch.
+     */
+    orderBy?: projectsOrderByWithRelationInput | projectsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for projects.
+     */
+    cursor?: projectsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` projects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` projects.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of projects.
+     */
+    distinct?: ProjectsScalarFieldEnum | ProjectsScalarFieldEnum[]
+  }
+
+  /**
+   * projects findFirstOrThrow
+   */
+  export type projectsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the projects
+     */
+    select?: projectsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the projects
+     */
+    omit?: projectsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: projectsInclude<ExtArgs> | null
+    /**
+     * Filter, which projects to fetch.
+     */
+    where?: projectsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of projects to fetch.
+     */
+    orderBy?: projectsOrderByWithRelationInput | projectsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for projects.
+     */
+    cursor?: projectsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` projects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` projects.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of projects.
+     */
+    distinct?: ProjectsScalarFieldEnum | ProjectsScalarFieldEnum[]
+  }
+
+  /**
+   * projects findMany
+   */
+  export type projectsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the projects
+     */
+    select?: projectsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the projects
+     */
+    omit?: projectsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: projectsInclude<ExtArgs> | null
+    /**
+     * Filter, which projects to fetch.
+     */
+    where?: projectsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of projects to fetch.
+     */
+    orderBy?: projectsOrderByWithRelationInput | projectsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing projects.
+     */
+    cursor?: projectsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` projects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` projects.
+     */
+    skip?: number
+    distinct?: ProjectsScalarFieldEnum | ProjectsScalarFieldEnum[]
+  }
+
+  /**
+   * projects create
+   */
+  export type projectsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the projects
+     */
+    select?: projectsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the projects
+     */
+    omit?: projectsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: projectsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a projects.
+     */
+    data: XOR<projectsCreateInput, projectsUncheckedCreateInput>
+  }
+
+  /**
+   * projects createMany
+   */
+  export type projectsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many projects.
+     */
+    data: projectsCreateManyInput | projectsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * projects createManyAndReturn
+   */
+  export type projectsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the projects
+     */
+    select?: projectsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the projects
+     */
+    omit?: projectsOmit<ExtArgs> | null
+    /**
+     * The data used to create many projects.
+     */
+    data: projectsCreateManyInput | projectsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: projectsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * projects update
+   */
+  export type projectsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the projects
+     */
+    select?: projectsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the projects
+     */
+    omit?: projectsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: projectsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a projects.
+     */
+    data: XOR<projectsUpdateInput, projectsUncheckedUpdateInput>
+    /**
+     * Choose, which projects to update.
+     */
+    where: projectsWhereUniqueInput
+  }
+
+  /**
+   * projects updateMany
+   */
+  export type projectsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update projects.
+     */
+    data: XOR<projectsUpdateManyMutationInput, projectsUncheckedUpdateManyInput>
+    /**
+     * Filter which projects to update
+     */
+    where?: projectsWhereInput
+    /**
+     * Limit how many projects to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * projects updateManyAndReturn
+   */
+  export type projectsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the projects
+     */
+    select?: projectsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the projects
+     */
+    omit?: projectsOmit<ExtArgs> | null
+    /**
+     * The data used to update projects.
+     */
+    data: XOR<projectsUpdateManyMutationInput, projectsUncheckedUpdateManyInput>
+    /**
+     * Filter which projects to update
+     */
+    where?: projectsWhereInput
+    /**
+     * Limit how many projects to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: projectsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * projects upsert
+   */
+  export type projectsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the projects
+     */
+    select?: projectsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the projects
+     */
+    omit?: projectsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: projectsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the projects to update in case it exists.
+     */
+    where: projectsWhereUniqueInput
+    /**
+     * In case the projects found by the `where` argument doesn't exist, create a new projects with this data.
+     */
+    create: XOR<projectsCreateInput, projectsUncheckedCreateInput>
+    /**
+     * In case the projects was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<projectsUpdateInput, projectsUncheckedUpdateInput>
+  }
+
+  /**
+   * projects delete
+   */
+  export type projectsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the projects
+     */
+    select?: projectsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the projects
+     */
+    omit?: projectsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: projectsInclude<ExtArgs> | null
+    /**
+     * Filter which projects to delete.
+     */
+    where: projectsWhereUniqueInput
+  }
+
+  /**
+   * projects deleteMany
+   */
+  export type projectsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which projects to delete
+     */
+    where?: projectsWhereInput
+    /**
+     * Limit how many projects to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * projects.borclar
+   */
+  export type projects$borclarArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the borclar
+     */
+    select?: borclarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the borclar
+     */
+    omit?: borclarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: borclarInclude<ExtArgs> | null
+    where?: borclarWhereInput
+    orderBy?: borclarOrderByWithRelationInput | borclarOrderByWithRelationInput[]
+    cursor?: borclarWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BorclarScalarFieldEnum | BorclarScalarFieldEnum[]
+  }
+
+  /**
+   * projects.islemler
+   */
+  export type projects$islemlerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the islemler
+     */
+    select?: islemlerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the islemler
+     */
+    omit?: islemlerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: islemlerInclude<ExtArgs> | null
+    where?: islemlerWhereInput
+    orderBy?: islemlerOrderByWithRelationInput | islemlerOrderByWithRelationInput[]
+    cursor?: islemlerWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: IslemlerScalarFieldEnum | IslemlerScalarFieldEnum[]
+  }
+
+  /**
+   * projects.project_budget_share
+   */
+  export type projects$project_budget_shareArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_budget_share
+     */
+    select?: project_budget_shareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_budget_share
+     */
+    omit?: project_budget_shareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_budget_shareInclude<ExtArgs> | null
+    where?: project_budget_shareWhereInput
+    orderBy?: project_budget_shareOrderByWithRelationInput | project_budget_shareOrderByWithRelationInput[]
+    cursor?: project_budget_shareWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Project_budget_shareScalarFieldEnum | Project_budget_shareScalarFieldEnum[]
+  }
+
+  /**
+   * projects.project_members
+   */
+  export type projects$project_membersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the project_members
+     */
+    select?: project_membersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the project_members
+     */
+    omit?: project_membersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: project_membersInclude<ExtArgs> | null
+    where?: project_membersWhereInput
+    orderBy?: project_membersOrderByWithRelationInput | project_membersOrderByWithRelationInput[]
+    cursor?: project_membersWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Project_membersScalarFieldEnum | Project_membersScalarFieldEnum[]
+  }
+
+  /**
+   * projects.users
+   */
+  export type projects$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the users
+     */
+    select?: usersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the users
+     */
+    omit?: usersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: usersInclude<ExtArgs> | null
+    where?: usersWhereInput
+  }
+
+  /**
+   * projects without action
+   */
+  export type projectsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the projects
+     */
+    select?: projectsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the projects
+     */
+    omit?: projectsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: projectsInclude<ExtArgs> | null
   }
 
 
@@ -28795,6 +32986,7 @@ export namespace Prisma {
   export const BorclarScalarFieldEnum: {
     borc_id: 'borc_id',
     company_id: 'company_id',
+    project_id: 'project_id',
     islem_id: 'islem_id',
     firma_id: 'firma_id',
     group_id: 'group_id',
@@ -28814,7 +33006,8 @@ export namespace Prisma {
     name: 'name',
     owner: 'owner',
     created_at: 'created_at',
-    plan: 'plan'
+    initial_budget: 'initial_budget',
+    currency: 'currency'
   };
 
   export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
@@ -28856,6 +33049,7 @@ export namespace Prisma {
   export const IslemlerScalarFieldEnum: {
     islem_id: 'islem_id',
     company_id: 'company_id',
+    project_id: 'project_id',
     firma_id: 'firma_id',
     group_id: 'group_id',
     islem_turu: 'islem_turu',
@@ -28872,6 +33066,49 @@ export namespace Prisma {
   };
 
   export type IslemlerScalarFieldEnum = (typeof IslemlerScalarFieldEnum)[keyof typeof IslemlerScalarFieldEnum]
+
+
+  export const Project_budget_shareScalarFieldEnum: {
+    id: 'id',
+    project_id: 'project_id',
+    company_id: 'company_id',
+    user_id: 'user_id',
+    project_budget: 'project_budget',
+    status: 'status',
+    note: 'note',
+    created_at: 'created_at',
+    created_by: 'created_by'
+  };
+
+  export type Project_budget_shareScalarFieldEnum = (typeof Project_budget_shareScalarFieldEnum)[keyof typeof Project_budget_shareScalarFieldEnum]
+
+
+  export const Project_membersScalarFieldEnum: {
+    project_id: 'project_id',
+    user_id: 'user_id',
+    company_id: 'company_id',
+    role: 'role'
+  };
+
+  export type Project_membersScalarFieldEnum = (typeof Project_membersScalarFieldEnum)[keyof typeof Project_membersScalarFieldEnum]
+
+
+  export const ProjectsScalarFieldEnum: {
+    id: 'id',
+    company_id: 'company_id',
+    name: 'name',
+    description: 'description',
+    m2: 'm2',
+    location: 'location',
+    floor_count: 'floor_count',
+    start_date: 'start_date',
+    end_date: 'end_date',
+    created_by: 'created_by',
+    created_at: 'created_at',
+    currency: 'currency'
+  };
+
+  export type ProjectsScalarFieldEnum = (typeof ProjectsScalarFieldEnum)[keyof typeof ProjectsScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -30169,6 +34406,9 @@ export namespace Prisma {
     firma_alias?: Firma_aliasListRelationFilter
     firmalar?: FirmalarListRelationFilter
     islemler?: IslemlerListRelationFilter
+    project_budget_share?: Project_budget_shareListRelationFilter
+    project_members?: Project_membersListRelationFilter
+    projects?: ProjectsListRelationFilter
   }
 
   export type usersOrderByWithRelationInput = {
@@ -30217,6 +34457,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasOrderByRelationAggregateInput
     firmalar?: firmalarOrderByRelationAggregateInput
     islemler?: islemlerOrderByRelationAggregateInput
+    project_budget_share?: project_budget_shareOrderByRelationAggregateInput
+    project_members?: project_membersOrderByRelationAggregateInput
+    projects?: projectsOrderByRelationAggregateInput
   }
 
   export type usersWhereUniqueInput = Prisma.AtLeast<{
@@ -30268,6 +34511,9 @@ export namespace Prisma {
     firma_alias?: Firma_aliasListRelationFilter
     firmalar?: FirmalarListRelationFilter
     islemler?: IslemlerListRelationFilter
+    project_budget_share?: Project_budget_shareListRelationFilter
+    project_members?: Project_membersListRelationFilter
+    projects?: ProjectsListRelationFilter
   }, "id" | "phone">
 
   export type usersOrderByWithAggregationInput = {
@@ -30360,6 +34606,7 @@ export namespace Prisma {
     NOT?: borclarWhereInput | borclarWhereInput[]
     borc_id?: BigIntFilter<"borclar"> | bigint | number
     company_id?: UuidFilter<"borclar"> | string
+    project_id?: UuidNullableFilter<"borclar"> | string | null
     islem_id?: BigIntFilter<"borclar"> | bigint | number
     firma_id?: BigIntFilter<"borclar"> | bigint | number
     group_id?: BigIntNullableFilter<"borclar"> | bigint | number | null
@@ -30369,15 +34616,17 @@ export namespace Prisma {
     odeme_durumu?: StringFilter<"borclar"> | string
     created_by?: UuidNullableFilter<"borclar"> | string | null
     created_at?: DateTimeNullableFilter<"borclar"> | Date | string | null
-    company?: XOR<CompanyScalarRelationFilter, companyWhereInput>
-    users?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
     firmalar?: XOR<FirmalarScalarRelationFilter, firmalarWhereInput>
+    company?: XOR<CompanyScalarRelationFilter, companyWhereInput>
     islemler?: XOR<IslemlerScalarRelationFilter, islemlerWhereInput>
+    projects?: XOR<ProjectsNullableScalarRelationFilter, projectsWhereInput> | null
+    users?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
   }
 
   export type borclarOrderByWithRelationInput = {
     borc_id?: SortOrder
     company_id?: SortOrder
+    project_id?: SortOrderInput | SortOrder
     islem_id?: SortOrder
     firma_id?: SortOrder
     group_id?: SortOrderInput | SortOrder
@@ -30387,10 +34636,11 @@ export namespace Prisma {
     odeme_durumu?: SortOrder
     created_by?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
-    company?: companyOrderByWithRelationInput
-    users?: usersOrderByWithRelationInput
     firmalar?: firmalarOrderByWithRelationInput
+    company?: companyOrderByWithRelationInput
     islemler?: islemlerOrderByWithRelationInput
+    projects?: projectsOrderByWithRelationInput
+    users?: usersOrderByWithRelationInput
   }
 
   export type borclarWhereUniqueInput = Prisma.AtLeast<{
@@ -30399,6 +34649,7 @@ export namespace Prisma {
     OR?: borclarWhereInput[]
     NOT?: borclarWhereInput | borclarWhereInput[]
     company_id?: UuidFilter<"borclar"> | string
+    project_id?: UuidNullableFilter<"borclar"> | string | null
     islem_id?: BigIntFilter<"borclar"> | bigint | number
     firma_id?: BigIntFilter<"borclar"> | bigint | number
     group_id?: BigIntNullableFilter<"borclar"> | bigint | number | null
@@ -30408,15 +34659,17 @@ export namespace Prisma {
     odeme_durumu?: StringFilter<"borclar"> | string
     created_by?: UuidNullableFilter<"borclar"> | string | null
     created_at?: DateTimeNullableFilter<"borclar"> | Date | string | null
-    company?: XOR<CompanyScalarRelationFilter, companyWhereInput>
-    users?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
     firmalar?: XOR<FirmalarScalarRelationFilter, firmalarWhereInput>
+    company?: XOR<CompanyScalarRelationFilter, companyWhereInput>
     islemler?: XOR<IslemlerScalarRelationFilter, islemlerWhereInput>
+    projects?: XOR<ProjectsNullableScalarRelationFilter, projectsWhereInput> | null
+    users?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
   }, "borc_id">
 
   export type borclarOrderByWithAggregationInput = {
     borc_id?: SortOrder
     company_id?: SortOrder
+    project_id?: SortOrderInput | SortOrder
     islem_id?: SortOrder
     firma_id?: SortOrder
     group_id?: SortOrderInput | SortOrder
@@ -30439,6 +34692,7 @@ export namespace Prisma {
     NOT?: borclarScalarWhereWithAggregatesInput | borclarScalarWhereWithAggregatesInput[]
     borc_id?: BigIntWithAggregatesFilter<"borclar"> | bigint | number
     company_id?: UuidWithAggregatesFilter<"borclar"> | string
+    project_id?: UuidNullableWithAggregatesFilter<"borclar"> | string | null
     islem_id?: BigIntWithAggregatesFilter<"borclar"> | bigint | number
     firma_id?: BigIntWithAggregatesFilter<"borclar"> | bigint | number
     group_id?: BigIntNullableWithAggregatesFilter<"borclar"> | bigint | number | null
@@ -30458,13 +34712,16 @@ export namespace Prisma {
     name?: StringFilter<"company"> | string
     owner?: UuidFilter<"company"> | string
     created_at?: DateTimeNullableFilter<"company"> | Date | string | null
-    plan?: StringFilter<"company"> | string
+    initial_budget?: DecimalFilter<"company"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"company"> | string
     borclar?: BorclarListRelationFilter
     users?: XOR<UsersScalarRelationFilter, usersWhereInput>
     company_member?: Company_memberListRelationFilter
-    firma_alias?: Firma_aliasListRelationFilter
     firmalar?: FirmalarListRelationFilter
     islemler?: IslemlerListRelationFilter
+    project_budget_share?: Project_budget_shareListRelationFilter
+    project_members?: Project_membersListRelationFilter
+    projects?: ProjectsListRelationFilter
   }
 
   export type companyOrderByWithRelationInput = {
@@ -30472,13 +34729,16 @@ export namespace Prisma {
     name?: SortOrder
     owner?: SortOrder
     created_at?: SortOrderInput | SortOrder
-    plan?: SortOrder
+    initial_budget?: SortOrder
+    currency?: SortOrder
     borclar?: borclarOrderByRelationAggregateInput
     users?: usersOrderByWithRelationInput
     company_member?: company_memberOrderByRelationAggregateInput
-    firma_alias?: firma_aliasOrderByRelationAggregateInput
     firmalar?: firmalarOrderByRelationAggregateInput
     islemler?: islemlerOrderByRelationAggregateInput
+    project_budget_share?: project_budget_shareOrderByRelationAggregateInput
+    project_members?: project_membersOrderByRelationAggregateInput
+    projects?: projectsOrderByRelationAggregateInput
   }
 
   export type companyWhereUniqueInput = Prisma.AtLeast<{
@@ -30489,13 +34749,16 @@ export namespace Prisma {
     name?: StringFilter<"company"> | string
     owner?: UuidFilter<"company"> | string
     created_at?: DateTimeNullableFilter<"company"> | Date | string | null
-    plan?: StringFilter<"company"> | string
+    initial_budget?: DecimalFilter<"company"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"company"> | string
     borclar?: BorclarListRelationFilter
     users?: XOR<UsersScalarRelationFilter, usersWhereInput>
     company_member?: Company_memberListRelationFilter
-    firma_alias?: Firma_aliasListRelationFilter
     firmalar?: FirmalarListRelationFilter
     islemler?: IslemlerListRelationFilter
+    project_budget_share?: Project_budget_shareListRelationFilter
+    project_members?: Project_membersListRelationFilter
+    projects?: ProjectsListRelationFilter
   }, "id">
 
   export type companyOrderByWithAggregationInput = {
@@ -30503,10 +34766,13 @@ export namespace Prisma {
     name?: SortOrder
     owner?: SortOrder
     created_at?: SortOrderInput | SortOrder
-    plan?: SortOrder
+    initial_budget?: SortOrder
+    currency?: SortOrder
     _count?: companyCountOrderByAggregateInput
+    _avg?: companyAvgOrderByAggregateInput
     _max?: companyMaxOrderByAggregateInput
     _min?: companyMinOrderByAggregateInput
+    _sum?: companySumOrderByAggregateInput
   }
 
   export type companyScalarWhereWithAggregatesInput = {
@@ -30517,7 +34783,8 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"company"> | string
     owner?: UuidWithAggregatesFilter<"company"> | string
     created_at?: DateTimeNullableWithAggregatesFilter<"company"> | Date | string | null
-    plan?: StringWithAggregatesFilter<"company"> | string
+    initial_budget?: DecimalWithAggregatesFilter<"company"> | Decimal | DecimalJsLike | number | string
+    currency?: StringWithAggregatesFilter<"company"> | string
   }
 
   export type company_memberWhereInput = {
@@ -30526,7 +34793,7 @@ export namespace Prisma {
     NOT?: company_memberWhereInput | company_memberWhereInput[]
     company_id?: UuidFilter<"company_member"> | string
     user_id?: UuidFilter<"company_member"> | string
-    role?: StringNullableFilter<"company_member"> | string | null
+    role?: StringFilter<"company_member"> | string
     company?: XOR<CompanyScalarRelationFilter, companyWhereInput>
     users?: XOR<UsersScalarRelationFilter, usersWhereInput>
   }
@@ -30534,7 +34801,7 @@ export namespace Prisma {
   export type company_memberOrderByWithRelationInput = {
     company_id?: SortOrder
     user_id?: SortOrder
-    role?: SortOrderInput | SortOrder
+    role?: SortOrder
     company?: companyOrderByWithRelationInput
     users?: usersOrderByWithRelationInput
   }
@@ -30546,7 +34813,7 @@ export namespace Prisma {
     NOT?: company_memberWhereInput | company_memberWhereInput[]
     company_id?: UuidFilter<"company_member"> | string
     user_id?: UuidFilter<"company_member"> | string
-    role?: StringNullableFilter<"company_member"> | string | null
+    role?: StringFilter<"company_member"> | string
     company?: XOR<CompanyScalarRelationFilter, companyWhereInput>
     users?: XOR<UsersScalarRelationFilter, usersWhereInput>
   }, "company_id_user_id">
@@ -30554,7 +34821,7 @@ export namespace Prisma {
   export type company_memberOrderByWithAggregationInput = {
     company_id?: SortOrder
     user_id?: SortOrder
-    role?: SortOrderInput | SortOrder
+    role?: SortOrder
     _count?: company_memberCountOrderByAggregateInput
     _max?: company_memberMaxOrderByAggregateInput
     _min?: company_memberMinOrderByAggregateInput
@@ -30566,7 +34833,7 @@ export namespace Prisma {
     NOT?: company_memberScalarWhereWithAggregatesInput | company_memberScalarWhereWithAggregatesInput[]
     company_id?: UuidWithAggregatesFilter<"company_member"> | string
     user_id?: UuidWithAggregatesFilter<"company_member"> | string
-    role?: StringNullableWithAggregatesFilter<"company_member"> | string | null
+    role?: StringWithAggregatesFilter<"company_member"> | string
   }
 
   export type firma_aliasWhereInput = {
@@ -30580,9 +34847,8 @@ export namespace Prisma {
     alias_adi?: StringFilter<"firma_alias"> | string
     created_by?: UuidNullableFilter<"firma_alias"> | string | null
     created_at?: DateTimeNullableFilter<"firma_alias"> | Date | string | null
-    company?: XOR<CompanyScalarRelationFilter, companyWhereInput>
-    users?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
     firmalar?: XOR<FirmalarScalarRelationFilter, firmalarWhereInput>
+    users?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
   }
 
   export type firma_aliasOrderByWithRelationInput = {
@@ -30593,9 +34859,8 @@ export namespace Prisma {
     alias_adi?: SortOrder
     created_by?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
-    company?: companyOrderByWithRelationInput
-    users?: usersOrderByWithRelationInput
     firmalar?: firmalarOrderByWithRelationInput
+    users?: usersOrderByWithRelationInput
   }
 
   export type firma_aliasWhereUniqueInput = Prisma.AtLeast<{
@@ -30609,9 +34874,8 @@ export namespace Prisma {
     alias_adi?: StringFilter<"firma_alias"> | string
     created_by?: UuidNullableFilter<"firma_alias"> | string | null
     created_at?: DateTimeNullableFilter<"firma_alias"> | Date | string | null
-    company?: XOR<CompanyScalarRelationFilter, companyWhereInput>
-    users?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
     firmalar?: XOR<FirmalarScalarRelationFilter, firmalarWhereInput>
+    users?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
   }, "alias_id">
 
   export type firma_aliasOrderByWithAggregationInput = {
@@ -30673,6 +34937,7 @@ export namespace Prisma {
 
   export type firmalarWhereUniqueInput = Prisma.AtLeast<{
     firma_id?: bigint | number
+    company_id_firma_id?: firmalarCompany_idFirma_idCompoundUniqueInput
     AND?: firmalarWhereInput | firmalarWhereInput[]
     OR?: firmalarWhereInput[]
     NOT?: firmalarWhereInput | firmalarWhereInput[]
@@ -30685,7 +34950,7 @@ export namespace Prisma {
     company?: XOR<CompanyScalarRelationFilter, companyWhereInput>
     users?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
     islemler?: IslemlerListRelationFilter
-  }, "firma_id">
+  }, "firma_id" | "company_id_firma_id">
 
   export type firmalarOrderByWithAggregationInput = {
     firma_id?: SortOrder
@@ -30717,6 +34982,7 @@ export namespace Prisma {
     NOT?: islemlerWhereInput | islemlerWhereInput[]
     islem_id?: BigIntFilter<"islemler"> | bigint | number
     company_id?: UuidFilter<"islemler"> | string
+    project_id?: UuidNullableFilter<"islemler"> | string | null
     firma_id?: BigIntFilter<"islemler"> | bigint | number
     group_id?: BigIntNullableFilter<"islemler"> | bigint | number | null
     islem_turu?: StringNullableFilter<"islemler"> | string | null
@@ -30731,14 +34997,16 @@ export namespace Prisma {
     created_by?: UuidNullableFilter<"islemler"> | string | null
     created_at?: DateTimeNullableFilter<"islemler"> | Date | string | null
     borclar?: BorclarListRelationFilter
-    company?: XOR<CompanyScalarRelationFilter, companyWhereInput>
-    users?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
     firmalar?: XOR<FirmalarScalarRelationFilter, firmalarWhereInput>
+    company?: XOR<CompanyScalarRelationFilter, companyWhereInput>
+    projects?: XOR<ProjectsNullableScalarRelationFilter, projectsWhereInput> | null
+    users?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
   }
 
   export type islemlerOrderByWithRelationInput = {
     islem_id?: SortOrder
     company_id?: SortOrder
+    project_id?: SortOrderInput | SortOrder
     firma_id?: SortOrder
     group_id?: SortOrderInput | SortOrder
     islem_turu?: SortOrderInput | SortOrder
@@ -30753,17 +35021,20 @@ export namespace Prisma {
     created_by?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
     borclar?: borclarOrderByRelationAggregateInput
-    company?: companyOrderByWithRelationInput
-    users?: usersOrderByWithRelationInput
     firmalar?: firmalarOrderByWithRelationInput
+    company?: companyOrderByWithRelationInput
+    projects?: projectsOrderByWithRelationInput
+    users?: usersOrderByWithRelationInput
   }
 
   export type islemlerWhereUniqueInput = Prisma.AtLeast<{
     islem_id?: bigint | number
+    company_id_islem_id?: islemlerCompany_idIslem_idCompoundUniqueInput
     AND?: islemlerWhereInput | islemlerWhereInput[]
     OR?: islemlerWhereInput[]
     NOT?: islemlerWhereInput | islemlerWhereInput[]
     company_id?: UuidFilter<"islemler"> | string
+    project_id?: UuidNullableFilter<"islemler"> | string | null
     firma_id?: BigIntFilter<"islemler"> | bigint | number
     group_id?: BigIntNullableFilter<"islemler"> | bigint | number | null
     islem_turu?: StringNullableFilter<"islemler"> | string | null
@@ -30778,14 +35049,16 @@ export namespace Prisma {
     created_by?: UuidNullableFilter<"islemler"> | string | null
     created_at?: DateTimeNullableFilter<"islemler"> | Date | string | null
     borclar?: BorclarListRelationFilter
-    company?: XOR<CompanyScalarRelationFilter, companyWhereInput>
-    users?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
     firmalar?: XOR<FirmalarScalarRelationFilter, firmalarWhereInput>
-  }, "islem_id">
+    company?: XOR<CompanyScalarRelationFilter, companyWhereInput>
+    projects?: XOR<ProjectsNullableScalarRelationFilter, projectsWhereInput> | null
+    users?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
+  }, "islem_id" | "company_id_islem_id">
 
   export type islemlerOrderByWithAggregationInput = {
     islem_id?: SortOrder
     company_id?: SortOrder
+    project_id?: SortOrderInput | SortOrder
     firma_id?: SortOrder
     group_id?: SortOrderInput | SortOrder
     islem_turu?: SortOrderInput | SortOrder
@@ -30812,6 +35085,7 @@ export namespace Prisma {
     NOT?: islemlerScalarWhereWithAggregatesInput | islemlerScalarWhereWithAggregatesInput[]
     islem_id?: BigIntWithAggregatesFilter<"islemler"> | bigint | number
     company_id?: UuidWithAggregatesFilter<"islemler"> | string
+    project_id?: UuidNullableWithAggregatesFilter<"islemler"> | string | null
     firma_id?: BigIntWithAggregatesFilter<"islemler"> | bigint | number
     group_id?: BigIntNullableWithAggregatesFilter<"islemler"> | bigint | number | null
     islem_turu?: StringNullableWithAggregatesFilter<"islemler"> | string | null
@@ -30825,6 +35099,254 @@ export namespace Prisma {
     aciklama?: StringNullableWithAggregatesFilter<"islemler"> | string | null
     created_by?: UuidNullableWithAggregatesFilter<"islemler"> | string | null
     created_at?: DateTimeNullableWithAggregatesFilter<"islemler"> | Date | string | null
+  }
+
+  export type project_budget_shareWhereInput = {
+    AND?: project_budget_shareWhereInput | project_budget_shareWhereInput[]
+    OR?: project_budget_shareWhereInput[]
+    NOT?: project_budget_shareWhereInput | project_budget_shareWhereInput[]
+    id?: BigIntFilter<"project_budget_share"> | bigint | number
+    project_id?: UuidFilter<"project_budget_share"> | string
+    company_id?: UuidFilter<"project_budget_share"> | string
+    user_id?: UuidFilter<"project_budget_share"> | string
+    project_budget?: DecimalFilter<"project_budget_share"> | Decimal | DecimalJsLike | number | string
+    status?: StringFilter<"project_budget_share"> | string
+    note?: StringNullableFilter<"project_budget_share"> | string | null
+    created_at?: DateTimeNullableFilter<"project_budget_share"> | Date | string | null
+    created_by?: UuidNullableFilter<"project_budget_share"> | string | null
+    company?: XOR<CompanyScalarRelationFilter, companyWhereInput>
+    projects?: XOR<ProjectsScalarRelationFilter, projectsWhereInput>
+    users?: XOR<UsersScalarRelationFilter, usersWhereInput>
+  }
+
+  export type project_budget_shareOrderByWithRelationInput = {
+    id?: SortOrder
+    project_id?: SortOrder
+    company_id?: SortOrder
+    user_id?: SortOrder
+    project_budget?: SortOrder
+    status?: SortOrder
+    note?: SortOrderInput | SortOrder
+    created_at?: SortOrderInput | SortOrder
+    created_by?: SortOrderInput | SortOrder
+    company?: companyOrderByWithRelationInput
+    projects?: projectsOrderByWithRelationInput
+    users?: usersOrderByWithRelationInput
+  }
+
+  export type project_budget_shareWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: project_budget_shareWhereInput | project_budget_shareWhereInput[]
+    OR?: project_budget_shareWhereInput[]
+    NOT?: project_budget_shareWhereInput | project_budget_shareWhereInput[]
+    project_id?: UuidFilter<"project_budget_share"> | string
+    company_id?: UuidFilter<"project_budget_share"> | string
+    user_id?: UuidFilter<"project_budget_share"> | string
+    project_budget?: DecimalFilter<"project_budget_share"> | Decimal | DecimalJsLike | number | string
+    status?: StringFilter<"project_budget_share"> | string
+    note?: StringNullableFilter<"project_budget_share"> | string | null
+    created_at?: DateTimeNullableFilter<"project_budget_share"> | Date | string | null
+    created_by?: UuidNullableFilter<"project_budget_share"> | string | null
+    company?: XOR<CompanyScalarRelationFilter, companyWhereInput>
+    projects?: XOR<ProjectsScalarRelationFilter, projectsWhereInput>
+    users?: XOR<UsersScalarRelationFilter, usersWhereInput>
+  }, "id">
+
+  export type project_budget_shareOrderByWithAggregationInput = {
+    id?: SortOrder
+    project_id?: SortOrder
+    company_id?: SortOrder
+    user_id?: SortOrder
+    project_budget?: SortOrder
+    status?: SortOrder
+    note?: SortOrderInput | SortOrder
+    created_at?: SortOrderInput | SortOrder
+    created_by?: SortOrderInput | SortOrder
+    _count?: project_budget_shareCountOrderByAggregateInput
+    _avg?: project_budget_shareAvgOrderByAggregateInput
+    _max?: project_budget_shareMaxOrderByAggregateInput
+    _min?: project_budget_shareMinOrderByAggregateInput
+    _sum?: project_budget_shareSumOrderByAggregateInput
+  }
+
+  export type project_budget_shareScalarWhereWithAggregatesInput = {
+    AND?: project_budget_shareScalarWhereWithAggregatesInput | project_budget_shareScalarWhereWithAggregatesInput[]
+    OR?: project_budget_shareScalarWhereWithAggregatesInput[]
+    NOT?: project_budget_shareScalarWhereWithAggregatesInput | project_budget_shareScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"project_budget_share"> | bigint | number
+    project_id?: UuidWithAggregatesFilter<"project_budget_share"> | string
+    company_id?: UuidWithAggregatesFilter<"project_budget_share"> | string
+    user_id?: UuidWithAggregatesFilter<"project_budget_share"> | string
+    project_budget?: DecimalWithAggregatesFilter<"project_budget_share"> | Decimal | DecimalJsLike | number | string
+    status?: StringWithAggregatesFilter<"project_budget_share"> | string
+    note?: StringNullableWithAggregatesFilter<"project_budget_share"> | string | null
+    created_at?: DateTimeNullableWithAggregatesFilter<"project_budget_share"> | Date | string | null
+    created_by?: UuidNullableWithAggregatesFilter<"project_budget_share"> | string | null
+  }
+
+  export type project_membersWhereInput = {
+    AND?: project_membersWhereInput | project_membersWhereInput[]
+    OR?: project_membersWhereInput[]
+    NOT?: project_membersWhereInput | project_membersWhereInput[]
+    project_id?: UuidFilter<"project_members"> | string
+    user_id?: UuidFilter<"project_members"> | string
+    company_id?: UuidFilter<"project_members"> | string
+    role?: StringFilter<"project_members"> | string
+    company?: XOR<CompanyScalarRelationFilter, companyWhereInput>
+    projects?: XOR<ProjectsScalarRelationFilter, projectsWhereInput>
+    users?: XOR<UsersScalarRelationFilter, usersWhereInput>
+  }
+
+  export type project_membersOrderByWithRelationInput = {
+    project_id?: SortOrder
+    user_id?: SortOrder
+    company_id?: SortOrder
+    role?: SortOrder
+    company?: companyOrderByWithRelationInput
+    projects?: projectsOrderByWithRelationInput
+    users?: usersOrderByWithRelationInput
+  }
+
+  export type project_membersWhereUniqueInput = Prisma.AtLeast<{
+    project_id_user_id?: project_membersProject_idUser_idCompoundUniqueInput
+    AND?: project_membersWhereInput | project_membersWhereInput[]
+    OR?: project_membersWhereInput[]
+    NOT?: project_membersWhereInput | project_membersWhereInput[]
+    project_id?: UuidFilter<"project_members"> | string
+    user_id?: UuidFilter<"project_members"> | string
+    company_id?: UuidFilter<"project_members"> | string
+    role?: StringFilter<"project_members"> | string
+    company?: XOR<CompanyScalarRelationFilter, companyWhereInput>
+    projects?: XOR<ProjectsScalarRelationFilter, projectsWhereInput>
+    users?: XOR<UsersScalarRelationFilter, usersWhereInput>
+  }, "project_id_user_id" | "project_id_user_id">
+
+  export type project_membersOrderByWithAggregationInput = {
+    project_id?: SortOrder
+    user_id?: SortOrder
+    company_id?: SortOrder
+    role?: SortOrder
+    _count?: project_membersCountOrderByAggregateInput
+    _max?: project_membersMaxOrderByAggregateInput
+    _min?: project_membersMinOrderByAggregateInput
+  }
+
+  export type project_membersScalarWhereWithAggregatesInput = {
+    AND?: project_membersScalarWhereWithAggregatesInput | project_membersScalarWhereWithAggregatesInput[]
+    OR?: project_membersScalarWhereWithAggregatesInput[]
+    NOT?: project_membersScalarWhereWithAggregatesInput | project_membersScalarWhereWithAggregatesInput[]
+    project_id?: UuidWithAggregatesFilter<"project_members"> | string
+    user_id?: UuidWithAggregatesFilter<"project_members"> | string
+    company_id?: UuidWithAggregatesFilter<"project_members"> | string
+    role?: StringWithAggregatesFilter<"project_members"> | string
+  }
+
+  export type projectsWhereInput = {
+    AND?: projectsWhereInput | projectsWhereInput[]
+    OR?: projectsWhereInput[]
+    NOT?: projectsWhereInput | projectsWhereInput[]
+    id?: UuidFilter<"projects"> | string
+    company_id?: UuidFilter<"projects"> | string
+    name?: StringFilter<"projects"> | string
+    description?: StringNullableFilter<"projects"> | string | null
+    m2?: DecimalNullableFilter<"projects"> | Decimal | DecimalJsLike | number | string | null
+    location?: StringNullableFilter<"projects"> | string | null
+    floor_count?: IntNullableFilter<"projects"> | number | null
+    start_date?: DateTimeNullableFilter<"projects"> | Date | string | null
+    end_date?: DateTimeNullableFilter<"projects"> | Date | string | null
+    created_by?: UuidNullableFilter<"projects"> | string | null
+    created_at?: DateTimeNullableFilter<"projects"> | Date | string | null
+    currency?: StringFilter<"projects"> | string
+    borclar?: BorclarListRelationFilter
+    islemler?: IslemlerListRelationFilter
+    project_budget_share?: Project_budget_shareListRelationFilter
+    project_members?: Project_membersListRelationFilter
+    company?: XOR<CompanyScalarRelationFilter, companyWhereInput>
+    users?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
+  }
+
+  export type projectsOrderByWithRelationInput = {
+    id?: SortOrder
+    company_id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    m2?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
+    floor_count?: SortOrderInput | SortOrder
+    start_date?: SortOrderInput | SortOrder
+    end_date?: SortOrderInput | SortOrder
+    created_by?: SortOrderInput | SortOrder
+    created_at?: SortOrderInput | SortOrder
+    currency?: SortOrder
+    borclar?: borclarOrderByRelationAggregateInput
+    islemler?: islemlerOrderByRelationAggregateInput
+    project_budget_share?: project_budget_shareOrderByRelationAggregateInput
+    project_members?: project_membersOrderByRelationAggregateInput
+    company?: companyOrderByWithRelationInput
+    users?: usersOrderByWithRelationInput
+  }
+
+  export type projectsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    company_id_id?: projectsCompany_idIdCompoundUniqueInput
+    AND?: projectsWhereInput | projectsWhereInput[]
+    OR?: projectsWhereInput[]
+    NOT?: projectsWhereInput | projectsWhereInput[]
+    company_id?: UuidFilter<"projects"> | string
+    name?: StringFilter<"projects"> | string
+    description?: StringNullableFilter<"projects"> | string | null
+    m2?: DecimalNullableFilter<"projects"> | Decimal | DecimalJsLike | number | string | null
+    location?: StringNullableFilter<"projects"> | string | null
+    floor_count?: IntNullableFilter<"projects"> | number | null
+    start_date?: DateTimeNullableFilter<"projects"> | Date | string | null
+    end_date?: DateTimeNullableFilter<"projects"> | Date | string | null
+    created_by?: UuidNullableFilter<"projects"> | string | null
+    created_at?: DateTimeNullableFilter<"projects"> | Date | string | null
+    currency?: StringFilter<"projects"> | string
+    borclar?: BorclarListRelationFilter
+    islemler?: IslemlerListRelationFilter
+    project_budget_share?: Project_budget_shareListRelationFilter
+    project_members?: Project_membersListRelationFilter
+    company?: XOR<CompanyScalarRelationFilter, companyWhereInput>
+    users?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
+  }, "id" | "company_id_id">
+
+  export type projectsOrderByWithAggregationInput = {
+    id?: SortOrder
+    company_id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    m2?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
+    floor_count?: SortOrderInput | SortOrder
+    start_date?: SortOrderInput | SortOrder
+    end_date?: SortOrderInput | SortOrder
+    created_by?: SortOrderInput | SortOrder
+    created_at?: SortOrderInput | SortOrder
+    currency?: SortOrder
+    _count?: projectsCountOrderByAggregateInput
+    _avg?: projectsAvgOrderByAggregateInput
+    _max?: projectsMaxOrderByAggregateInput
+    _min?: projectsMinOrderByAggregateInput
+    _sum?: projectsSumOrderByAggregateInput
+  }
+
+  export type projectsScalarWhereWithAggregatesInput = {
+    AND?: projectsScalarWhereWithAggregatesInput | projectsScalarWhereWithAggregatesInput[]
+    OR?: projectsScalarWhereWithAggregatesInput[]
+    NOT?: projectsScalarWhereWithAggregatesInput | projectsScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"projects"> | string
+    company_id?: UuidWithAggregatesFilter<"projects"> | string
+    name?: StringWithAggregatesFilter<"projects"> | string
+    description?: StringNullableWithAggregatesFilter<"projects"> | string | null
+    m2?: DecimalNullableWithAggregatesFilter<"projects"> | Decimal | DecimalJsLike | number | string | null
+    location?: StringNullableWithAggregatesFilter<"projects"> | string | null
+    floor_count?: IntNullableWithAggregatesFilter<"projects"> | number | null
+    start_date?: DateTimeNullableWithAggregatesFilter<"projects"> | Date | string | null
+    end_date?: DateTimeNullableWithAggregatesFilter<"projects"> | Date | string | null
+    created_by?: UuidNullableWithAggregatesFilter<"projects"> | string | null
+    created_at?: DateTimeNullableWithAggregatesFilter<"projects"> | Date | string | null
+    currency?: StringWithAggregatesFilter<"projects"> | string
   }
 
   export type audit_log_entriesCreateInput = {
@@ -31975,6 +36497,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasCreateNestedManyWithoutUsersInput
     firmalar?: firmalarCreateNestedManyWithoutUsersInput
     islemler?: islemlerCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutUsersInput
+    project_members?: project_membersCreateNestedManyWithoutUsersInput
+    projects?: projectsCreateNestedManyWithoutUsersInput
   }
 
   export type usersUncheckedCreateInput = {
@@ -32023,6 +36548,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutUsersInput
     firmalar?: firmalarUncheckedCreateNestedManyWithoutUsersInput
     islemler?: islemlerUncheckedCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutUsersInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutUsersInput
+    projects?: projectsUncheckedCreateNestedManyWithoutUsersInput
   }
 
   export type usersUpdateInput = {
@@ -32071,6 +36599,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUpdateManyWithoutUsersNestedInput
+    projects?: projectsUpdateManyWithoutUsersNestedInput
   }
 
   export type usersUncheckedUpdateInput = {
@@ -32119,6 +36650,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUncheckedUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUncheckedUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUncheckedUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutUsersNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type usersCreateManyInput = {
@@ -32243,15 +36777,17 @@ export namespace Prisma {
     odeme_tarihi: Date | string
     odeme_durumu?: string
     created_at?: Date | string | null
-    company: companyCreateNestedOneWithoutBorclarInput
-    users?: usersCreateNestedOneWithoutBorclarInput
     firmalar: firmalarCreateNestedOneWithoutBorclarInput
+    company: companyCreateNestedOneWithoutBorclarInput
     islemler: islemlerCreateNestedOneWithoutBorclarInput
+    projects?: projectsCreateNestedOneWithoutBorclarInput
+    users?: usersCreateNestedOneWithoutBorclarInput
   }
 
   export type borclarUncheckedCreateInput = {
     borc_id?: bigint | number
     company_id: string
+    project_id?: string | null
     islem_id: bigint | number
     firma_id: bigint | number
     group_id?: bigint | number | null
@@ -32271,15 +36807,17 @@ export namespace Prisma {
     odeme_tarihi?: DateTimeFieldUpdateOperationsInput | Date | string
     odeme_durumu?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    company?: companyUpdateOneRequiredWithoutBorclarNestedInput
-    users?: usersUpdateOneWithoutBorclarNestedInput
     firmalar?: firmalarUpdateOneRequiredWithoutBorclarNestedInput
+    company?: companyUpdateOneRequiredWithoutBorclarNestedInput
     islemler?: islemlerUpdateOneRequiredWithoutBorclarNestedInput
+    projects?: projectsUpdateOneWithoutBorclarNestedInput
+    users?: usersUpdateOneWithoutBorclarNestedInput
   }
 
   export type borclarUncheckedUpdateInput = {
     borc_id?: BigIntFieldUpdateOperationsInput | bigint | number
     company_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
     firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
     group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -32294,6 +36832,7 @@ export namespace Prisma {
   export type borclarCreateManyInput = {
     borc_id?: bigint | number
     company_id: string
+    project_id?: string | null
     islem_id: bigint | number
     firma_id: bigint | number
     group_id?: bigint | number | null
@@ -32318,6 +36857,7 @@ export namespace Prisma {
   export type borclarUncheckedUpdateManyInput = {
     borc_id?: BigIntFieldUpdateOperationsInput | bigint | number
     company_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
     firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
     group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -32333,13 +36873,16 @@ export namespace Prisma {
     id?: string
     name: string
     created_at?: Date | string | null
-    plan?: string
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
     borclar?: borclarCreateNestedManyWithoutCompanyInput
     users: usersCreateNestedOneWithoutCompanyInput
     company_member?: company_memberCreateNestedManyWithoutCompanyInput
-    firma_alias?: firma_aliasCreateNestedManyWithoutCompanyInput
     firmalar?: firmalarCreateNestedManyWithoutCompanyInput
     islemler?: islemlerCreateNestedManyWithoutCompanyInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutCompanyInput
+    project_members?: project_membersCreateNestedManyWithoutCompanyInput
+    projects?: projectsCreateNestedManyWithoutCompanyInput
   }
 
   export type companyUncheckedCreateInput = {
@@ -32347,25 +36890,31 @@ export namespace Prisma {
     name: string
     owner: string
     created_at?: Date | string | null
-    plan?: string
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
     borclar?: borclarUncheckedCreateNestedManyWithoutCompanyInput
     company_member?: company_memberUncheckedCreateNestedManyWithoutCompanyInput
-    firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutCompanyInput
     firmalar?: firmalarUncheckedCreateNestedManyWithoutCompanyInput
     islemler?: islemlerUncheckedCreateNestedManyWithoutCompanyInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutCompanyInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutCompanyInput
+    projects?: projectsUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type companyUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    plan?: StringFieldUpdateOperationsInput | string
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUpdateManyWithoutCompanyNestedInput
     users?: usersUpdateOneRequiredWithoutCompanyNestedInput
     company_member?: company_memberUpdateManyWithoutCompanyNestedInput
-    firma_alias?: firma_aliasUpdateManyWithoutCompanyNestedInput
     firmalar?: firmalarUpdateManyWithoutCompanyNestedInput
     islemler?: islemlerUpdateManyWithoutCompanyNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutCompanyNestedInput
+    project_members?: project_membersUpdateManyWithoutCompanyNestedInput
+    projects?: projectsUpdateManyWithoutCompanyNestedInput
   }
 
   export type companyUncheckedUpdateInput = {
@@ -32373,12 +36922,15 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     owner?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    plan?: StringFieldUpdateOperationsInput | string
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUncheckedUpdateManyWithoutCompanyNestedInput
     company_member?: company_memberUncheckedUpdateManyWithoutCompanyNestedInput
-    firma_alias?: firma_aliasUncheckedUpdateManyWithoutCompanyNestedInput
     firmalar?: firmalarUncheckedUpdateManyWithoutCompanyNestedInput
     islemler?: islemlerUncheckedUpdateManyWithoutCompanyNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutCompanyNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutCompanyNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type companyCreateManyInput = {
@@ -32386,14 +36938,16 @@ export namespace Prisma {
     name: string
     owner: string
     created_at?: Date | string | null
-    plan?: string
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
   }
 
   export type companyUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    plan?: StringFieldUpdateOperationsInput | string
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
   }
 
   export type companyUncheckedUpdateManyInput = {
@@ -32401,11 +36955,12 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     owner?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    plan?: StringFieldUpdateOperationsInput | string
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
   }
 
   export type company_memberCreateInput = {
-    role?: string | null
+    role?: string
     company: companyCreateNestedOneWithoutCompany_memberInput
     users: usersCreateNestedOneWithoutCompany_memberInput
   }
@@ -32413,11 +36968,11 @@ export namespace Prisma {
   export type company_memberUncheckedCreateInput = {
     company_id: string
     user_id: string
-    role?: string | null
+    role?: string
   }
 
   export type company_memberUpdateInput = {
-    role?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
     company?: companyUpdateOneRequiredWithoutCompany_memberNestedInput
     users?: usersUpdateOneRequiredWithoutCompany_memberNestedInput
   }
@@ -32425,23 +36980,23 @@ export namespace Prisma {
   export type company_memberUncheckedUpdateInput = {
     company_id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
-    role?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
   }
 
   export type company_memberCreateManyInput = {
     company_id: string
     user_id: string
-    role?: string | null
+    role?: string
   }
 
   export type company_memberUpdateManyMutationInput = {
-    role?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
   }
 
   export type company_memberUncheckedUpdateManyInput = {
     company_id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
-    role?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
   }
 
   export type firma_aliasCreateInput = {
@@ -32449,9 +37004,8 @@ export namespace Prisma {
     urun?: string
     alias_adi: string
     created_at?: Date | string | null
-    company: companyCreateNestedOneWithoutFirma_aliasInput
-    users?: usersCreateNestedOneWithoutFirma_aliasInput
     firmalar: firmalarCreateNestedOneWithoutFirma_aliasInput
+    users?: usersCreateNestedOneWithoutFirma_aliasInput
   }
 
   export type firma_aliasUncheckedCreateInput = {
@@ -32469,9 +37023,8 @@ export namespace Prisma {
     urun?: StringFieldUpdateOperationsInput | string
     alias_adi?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    company?: companyUpdateOneRequiredWithoutFirma_aliasNestedInput
-    users?: usersUpdateOneWithoutFirma_aliasNestedInput
     firmalar?: firmalarUpdateOneRequiredWithoutFirma_aliasNestedInput
+    users?: usersUpdateOneWithoutFirma_aliasNestedInput
   }
 
   export type firma_aliasUncheckedUpdateInput = {
@@ -32591,14 +37144,16 @@ export namespace Prisma {
     aciklama?: string | null
     created_at?: Date | string | null
     borclar?: borclarCreateNestedManyWithoutIslemlerInput
-    company: companyCreateNestedOneWithoutIslemlerInput
-    users?: usersCreateNestedOneWithoutIslemlerInput
     firmalar: firmalarCreateNestedOneWithoutIslemlerInput
+    company: companyCreateNestedOneWithoutIslemlerInput
+    projects?: projectsCreateNestedOneWithoutIslemlerInput
+    users?: usersCreateNestedOneWithoutIslemlerInput
   }
 
   export type islemlerUncheckedCreateInput = {
     islem_id?: bigint | number
     company_id: string
+    project_id?: string | null
     firma_id: bigint | number
     group_id?: bigint | number | null
     islem_turu?: string | null
@@ -32629,14 +37184,16 @@ export namespace Prisma {
     aciklama?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     borclar?: borclarUpdateManyWithoutIslemlerNestedInput
-    company?: companyUpdateOneRequiredWithoutIslemlerNestedInput
-    users?: usersUpdateOneWithoutIslemlerNestedInput
     firmalar?: firmalarUpdateOneRequiredWithoutIslemlerNestedInput
+    company?: companyUpdateOneRequiredWithoutIslemlerNestedInput
+    projects?: projectsUpdateOneWithoutIslemlerNestedInput
+    users?: usersUpdateOneWithoutIslemlerNestedInput
   }
 
   export type islemlerUncheckedUpdateInput = {
     islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
     company_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
     group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     islem_turu?: NullableStringFieldUpdateOperationsInput | string | null
@@ -32656,6 +37213,7 @@ export namespace Prisma {
   export type islemlerCreateManyInput = {
     islem_id?: bigint | number
     company_id: string
+    project_id?: string | null
     firma_id: bigint | number
     group_id?: bigint | number | null
     islem_turu?: string | null
@@ -32689,6 +37247,7 @@ export namespace Prisma {
   export type islemlerUncheckedUpdateManyInput = {
     islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
     company_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
     group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     islem_turu?: NullableStringFieldUpdateOperationsInput | string | null
@@ -32702,6 +37261,252 @@ export namespace Prisma {
     aciklama?: NullableStringFieldUpdateOperationsInput | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type project_budget_shareCreateInput = {
+    id?: bigint | number
+    project_budget: Decimal | DecimalJsLike | number | string
+    status?: string
+    note?: string | null
+    created_at?: Date | string | null
+    created_by?: string | null
+    company: companyCreateNestedOneWithoutProject_budget_shareInput
+    projects: projectsCreateNestedOneWithoutProject_budget_shareInput
+    users: usersCreateNestedOneWithoutProject_budget_shareInput
+  }
+
+  export type project_budget_shareUncheckedCreateInput = {
+    id?: bigint | number
+    project_id: string
+    company_id: string
+    user_id: string
+    project_budget: Decimal | DecimalJsLike | number | string
+    status?: string
+    note?: string | null
+    created_at?: Date | string | null
+    created_by?: string | null
+  }
+
+  export type project_budget_shareUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    project_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: companyUpdateOneRequiredWithoutProject_budget_shareNestedInput
+    projects?: projectsUpdateOneRequiredWithoutProject_budget_shareNestedInput
+    users?: usersUpdateOneRequiredWithoutProject_budget_shareNestedInput
+  }
+
+  export type project_budget_shareUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    project_id?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    project_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type project_budget_shareCreateManyInput = {
+    id?: bigint | number
+    project_id: string
+    company_id: string
+    user_id: string
+    project_budget: Decimal | DecimalJsLike | number | string
+    status?: string
+    note?: string | null
+    created_at?: Date | string | null
+    created_by?: string | null
+  }
+
+  export type project_budget_shareUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    project_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type project_budget_shareUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    project_id?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    project_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type project_membersCreateInput = {
+    role?: string
+    company: companyCreateNestedOneWithoutProject_membersInput
+    projects: projectsCreateNestedOneWithoutProject_membersInput
+    users: usersCreateNestedOneWithoutProject_membersInput
+  }
+
+  export type project_membersUncheckedCreateInput = {
+    project_id: string
+    user_id: string
+    company_id: string
+    role?: string
+  }
+
+  export type project_membersUpdateInput = {
+    role?: StringFieldUpdateOperationsInput | string
+    company?: companyUpdateOneRequiredWithoutProject_membersNestedInput
+    projects?: projectsUpdateOneRequiredWithoutProject_membersNestedInput
+    users?: usersUpdateOneRequiredWithoutProject_membersNestedInput
+  }
+
+  export type project_membersUncheckedUpdateInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type project_membersCreateManyInput = {
+    project_id: string
+    user_id: string
+    company_id: string
+    role?: string
+  }
+
+  export type project_membersUpdateManyMutationInput = {
+    role?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type project_membersUncheckedUpdateManyInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type projectsCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    m2?: Decimal | DecimalJsLike | number | string | null
+    location?: string | null
+    floor_count?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    created_at?: Date | string | null
+    currency?: string
+    borclar?: borclarCreateNestedManyWithoutProjectsInput
+    islemler?: islemlerCreateNestedManyWithoutProjectsInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutProjectsInput
+    project_members?: project_membersCreateNestedManyWithoutProjectsInput
+    company: companyCreateNestedOneWithoutProjectsInput
+    users?: usersCreateNestedOneWithoutProjectsInput
+  }
+
+  export type projectsUncheckedCreateInput = {
+    id?: string
+    company_id: string
+    name: string
+    description?: string | null
+    m2?: Decimal | DecimalJsLike | number | string | null
+    location?: string | null
+    floor_count?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    created_by?: string | null
+    created_at?: Date | string | null
+    currency?: string
+    borclar?: borclarUncheckedCreateNestedManyWithoutProjectsInput
+    islemler?: islemlerUncheckedCreateNestedManyWithoutProjectsInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutProjectsInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutProjectsInput
+  }
+
+  export type projectsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    m2?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    floor_count?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    borclar?: borclarUpdateManyWithoutProjectsNestedInput
+    islemler?: islemlerUpdateManyWithoutProjectsNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutProjectsNestedInput
+    project_members?: project_membersUpdateManyWithoutProjectsNestedInput
+    company?: companyUpdateOneRequiredWithoutProjectsNestedInput
+    users?: usersUpdateOneWithoutProjectsNestedInput
+  }
+
+  export type projectsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    m2?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    floor_count?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    borclar?: borclarUncheckedUpdateManyWithoutProjectsNestedInput
+    islemler?: islemlerUncheckedUpdateManyWithoutProjectsNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutProjectsNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type projectsCreateManyInput = {
+    id?: string
+    company_id: string
+    name: string
+    description?: string | null
+    m2?: Decimal | DecimalJsLike | number | string | null
+    location?: string | null
+    floor_count?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    created_by?: string | null
+    created_at?: Date | string | null
+    currency?: string
+  }
+
+  export type projectsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    m2?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    floor_count?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type projectsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    m2?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    floor_count?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currency?: StringFieldUpdateOperationsInput | string
   }
 
   export type UuidNullableFilter<$PrismaModel = never> = {
@@ -33751,6 +38556,24 @@ export namespace Prisma {
     none?: islemlerWhereInput
   }
 
+  export type Project_budget_shareListRelationFilter = {
+    every?: project_budget_shareWhereInput
+    some?: project_budget_shareWhereInput
+    none?: project_budget_shareWhereInput
+  }
+
+  export type Project_membersListRelationFilter = {
+    every?: project_membersWhereInput
+    some?: project_membersWhereInput
+    none?: project_membersWhereInput
+  }
+
+  export type ProjectsListRelationFilter = {
+    every?: projectsWhereInput
+    some?: projectsWhereInput
+    none?: projectsWhereInput
+  }
+
   export type identitiesOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -33788,6 +38611,18 @@ export namespace Prisma {
   }
 
   export type islemlerOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type project_budget_shareOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type project_membersOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type projectsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -33955,19 +38790,14 @@ export namespace Prisma {
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
-  export type CompanyScalarRelationFilter = {
-    is?: companyWhereInput
-    isNot?: companyWhereInput
-  }
-
-  export type UsersNullableScalarRelationFilter = {
-    is?: usersWhereInput | null
-    isNot?: usersWhereInput | null
-  }
-
   export type FirmalarScalarRelationFilter = {
     is?: firmalarWhereInput
     isNot?: firmalarWhereInput
+  }
+
+  export type CompanyScalarRelationFilter = {
+    is?: companyWhereInput
+    isNot?: companyWhereInput
   }
 
   export type IslemlerScalarRelationFilter = {
@@ -33975,9 +38805,20 @@ export namespace Prisma {
     isNot?: islemlerWhereInput
   }
 
+  export type ProjectsNullableScalarRelationFilter = {
+    is?: projectsWhereInput | null
+    isNot?: projectsWhereInput | null
+  }
+
+  export type UsersNullableScalarRelationFilter = {
+    is?: usersWhereInput | null
+    isNot?: usersWhereInput | null
+  }
+
   export type borclarCountOrderByAggregateInput = {
     borc_id?: SortOrder
     company_id?: SortOrder
+    project_id?: SortOrder
     islem_id?: SortOrder
     firma_id?: SortOrder
     group_id?: SortOrder
@@ -34000,6 +38841,7 @@ export namespace Prisma {
   export type borclarMaxOrderByAggregateInput = {
     borc_id?: SortOrder
     company_id?: SortOrder
+    project_id?: SortOrder
     islem_id?: SortOrder
     firma_id?: SortOrder
     group_id?: SortOrder
@@ -34014,6 +38856,7 @@ export namespace Prisma {
   export type borclarMinOrderByAggregateInput = {
     borc_id?: SortOrder
     company_id?: SortOrder
+    project_id?: SortOrder
     islem_id?: SortOrder
     firma_id?: SortOrder
     group_id?: SortOrder
@@ -34070,7 +38913,12 @@ export namespace Prisma {
     name?: SortOrder
     owner?: SortOrder
     created_at?: SortOrder
-    plan?: SortOrder
+    initial_budget?: SortOrder
+    currency?: SortOrder
+  }
+
+  export type companyAvgOrderByAggregateInput = {
+    initial_budget?: SortOrder
   }
 
   export type companyMaxOrderByAggregateInput = {
@@ -34078,7 +38926,8 @@ export namespace Prisma {
     name?: SortOrder
     owner?: SortOrder
     created_at?: SortOrder
-    plan?: SortOrder
+    initial_budget?: SortOrder
+    currency?: SortOrder
   }
 
   export type companyMinOrderByAggregateInput = {
@@ -34086,7 +38935,12 @@ export namespace Prisma {
     name?: SortOrder
     owner?: SortOrder
     created_at?: SortOrder
-    plan?: SortOrder
+    initial_budget?: SortOrder
+    currency?: SortOrder
+  }
+
+  export type companySumOrderByAggregateInput = {
+    initial_budget?: SortOrder
   }
 
   export type company_memberCompany_idUser_idCompoundUniqueInput = {
@@ -34152,6 +39006,11 @@ export namespace Prisma {
     firma_id?: SortOrder
   }
 
+  export type firmalarCompany_idFirma_idCompoundUniqueInput = {
+    company_id: string
+    firma_id: bigint | number
+  }
+
   export type firmalarCountOrderByAggregateInput = {
     firma_id?: SortOrder
     company_id?: SortOrder
@@ -34195,9 +39054,15 @@ export namespace Prisma {
     not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
   }
 
+  export type islemlerCompany_idIslem_idCompoundUniqueInput = {
+    company_id: string
+    islem_id: bigint | number
+  }
+
   export type islemlerCountOrderByAggregateInput = {
     islem_id?: SortOrder
     company_id?: SortOrder
+    project_id?: SortOrder
     firma_id?: SortOrder
     group_id?: SortOrder
     islem_turu?: SortOrder
@@ -34224,6 +39089,7 @@ export namespace Prisma {
   export type islemlerMaxOrderByAggregateInput = {
     islem_id?: SortOrder
     company_id?: SortOrder
+    project_id?: SortOrder
     firma_id?: SortOrder
     group_id?: SortOrder
     islem_turu?: SortOrder
@@ -34242,6 +39108,7 @@ export namespace Prisma {
   export type islemlerMinOrderByAggregateInput = {
     islem_id?: SortOrder
     company_id?: SortOrder
+    project_id?: SortOrder
     firma_id?: SortOrder
     group_id?: SortOrder
     islem_turu?: SortOrder
@@ -34279,6 +39146,143 @@ export namespace Prisma {
     _sum?: NestedDecimalNullableFilter<$PrismaModel>
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type ProjectsScalarRelationFilter = {
+    is?: projectsWhereInput
+    isNot?: projectsWhereInput
+  }
+
+  export type project_budget_shareCountOrderByAggregateInput = {
+    id?: SortOrder
+    project_id?: SortOrder
+    company_id?: SortOrder
+    user_id?: SortOrder
+    project_budget?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    created_at?: SortOrder
+    created_by?: SortOrder
+  }
+
+  export type project_budget_shareAvgOrderByAggregateInput = {
+    id?: SortOrder
+    project_budget?: SortOrder
+  }
+
+  export type project_budget_shareMaxOrderByAggregateInput = {
+    id?: SortOrder
+    project_id?: SortOrder
+    company_id?: SortOrder
+    user_id?: SortOrder
+    project_budget?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    created_at?: SortOrder
+    created_by?: SortOrder
+  }
+
+  export type project_budget_shareMinOrderByAggregateInput = {
+    id?: SortOrder
+    project_id?: SortOrder
+    company_id?: SortOrder
+    user_id?: SortOrder
+    project_budget?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+    created_at?: SortOrder
+    created_by?: SortOrder
+  }
+
+  export type project_budget_shareSumOrderByAggregateInput = {
+    id?: SortOrder
+    project_budget?: SortOrder
+  }
+
+  export type project_membersProject_idUser_idCompoundUniqueInput = {
+    project_id: string
+    user_id: string
+  }
+
+  export type project_membersCountOrderByAggregateInput = {
+    project_id?: SortOrder
+    user_id?: SortOrder
+    company_id?: SortOrder
+    role?: SortOrder
+  }
+
+  export type project_membersMaxOrderByAggregateInput = {
+    project_id?: SortOrder
+    user_id?: SortOrder
+    company_id?: SortOrder
+    role?: SortOrder
+  }
+
+  export type project_membersMinOrderByAggregateInput = {
+    project_id?: SortOrder
+    user_id?: SortOrder
+    company_id?: SortOrder
+    role?: SortOrder
+  }
+
+  export type projectsCompany_idIdCompoundUniqueInput = {
+    company_id: string
+    id: string
+  }
+
+  export type projectsCountOrderByAggregateInput = {
+    id?: SortOrder
+    company_id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    m2?: SortOrder
+    location?: SortOrder
+    floor_count?: SortOrder
+    start_date?: SortOrder
+    end_date?: SortOrder
+    created_by?: SortOrder
+    created_at?: SortOrder
+    currency?: SortOrder
+  }
+
+  export type projectsAvgOrderByAggregateInput = {
+    m2?: SortOrder
+    floor_count?: SortOrder
+  }
+
+  export type projectsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    company_id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    m2?: SortOrder
+    location?: SortOrder
+    floor_count?: SortOrder
+    start_date?: SortOrder
+    end_date?: SortOrder
+    created_by?: SortOrder
+    created_at?: SortOrder
+    currency?: SortOrder
+  }
+
+  export type projectsMinOrderByAggregateInput = {
+    id?: SortOrder
+    company_id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    m2?: SortOrder
+    location?: SortOrder
+    floor_count?: SortOrder
+    start_date?: SortOrder
+    end_date?: SortOrder
+    created_by?: SortOrder
+    created_at?: SortOrder
+    currency?: SortOrder
+  }
+
+  export type projectsSumOrderByAggregateInput = {
+    m2?: SortOrder
+    floor_count?: SortOrder
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -34851,6 +39855,27 @@ export namespace Prisma {
     connect?: islemlerWhereUniqueInput | islemlerWhereUniqueInput[]
   }
 
+  export type project_budget_shareCreateNestedManyWithoutUsersInput = {
+    create?: XOR<project_budget_shareCreateWithoutUsersInput, project_budget_shareUncheckedCreateWithoutUsersInput> | project_budget_shareCreateWithoutUsersInput[] | project_budget_shareUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: project_budget_shareCreateOrConnectWithoutUsersInput | project_budget_shareCreateOrConnectWithoutUsersInput[]
+    createMany?: project_budget_shareCreateManyUsersInputEnvelope
+    connect?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+  }
+
+  export type project_membersCreateNestedManyWithoutUsersInput = {
+    create?: XOR<project_membersCreateWithoutUsersInput, project_membersUncheckedCreateWithoutUsersInput> | project_membersCreateWithoutUsersInput[] | project_membersUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: project_membersCreateOrConnectWithoutUsersInput | project_membersCreateOrConnectWithoutUsersInput[]
+    createMany?: project_membersCreateManyUsersInputEnvelope
+    connect?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+  }
+
+  export type projectsCreateNestedManyWithoutUsersInput = {
+    create?: XOR<projectsCreateWithoutUsersInput, projectsUncheckedCreateWithoutUsersInput> | projectsCreateWithoutUsersInput[] | projectsUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: projectsCreateOrConnectWithoutUsersInput | projectsCreateOrConnectWithoutUsersInput[]
+    createMany?: projectsCreateManyUsersInputEnvelope
+    connect?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
+  }
+
   export type identitiesUncheckedCreateNestedManyWithoutUsersInput = {
     create?: XOR<identitiesCreateWithoutUsersInput, identitiesUncheckedCreateWithoutUsersInput> | identitiesCreateWithoutUsersInput[] | identitiesUncheckedCreateWithoutUsersInput[]
     connectOrCreate?: identitiesCreateOrConnectWithoutUsersInput | identitiesCreateOrConnectWithoutUsersInput[]
@@ -34919,6 +39944,27 @@ export namespace Prisma {
     connectOrCreate?: islemlerCreateOrConnectWithoutUsersInput | islemlerCreateOrConnectWithoutUsersInput[]
     createMany?: islemlerCreateManyUsersInputEnvelope
     connect?: islemlerWhereUniqueInput | islemlerWhereUniqueInput[]
+  }
+
+  export type project_budget_shareUncheckedCreateNestedManyWithoutUsersInput = {
+    create?: XOR<project_budget_shareCreateWithoutUsersInput, project_budget_shareUncheckedCreateWithoutUsersInput> | project_budget_shareCreateWithoutUsersInput[] | project_budget_shareUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: project_budget_shareCreateOrConnectWithoutUsersInput | project_budget_shareCreateOrConnectWithoutUsersInput[]
+    createMany?: project_budget_shareCreateManyUsersInputEnvelope
+    connect?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+  }
+
+  export type project_membersUncheckedCreateNestedManyWithoutUsersInput = {
+    create?: XOR<project_membersCreateWithoutUsersInput, project_membersUncheckedCreateWithoutUsersInput> | project_membersCreateWithoutUsersInput[] | project_membersUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: project_membersCreateOrConnectWithoutUsersInput | project_membersCreateOrConnectWithoutUsersInput[]
+    createMany?: project_membersCreateManyUsersInputEnvelope
+    connect?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+  }
+
+  export type projectsUncheckedCreateNestedManyWithoutUsersInput = {
+    create?: XOR<projectsCreateWithoutUsersInput, projectsUncheckedCreateWithoutUsersInput> | projectsCreateWithoutUsersInput[] | projectsUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: projectsCreateOrConnectWithoutUsersInput | projectsCreateOrConnectWithoutUsersInput[]
+    createMany?: projectsCreateManyUsersInputEnvelope
+    connect?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -35073,6 +40119,48 @@ export namespace Prisma {
     deleteMany?: islemlerScalarWhereInput | islemlerScalarWhereInput[]
   }
 
+  export type project_budget_shareUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<project_budget_shareCreateWithoutUsersInput, project_budget_shareUncheckedCreateWithoutUsersInput> | project_budget_shareCreateWithoutUsersInput[] | project_budget_shareUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: project_budget_shareCreateOrConnectWithoutUsersInput | project_budget_shareCreateOrConnectWithoutUsersInput[]
+    upsert?: project_budget_shareUpsertWithWhereUniqueWithoutUsersInput | project_budget_shareUpsertWithWhereUniqueWithoutUsersInput[]
+    createMany?: project_budget_shareCreateManyUsersInputEnvelope
+    set?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    disconnect?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    delete?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    connect?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    update?: project_budget_shareUpdateWithWhereUniqueWithoutUsersInput | project_budget_shareUpdateWithWhereUniqueWithoutUsersInput[]
+    updateMany?: project_budget_shareUpdateManyWithWhereWithoutUsersInput | project_budget_shareUpdateManyWithWhereWithoutUsersInput[]
+    deleteMany?: project_budget_shareScalarWhereInput | project_budget_shareScalarWhereInput[]
+  }
+
+  export type project_membersUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<project_membersCreateWithoutUsersInput, project_membersUncheckedCreateWithoutUsersInput> | project_membersCreateWithoutUsersInput[] | project_membersUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: project_membersCreateOrConnectWithoutUsersInput | project_membersCreateOrConnectWithoutUsersInput[]
+    upsert?: project_membersUpsertWithWhereUniqueWithoutUsersInput | project_membersUpsertWithWhereUniqueWithoutUsersInput[]
+    createMany?: project_membersCreateManyUsersInputEnvelope
+    set?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    disconnect?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    delete?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    connect?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    update?: project_membersUpdateWithWhereUniqueWithoutUsersInput | project_membersUpdateWithWhereUniqueWithoutUsersInput[]
+    updateMany?: project_membersUpdateManyWithWhereWithoutUsersInput | project_membersUpdateManyWithWhereWithoutUsersInput[]
+    deleteMany?: project_membersScalarWhereInput | project_membersScalarWhereInput[]
+  }
+
+  export type projectsUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<projectsCreateWithoutUsersInput, projectsUncheckedCreateWithoutUsersInput> | projectsCreateWithoutUsersInput[] | projectsUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: projectsCreateOrConnectWithoutUsersInput | projectsCreateOrConnectWithoutUsersInput[]
+    upsert?: projectsUpsertWithWhereUniqueWithoutUsersInput | projectsUpsertWithWhereUniqueWithoutUsersInput[]
+    createMany?: projectsCreateManyUsersInputEnvelope
+    set?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
+    disconnect?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
+    delete?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
+    connect?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
+    update?: projectsUpdateWithWhereUniqueWithoutUsersInput | projectsUpdateWithWhereUniqueWithoutUsersInput[]
+    updateMany?: projectsUpdateManyWithWhereWithoutUsersInput | projectsUpdateManyWithWhereWithoutUsersInput[]
+    deleteMany?: projectsScalarWhereInput | projectsScalarWhereInput[]
+  }
+
   export type identitiesUncheckedUpdateManyWithoutUsersNestedInput = {
     create?: XOR<identitiesCreateWithoutUsersInput, identitiesUncheckedCreateWithoutUsersInput> | identitiesCreateWithoutUsersInput[] | identitiesUncheckedCreateWithoutUsersInput[]
     connectOrCreate?: identitiesCreateOrConnectWithoutUsersInput | identitiesCreateOrConnectWithoutUsersInput[]
@@ -35213,16 +40301,46 @@ export namespace Prisma {
     deleteMany?: islemlerScalarWhereInput | islemlerScalarWhereInput[]
   }
 
-  export type companyCreateNestedOneWithoutBorclarInput = {
-    create?: XOR<companyCreateWithoutBorclarInput, companyUncheckedCreateWithoutBorclarInput>
-    connectOrCreate?: companyCreateOrConnectWithoutBorclarInput
-    connect?: companyWhereUniqueInput
+  export type project_budget_shareUncheckedUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<project_budget_shareCreateWithoutUsersInput, project_budget_shareUncheckedCreateWithoutUsersInput> | project_budget_shareCreateWithoutUsersInput[] | project_budget_shareUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: project_budget_shareCreateOrConnectWithoutUsersInput | project_budget_shareCreateOrConnectWithoutUsersInput[]
+    upsert?: project_budget_shareUpsertWithWhereUniqueWithoutUsersInput | project_budget_shareUpsertWithWhereUniqueWithoutUsersInput[]
+    createMany?: project_budget_shareCreateManyUsersInputEnvelope
+    set?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    disconnect?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    delete?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    connect?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    update?: project_budget_shareUpdateWithWhereUniqueWithoutUsersInput | project_budget_shareUpdateWithWhereUniqueWithoutUsersInput[]
+    updateMany?: project_budget_shareUpdateManyWithWhereWithoutUsersInput | project_budget_shareUpdateManyWithWhereWithoutUsersInput[]
+    deleteMany?: project_budget_shareScalarWhereInput | project_budget_shareScalarWhereInput[]
   }
 
-  export type usersCreateNestedOneWithoutBorclarInput = {
-    create?: XOR<usersCreateWithoutBorclarInput, usersUncheckedCreateWithoutBorclarInput>
-    connectOrCreate?: usersCreateOrConnectWithoutBorclarInput
-    connect?: usersWhereUniqueInput
+  export type project_membersUncheckedUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<project_membersCreateWithoutUsersInput, project_membersUncheckedCreateWithoutUsersInput> | project_membersCreateWithoutUsersInput[] | project_membersUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: project_membersCreateOrConnectWithoutUsersInput | project_membersCreateOrConnectWithoutUsersInput[]
+    upsert?: project_membersUpsertWithWhereUniqueWithoutUsersInput | project_membersUpsertWithWhereUniqueWithoutUsersInput[]
+    createMany?: project_membersCreateManyUsersInputEnvelope
+    set?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    disconnect?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    delete?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    connect?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    update?: project_membersUpdateWithWhereUniqueWithoutUsersInput | project_membersUpdateWithWhereUniqueWithoutUsersInput[]
+    updateMany?: project_membersUpdateManyWithWhereWithoutUsersInput | project_membersUpdateManyWithWhereWithoutUsersInput[]
+    deleteMany?: project_membersScalarWhereInput | project_membersScalarWhereInput[]
+  }
+
+  export type projectsUncheckedUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<projectsCreateWithoutUsersInput, projectsUncheckedCreateWithoutUsersInput> | projectsCreateWithoutUsersInput[] | projectsUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: projectsCreateOrConnectWithoutUsersInput | projectsCreateOrConnectWithoutUsersInput[]
+    upsert?: projectsUpsertWithWhereUniqueWithoutUsersInput | projectsUpsertWithWhereUniqueWithoutUsersInput[]
+    createMany?: projectsCreateManyUsersInputEnvelope
+    set?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
+    disconnect?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
+    delete?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
+    connect?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
+    update?: projectsUpdateWithWhereUniqueWithoutUsersInput | projectsUpdateWithWhereUniqueWithoutUsersInput[]
+    updateMany?: projectsUpdateManyWithWhereWithoutUsersInput | projectsUpdateManyWithWhereWithoutUsersInput[]
+    deleteMany?: projectsScalarWhereInput | projectsScalarWhereInput[]
   }
 
   export type firmalarCreateNestedOneWithoutBorclarInput = {
@@ -35231,10 +40349,28 @@ export namespace Prisma {
     connect?: firmalarWhereUniqueInput
   }
 
+  export type companyCreateNestedOneWithoutBorclarInput = {
+    create?: XOR<companyCreateWithoutBorclarInput, companyUncheckedCreateWithoutBorclarInput>
+    connectOrCreate?: companyCreateOrConnectWithoutBorclarInput
+    connect?: companyWhereUniqueInput
+  }
+
   export type islemlerCreateNestedOneWithoutBorclarInput = {
     create?: XOR<islemlerCreateWithoutBorclarInput, islemlerUncheckedCreateWithoutBorclarInput>
     connectOrCreate?: islemlerCreateOrConnectWithoutBorclarInput
     connect?: islemlerWhereUniqueInput
+  }
+
+  export type projectsCreateNestedOneWithoutBorclarInput = {
+    create?: XOR<projectsCreateWithoutBorclarInput, projectsUncheckedCreateWithoutBorclarInput>
+    connectOrCreate?: projectsCreateOrConnectWithoutBorclarInput
+    connect?: projectsWhereUniqueInput
+  }
+
+  export type usersCreateNestedOneWithoutBorclarInput = {
+    create?: XOR<usersCreateWithoutBorclarInput, usersUncheckedCreateWithoutBorclarInput>
+    connectOrCreate?: usersCreateOrConnectWithoutBorclarInput
+    connect?: usersWhereUniqueInput
   }
 
   export type NullableBigIntFieldUpdateOperationsInput = {
@@ -35253,12 +40389,38 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string
   }
 
+  export type firmalarUpdateOneRequiredWithoutBorclarNestedInput = {
+    create?: XOR<firmalarCreateWithoutBorclarInput, firmalarUncheckedCreateWithoutBorclarInput>
+    connectOrCreate?: firmalarCreateOrConnectWithoutBorclarInput
+    upsert?: firmalarUpsertWithoutBorclarInput
+    connect?: firmalarWhereUniqueInput
+    update?: XOR<XOR<firmalarUpdateToOneWithWhereWithoutBorclarInput, firmalarUpdateWithoutBorclarInput>, firmalarUncheckedUpdateWithoutBorclarInput>
+  }
+
   export type companyUpdateOneRequiredWithoutBorclarNestedInput = {
     create?: XOR<companyCreateWithoutBorclarInput, companyUncheckedCreateWithoutBorclarInput>
     connectOrCreate?: companyCreateOrConnectWithoutBorclarInput
     upsert?: companyUpsertWithoutBorclarInput
     connect?: companyWhereUniqueInput
     update?: XOR<XOR<companyUpdateToOneWithWhereWithoutBorclarInput, companyUpdateWithoutBorclarInput>, companyUncheckedUpdateWithoutBorclarInput>
+  }
+
+  export type islemlerUpdateOneRequiredWithoutBorclarNestedInput = {
+    create?: XOR<islemlerCreateWithoutBorclarInput, islemlerUncheckedCreateWithoutBorclarInput>
+    connectOrCreate?: islemlerCreateOrConnectWithoutBorclarInput
+    upsert?: islemlerUpsertWithoutBorclarInput
+    connect?: islemlerWhereUniqueInput
+    update?: XOR<XOR<islemlerUpdateToOneWithWhereWithoutBorclarInput, islemlerUpdateWithoutBorclarInput>, islemlerUncheckedUpdateWithoutBorclarInput>
+  }
+
+  export type projectsUpdateOneWithoutBorclarNestedInput = {
+    create?: XOR<projectsCreateWithoutBorclarInput, projectsUncheckedCreateWithoutBorclarInput>
+    connectOrCreate?: projectsCreateOrConnectWithoutBorclarInput
+    upsert?: projectsUpsertWithoutBorclarInput
+    disconnect?: projectsWhereInput | boolean
+    delete?: projectsWhereInput | boolean
+    connect?: projectsWhereUniqueInput
+    update?: XOR<XOR<projectsUpdateToOneWithWhereWithoutBorclarInput, projectsUpdateWithoutBorclarInput>, projectsUncheckedUpdateWithoutBorclarInput>
   }
 
   export type usersUpdateOneWithoutBorclarNestedInput = {
@@ -35269,22 +40431,6 @@ export namespace Prisma {
     delete?: usersWhereInput | boolean
     connect?: usersWhereUniqueInput
     update?: XOR<XOR<usersUpdateToOneWithWhereWithoutBorclarInput, usersUpdateWithoutBorclarInput>, usersUncheckedUpdateWithoutBorclarInput>
-  }
-
-  export type firmalarUpdateOneRequiredWithoutBorclarNestedInput = {
-    create?: XOR<firmalarCreateWithoutBorclarInput, firmalarUncheckedCreateWithoutBorclarInput>
-    connectOrCreate?: firmalarCreateOrConnectWithoutBorclarInput
-    upsert?: firmalarUpsertWithoutBorclarInput
-    connect?: firmalarWhereUniqueInput
-    update?: XOR<XOR<firmalarUpdateToOneWithWhereWithoutBorclarInput, firmalarUpdateWithoutBorclarInput>, firmalarUncheckedUpdateWithoutBorclarInput>
-  }
-
-  export type islemlerUpdateOneRequiredWithoutBorclarNestedInput = {
-    create?: XOR<islemlerCreateWithoutBorclarInput, islemlerUncheckedCreateWithoutBorclarInput>
-    connectOrCreate?: islemlerCreateOrConnectWithoutBorclarInput
-    upsert?: islemlerUpsertWithoutBorclarInput
-    connect?: islemlerWhereUniqueInput
-    update?: XOR<XOR<islemlerUpdateToOneWithWhereWithoutBorclarInput, islemlerUpdateWithoutBorclarInput>, islemlerUncheckedUpdateWithoutBorclarInput>
   }
 
   export type borclarCreateNestedManyWithoutCompanyInput = {
@@ -35307,13 +40453,6 @@ export namespace Prisma {
     connect?: company_memberWhereUniqueInput | company_memberWhereUniqueInput[]
   }
 
-  export type firma_aliasCreateNestedManyWithoutCompanyInput = {
-    create?: XOR<firma_aliasCreateWithoutCompanyInput, firma_aliasUncheckedCreateWithoutCompanyInput> | firma_aliasCreateWithoutCompanyInput[] | firma_aliasUncheckedCreateWithoutCompanyInput[]
-    connectOrCreate?: firma_aliasCreateOrConnectWithoutCompanyInput | firma_aliasCreateOrConnectWithoutCompanyInput[]
-    createMany?: firma_aliasCreateManyCompanyInputEnvelope
-    connect?: firma_aliasWhereUniqueInput | firma_aliasWhereUniqueInput[]
-  }
-
   export type firmalarCreateNestedManyWithoutCompanyInput = {
     create?: XOR<firmalarCreateWithoutCompanyInput, firmalarUncheckedCreateWithoutCompanyInput> | firmalarCreateWithoutCompanyInput[] | firmalarUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: firmalarCreateOrConnectWithoutCompanyInput | firmalarCreateOrConnectWithoutCompanyInput[]
@@ -35326,6 +40465,27 @@ export namespace Prisma {
     connectOrCreate?: islemlerCreateOrConnectWithoutCompanyInput | islemlerCreateOrConnectWithoutCompanyInput[]
     createMany?: islemlerCreateManyCompanyInputEnvelope
     connect?: islemlerWhereUniqueInput | islemlerWhereUniqueInput[]
+  }
+
+  export type project_budget_shareCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<project_budget_shareCreateWithoutCompanyInput, project_budget_shareUncheckedCreateWithoutCompanyInput> | project_budget_shareCreateWithoutCompanyInput[] | project_budget_shareUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: project_budget_shareCreateOrConnectWithoutCompanyInput | project_budget_shareCreateOrConnectWithoutCompanyInput[]
+    createMany?: project_budget_shareCreateManyCompanyInputEnvelope
+    connect?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+  }
+
+  export type project_membersCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<project_membersCreateWithoutCompanyInput, project_membersUncheckedCreateWithoutCompanyInput> | project_membersCreateWithoutCompanyInput[] | project_membersUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: project_membersCreateOrConnectWithoutCompanyInput | project_membersCreateOrConnectWithoutCompanyInput[]
+    createMany?: project_membersCreateManyCompanyInputEnvelope
+    connect?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+  }
+
+  export type projectsCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<projectsCreateWithoutCompanyInput, projectsUncheckedCreateWithoutCompanyInput> | projectsCreateWithoutCompanyInput[] | projectsUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: projectsCreateOrConnectWithoutCompanyInput | projectsCreateOrConnectWithoutCompanyInput[]
+    createMany?: projectsCreateManyCompanyInputEnvelope
+    connect?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
   }
 
   export type borclarUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -35342,13 +40502,6 @@ export namespace Prisma {
     connect?: company_memberWhereUniqueInput | company_memberWhereUniqueInput[]
   }
 
-  export type firma_aliasUncheckedCreateNestedManyWithoutCompanyInput = {
-    create?: XOR<firma_aliasCreateWithoutCompanyInput, firma_aliasUncheckedCreateWithoutCompanyInput> | firma_aliasCreateWithoutCompanyInput[] | firma_aliasUncheckedCreateWithoutCompanyInput[]
-    connectOrCreate?: firma_aliasCreateOrConnectWithoutCompanyInput | firma_aliasCreateOrConnectWithoutCompanyInput[]
-    createMany?: firma_aliasCreateManyCompanyInputEnvelope
-    connect?: firma_aliasWhereUniqueInput | firma_aliasWhereUniqueInput[]
-  }
-
   export type firmalarUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<firmalarCreateWithoutCompanyInput, firmalarUncheckedCreateWithoutCompanyInput> | firmalarCreateWithoutCompanyInput[] | firmalarUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: firmalarCreateOrConnectWithoutCompanyInput | firmalarCreateOrConnectWithoutCompanyInput[]
@@ -35361,6 +40514,27 @@ export namespace Prisma {
     connectOrCreate?: islemlerCreateOrConnectWithoutCompanyInput | islemlerCreateOrConnectWithoutCompanyInput[]
     createMany?: islemlerCreateManyCompanyInputEnvelope
     connect?: islemlerWhereUniqueInput | islemlerWhereUniqueInput[]
+  }
+
+  export type project_budget_shareUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<project_budget_shareCreateWithoutCompanyInput, project_budget_shareUncheckedCreateWithoutCompanyInput> | project_budget_shareCreateWithoutCompanyInput[] | project_budget_shareUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: project_budget_shareCreateOrConnectWithoutCompanyInput | project_budget_shareCreateOrConnectWithoutCompanyInput[]
+    createMany?: project_budget_shareCreateManyCompanyInputEnvelope
+    connect?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+  }
+
+  export type project_membersUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<project_membersCreateWithoutCompanyInput, project_membersUncheckedCreateWithoutCompanyInput> | project_membersCreateWithoutCompanyInput[] | project_membersUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: project_membersCreateOrConnectWithoutCompanyInput | project_membersCreateOrConnectWithoutCompanyInput[]
+    createMany?: project_membersCreateManyCompanyInputEnvelope
+    connect?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+  }
+
+  export type projectsUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<projectsCreateWithoutCompanyInput, projectsUncheckedCreateWithoutCompanyInput> | projectsCreateWithoutCompanyInput[] | projectsUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: projectsCreateOrConnectWithoutCompanyInput | projectsCreateOrConnectWithoutCompanyInput[]
+    createMany?: projectsCreateManyCompanyInputEnvelope
+    connect?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
   }
 
   export type borclarUpdateManyWithoutCompanyNestedInput = {
@@ -35399,20 +40573,6 @@ export namespace Prisma {
     deleteMany?: company_memberScalarWhereInput | company_memberScalarWhereInput[]
   }
 
-  export type firma_aliasUpdateManyWithoutCompanyNestedInput = {
-    create?: XOR<firma_aliasCreateWithoutCompanyInput, firma_aliasUncheckedCreateWithoutCompanyInput> | firma_aliasCreateWithoutCompanyInput[] | firma_aliasUncheckedCreateWithoutCompanyInput[]
-    connectOrCreate?: firma_aliasCreateOrConnectWithoutCompanyInput | firma_aliasCreateOrConnectWithoutCompanyInput[]
-    upsert?: firma_aliasUpsertWithWhereUniqueWithoutCompanyInput | firma_aliasUpsertWithWhereUniqueWithoutCompanyInput[]
-    createMany?: firma_aliasCreateManyCompanyInputEnvelope
-    set?: firma_aliasWhereUniqueInput | firma_aliasWhereUniqueInput[]
-    disconnect?: firma_aliasWhereUniqueInput | firma_aliasWhereUniqueInput[]
-    delete?: firma_aliasWhereUniqueInput | firma_aliasWhereUniqueInput[]
-    connect?: firma_aliasWhereUniqueInput | firma_aliasWhereUniqueInput[]
-    update?: firma_aliasUpdateWithWhereUniqueWithoutCompanyInput | firma_aliasUpdateWithWhereUniqueWithoutCompanyInput[]
-    updateMany?: firma_aliasUpdateManyWithWhereWithoutCompanyInput | firma_aliasUpdateManyWithWhereWithoutCompanyInput[]
-    deleteMany?: firma_aliasScalarWhereInput | firma_aliasScalarWhereInput[]
-  }
-
   export type firmalarUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<firmalarCreateWithoutCompanyInput, firmalarUncheckedCreateWithoutCompanyInput> | firmalarCreateWithoutCompanyInput[] | firmalarUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: firmalarCreateOrConnectWithoutCompanyInput | firmalarCreateOrConnectWithoutCompanyInput[]
@@ -35439,6 +40599,48 @@ export namespace Prisma {
     update?: islemlerUpdateWithWhereUniqueWithoutCompanyInput | islemlerUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: islemlerUpdateManyWithWhereWithoutCompanyInput | islemlerUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: islemlerScalarWhereInput | islemlerScalarWhereInput[]
+  }
+
+  export type project_budget_shareUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<project_budget_shareCreateWithoutCompanyInput, project_budget_shareUncheckedCreateWithoutCompanyInput> | project_budget_shareCreateWithoutCompanyInput[] | project_budget_shareUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: project_budget_shareCreateOrConnectWithoutCompanyInput | project_budget_shareCreateOrConnectWithoutCompanyInput[]
+    upsert?: project_budget_shareUpsertWithWhereUniqueWithoutCompanyInput | project_budget_shareUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: project_budget_shareCreateManyCompanyInputEnvelope
+    set?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    disconnect?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    delete?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    connect?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    update?: project_budget_shareUpdateWithWhereUniqueWithoutCompanyInput | project_budget_shareUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: project_budget_shareUpdateManyWithWhereWithoutCompanyInput | project_budget_shareUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: project_budget_shareScalarWhereInput | project_budget_shareScalarWhereInput[]
+  }
+
+  export type project_membersUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<project_membersCreateWithoutCompanyInput, project_membersUncheckedCreateWithoutCompanyInput> | project_membersCreateWithoutCompanyInput[] | project_membersUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: project_membersCreateOrConnectWithoutCompanyInput | project_membersCreateOrConnectWithoutCompanyInput[]
+    upsert?: project_membersUpsertWithWhereUniqueWithoutCompanyInput | project_membersUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: project_membersCreateManyCompanyInputEnvelope
+    set?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    disconnect?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    delete?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    connect?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    update?: project_membersUpdateWithWhereUniqueWithoutCompanyInput | project_membersUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: project_membersUpdateManyWithWhereWithoutCompanyInput | project_membersUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: project_membersScalarWhereInput | project_membersScalarWhereInput[]
+  }
+
+  export type projectsUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<projectsCreateWithoutCompanyInput, projectsUncheckedCreateWithoutCompanyInput> | projectsCreateWithoutCompanyInput[] | projectsUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: projectsCreateOrConnectWithoutCompanyInput | projectsCreateOrConnectWithoutCompanyInput[]
+    upsert?: projectsUpsertWithWhereUniqueWithoutCompanyInput | projectsUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: projectsCreateManyCompanyInputEnvelope
+    set?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
+    disconnect?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
+    delete?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
+    connect?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
+    update?: projectsUpdateWithWhereUniqueWithoutCompanyInput | projectsUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: projectsUpdateManyWithWhereWithoutCompanyInput | projectsUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: projectsScalarWhereInput | projectsScalarWhereInput[]
   }
 
   export type borclarUncheckedUpdateManyWithoutCompanyNestedInput = {
@@ -35469,20 +40671,6 @@ export namespace Prisma {
     deleteMany?: company_memberScalarWhereInput | company_memberScalarWhereInput[]
   }
 
-  export type firma_aliasUncheckedUpdateManyWithoutCompanyNestedInput = {
-    create?: XOR<firma_aliasCreateWithoutCompanyInput, firma_aliasUncheckedCreateWithoutCompanyInput> | firma_aliasCreateWithoutCompanyInput[] | firma_aliasUncheckedCreateWithoutCompanyInput[]
-    connectOrCreate?: firma_aliasCreateOrConnectWithoutCompanyInput | firma_aliasCreateOrConnectWithoutCompanyInput[]
-    upsert?: firma_aliasUpsertWithWhereUniqueWithoutCompanyInput | firma_aliasUpsertWithWhereUniqueWithoutCompanyInput[]
-    createMany?: firma_aliasCreateManyCompanyInputEnvelope
-    set?: firma_aliasWhereUniqueInput | firma_aliasWhereUniqueInput[]
-    disconnect?: firma_aliasWhereUniqueInput | firma_aliasWhereUniqueInput[]
-    delete?: firma_aliasWhereUniqueInput | firma_aliasWhereUniqueInput[]
-    connect?: firma_aliasWhereUniqueInput | firma_aliasWhereUniqueInput[]
-    update?: firma_aliasUpdateWithWhereUniqueWithoutCompanyInput | firma_aliasUpdateWithWhereUniqueWithoutCompanyInput[]
-    updateMany?: firma_aliasUpdateManyWithWhereWithoutCompanyInput | firma_aliasUpdateManyWithWhereWithoutCompanyInput[]
-    deleteMany?: firma_aliasScalarWhereInput | firma_aliasScalarWhereInput[]
-  }
-
   export type firmalarUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<firmalarCreateWithoutCompanyInput, firmalarUncheckedCreateWithoutCompanyInput> | firmalarCreateWithoutCompanyInput[] | firmalarUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: firmalarCreateOrConnectWithoutCompanyInput | firmalarCreateOrConnectWithoutCompanyInput[]
@@ -35509,6 +40697,48 @@ export namespace Prisma {
     update?: islemlerUpdateWithWhereUniqueWithoutCompanyInput | islemlerUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: islemlerUpdateManyWithWhereWithoutCompanyInput | islemlerUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: islemlerScalarWhereInput | islemlerScalarWhereInput[]
+  }
+
+  export type project_budget_shareUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<project_budget_shareCreateWithoutCompanyInput, project_budget_shareUncheckedCreateWithoutCompanyInput> | project_budget_shareCreateWithoutCompanyInput[] | project_budget_shareUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: project_budget_shareCreateOrConnectWithoutCompanyInput | project_budget_shareCreateOrConnectWithoutCompanyInput[]
+    upsert?: project_budget_shareUpsertWithWhereUniqueWithoutCompanyInput | project_budget_shareUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: project_budget_shareCreateManyCompanyInputEnvelope
+    set?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    disconnect?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    delete?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    connect?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    update?: project_budget_shareUpdateWithWhereUniqueWithoutCompanyInput | project_budget_shareUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: project_budget_shareUpdateManyWithWhereWithoutCompanyInput | project_budget_shareUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: project_budget_shareScalarWhereInput | project_budget_shareScalarWhereInput[]
+  }
+
+  export type project_membersUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<project_membersCreateWithoutCompanyInput, project_membersUncheckedCreateWithoutCompanyInput> | project_membersCreateWithoutCompanyInput[] | project_membersUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: project_membersCreateOrConnectWithoutCompanyInput | project_membersCreateOrConnectWithoutCompanyInput[]
+    upsert?: project_membersUpsertWithWhereUniqueWithoutCompanyInput | project_membersUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: project_membersCreateManyCompanyInputEnvelope
+    set?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    disconnect?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    delete?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    connect?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    update?: project_membersUpdateWithWhereUniqueWithoutCompanyInput | project_membersUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: project_membersUpdateManyWithWhereWithoutCompanyInput | project_membersUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: project_membersScalarWhereInput | project_membersScalarWhereInput[]
+  }
+
+  export type projectsUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<projectsCreateWithoutCompanyInput, projectsUncheckedCreateWithoutCompanyInput> | projectsCreateWithoutCompanyInput[] | projectsUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: projectsCreateOrConnectWithoutCompanyInput | projectsCreateOrConnectWithoutCompanyInput[]
+    upsert?: projectsUpsertWithWhereUniqueWithoutCompanyInput | projectsUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: projectsCreateManyCompanyInputEnvelope
+    set?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
+    disconnect?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
+    delete?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
+    connect?: projectsWhereUniqueInput | projectsWhereUniqueInput[]
+    update?: projectsUpdateWithWhereUniqueWithoutCompanyInput | projectsUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: projectsUpdateManyWithWhereWithoutCompanyInput | projectsUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: projectsScalarWhereInput | projectsScalarWhereInput[]
   }
 
   export type companyCreateNestedOneWithoutCompany_memberInput = {
@@ -35539,10 +40769,10 @@ export namespace Prisma {
     update?: XOR<XOR<usersUpdateToOneWithWhereWithoutCompany_memberInput, usersUpdateWithoutCompany_memberInput>, usersUncheckedUpdateWithoutCompany_memberInput>
   }
 
-  export type companyCreateNestedOneWithoutFirma_aliasInput = {
-    create?: XOR<companyCreateWithoutFirma_aliasInput, companyUncheckedCreateWithoutFirma_aliasInput>
-    connectOrCreate?: companyCreateOrConnectWithoutFirma_aliasInput
-    connect?: companyWhereUniqueInput
+  export type firmalarCreateNestedOneWithoutFirma_aliasInput = {
+    create?: XOR<firmalarCreateWithoutFirma_aliasInput, firmalarUncheckedCreateWithoutFirma_aliasInput>
+    connectOrCreate?: firmalarCreateOrConnectWithoutFirma_aliasInput
+    connect?: firmalarWhereUniqueInput
   }
 
   export type usersCreateNestedOneWithoutFirma_aliasInput = {
@@ -35551,18 +40781,12 @@ export namespace Prisma {
     connect?: usersWhereUniqueInput
   }
 
-  export type firmalarCreateNestedOneWithoutFirma_aliasInput = {
+  export type firmalarUpdateOneRequiredWithoutFirma_aliasNestedInput = {
     create?: XOR<firmalarCreateWithoutFirma_aliasInput, firmalarUncheckedCreateWithoutFirma_aliasInput>
     connectOrCreate?: firmalarCreateOrConnectWithoutFirma_aliasInput
+    upsert?: firmalarUpsertWithoutFirma_aliasInput
     connect?: firmalarWhereUniqueInput
-  }
-
-  export type companyUpdateOneRequiredWithoutFirma_aliasNestedInput = {
-    create?: XOR<companyCreateWithoutFirma_aliasInput, companyUncheckedCreateWithoutFirma_aliasInput>
-    connectOrCreate?: companyCreateOrConnectWithoutFirma_aliasInput
-    upsert?: companyUpsertWithoutFirma_aliasInput
-    connect?: companyWhereUniqueInput
-    update?: XOR<XOR<companyUpdateToOneWithWhereWithoutFirma_aliasInput, companyUpdateWithoutFirma_aliasInput>, companyUncheckedUpdateWithoutFirma_aliasInput>
+    update?: XOR<XOR<firmalarUpdateToOneWithWhereWithoutFirma_aliasInput, firmalarUpdateWithoutFirma_aliasInput>, firmalarUncheckedUpdateWithoutFirma_aliasInput>
   }
 
   export type usersUpdateOneWithoutFirma_aliasNestedInput = {
@@ -35573,14 +40797,6 @@ export namespace Prisma {
     delete?: usersWhereInput | boolean
     connect?: usersWhereUniqueInput
     update?: XOR<XOR<usersUpdateToOneWithWhereWithoutFirma_aliasInput, usersUpdateWithoutFirma_aliasInput>, usersUncheckedUpdateWithoutFirma_aliasInput>
-  }
-
-  export type firmalarUpdateOneRequiredWithoutFirma_aliasNestedInput = {
-    create?: XOR<firmalarCreateWithoutFirma_aliasInput, firmalarUncheckedCreateWithoutFirma_aliasInput>
-    connectOrCreate?: firmalarCreateOrConnectWithoutFirma_aliasInput
-    upsert?: firmalarUpsertWithoutFirma_aliasInput
-    connect?: firmalarWhereUniqueInput
-    update?: XOR<XOR<firmalarUpdateToOneWithWhereWithoutFirma_aliasInput, firmalarUpdateWithoutFirma_aliasInput>, firmalarUncheckedUpdateWithoutFirma_aliasInput>
   }
 
   export type borclarCreateNestedManyWithoutFirmalarInput = {
@@ -35746,22 +40962,28 @@ export namespace Prisma {
     connect?: borclarWhereUniqueInput | borclarWhereUniqueInput[]
   }
 
+  export type firmalarCreateNestedOneWithoutIslemlerInput = {
+    create?: XOR<firmalarCreateWithoutIslemlerInput, firmalarUncheckedCreateWithoutIslemlerInput>
+    connectOrCreate?: firmalarCreateOrConnectWithoutIslemlerInput
+    connect?: firmalarWhereUniqueInput
+  }
+
   export type companyCreateNestedOneWithoutIslemlerInput = {
     create?: XOR<companyCreateWithoutIslemlerInput, companyUncheckedCreateWithoutIslemlerInput>
     connectOrCreate?: companyCreateOrConnectWithoutIslemlerInput
     connect?: companyWhereUniqueInput
   }
 
+  export type projectsCreateNestedOneWithoutIslemlerInput = {
+    create?: XOR<projectsCreateWithoutIslemlerInput, projectsUncheckedCreateWithoutIslemlerInput>
+    connectOrCreate?: projectsCreateOrConnectWithoutIslemlerInput
+    connect?: projectsWhereUniqueInput
+  }
+
   export type usersCreateNestedOneWithoutIslemlerInput = {
     create?: XOR<usersCreateWithoutIslemlerInput, usersUncheckedCreateWithoutIslemlerInput>
     connectOrCreate?: usersCreateOrConnectWithoutIslemlerInput
     connect?: usersWhereUniqueInput
-  }
-
-  export type firmalarCreateNestedOneWithoutIslemlerInput = {
-    create?: XOR<firmalarCreateWithoutIslemlerInput, firmalarUncheckedCreateWithoutIslemlerInput>
-    connectOrCreate?: firmalarCreateOrConnectWithoutIslemlerInput
-    connect?: firmalarWhereUniqueInput
   }
 
   export type borclarUncheckedCreateNestedManyWithoutIslemlerInput = {
@@ -35793,12 +41015,30 @@ export namespace Prisma {
     deleteMany?: borclarScalarWhereInput | borclarScalarWhereInput[]
   }
 
+  export type firmalarUpdateOneRequiredWithoutIslemlerNestedInput = {
+    create?: XOR<firmalarCreateWithoutIslemlerInput, firmalarUncheckedCreateWithoutIslemlerInput>
+    connectOrCreate?: firmalarCreateOrConnectWithoutIslemlerInput
+    upsert?: firmalarUpsertWithoutIslemlerInput
+    connect?: firmalarWhereUniqueInput
+    update?: XOR<XOR<firmalarUpdateToOneWithWhereWithoutIslemlerInput, firmalarUpdateWithoutIslemlerInput>, firmalarUncheckedUpdateWithoutIslemlerInput>
+  }
+
   export type companyUpdateOneRequiredWithoutIslemlerNestedInput = {
     create?: XOR<companyCreateWithoutIslemlerInput, companyUncheckedCreateWithoutIslemlerInput>
     connectOrCreate?: companyCreateOrConnectWithoutIslemlerInput
     upsert?: companyUpsertWithoutIslemlerInput
     connect?: companyWhereUniqueInput
     update?: XOR<XOR<companyUpdateToOneWithWhereWithoutIslemlerInput, companyUpdateWithoutIslemlerInput>, companyUncheckedUpdateWithoutIslemlerInput>
+  }
+
+  export type projectsUpdateOneWithoutIslemlerNestedInput = {
+    create?: XOR<projectsCreateWithoutIslemlerInput, projectsUncheckedCreateWithoutIslemlerInput>
+    connectOrCreate?: projectsCreateOrConnectWithoutIslemlerInput
+    upsert?: projectsUpsertWithoutIslemlerInput
+    disconnect?: projectsWhereInput | boolean
+    delete?: projectsWhereInput | boolean
+    connect?: projectsWhereUniqueInput
+    update?: XOR<XOR<projectsUpdateToOneWithWhereWithoutIslemlerInput, projectsUpdateWithoutIslemlerInput>, projectsUncheckedUpdateWithoutIslemlerInput>
   }
 
   export type usersUpdateOneWithoutIslemlerNestedInput = {
@@ -35809,14 +41049,6 @@ export namespace Prisma {
     delete?: usersWhereInput | boolean
     connect?: usersWhereUniqueInput
     update?: XOR<XOR<usersUpdateToOneWithWhereWithoutIslemlerInput, usersUpdateWithoutIslemlerInput>, usersUncheckedUpdateWithoutIslemlerInput>
-  }
-
-  export type firmalarUpdateOneRequiredWithoutIslemlerNestedInput = {
-    create?: XOR<firmalarCreateWithoutIslemlerInput, firmalarUncheckedCreateWithoutIslemlerInput>
-    connectOrCreate?: firmalarCreateOrConnectWithoutIslemlerInput
-    upsert?: firmalarUpsertWithoutIslemlerInput
-    connect?: firmalarWhereUniqueInput
-    update?: XOR<XOR<firmalarUpdateToOneWithWhereWithoutIslemlerInput, firmalarUpdateWithoutIslemlerInput>, firmalarUncheckedUpdateWithoutIslemlerInput>
   }
 
   export type borclarUncheckedUpdateManyWithoutIslemlerNestedInput = {
@@ -35831,6 +41063,288 @@ export namespace Prisma {
     update?: borclarUpdateWithWhereUniqueWithoutIslemlerInput | borclarUpdateWithWhereUniqueWithoutIslemlerInput[]
     updateMany?: borclarUpdateManyWithWhereWithoutIslemlerInput | borclarUpdateManyWithWhereWithoutIslemlerInput[]
     deleteMany?: borclarScalarWhereInput | borclarScalarWhereInput[]
+  }
+
+  export type companyCreateNestedOneWithoutProject_budget_shareInput = {
+    create?: XOR<companyCreateWithoutProject_budget_shareInput, companyUncheckedCreateWithoutProject_budget_shareInput>
+    connectOrCreate?: companyCreateOrConnectWithoutProject_budget_shareInput
+    connect?: companyWhereUniqueInput
+  }
+
+  export type projectsCreateNestedOneWithoutProject_budget_shareInput = {
+    create?: XOR<projectsCreateWithoutProject_budget_shareInput, projectsUncheckedCreateWithoutProject_budget_shareInput>
+    connectOrCreate?: projectsCreateOrConnectWithoutProject_budget_shareInput
+    connect?: projectsWhereUniqueInput
+  }
+
+  export type usersCreateNestedOneWithoutProject_budget_shareInput = {
+    create?: XOR<usersCreateWithoutProject_budget_shareInput, usersUncheckedCreateWithoutProject_budget_shareInput>
+    connectOrCreate?: usersCreateOrConnectWithoutProject_budget_shareInput
+    connect?: usersWhereUniqueInput
+  }
+
+  export type companyUpdateOneRequiredWithoutProject_budget_shareNestedInput = {
+    create?: XOR<companyCreateWithoutProject_budget_shareInput, companyUncheckedCreateWithoutProject_budget_shareInput>
+    connectOrCreate?: companyCreateOrConnectWithoutProject_budget_shareInput
+    upsert?: companyUpsertWithoutProject_budget_shareInput
+    connect?: companyWhereUniqueInput
+    update?: XOR<XOR<companyUpdateToOneWithWhereWithoutProject_budget_shareInput, companyUpdateWithoutProject_budget_shareInput>, companyUncheckedUpdateWithoutProject_budget_shareInput>
+  }
+
+  export type projectsUpdateOneRequiredWithoutProject_budget_shareNestedInput = {
+    create?: XOR<projectsCreateWithoutProject_budget_shareInput, projectsUncheckedCreateWithoutProject_budget_shareInput>
+    connectOrCreate?: projectsCreateOrConnectWithoutProject_budget_shareInput
+    upsert?: projectsUpsertWithoutProject_budget_shareInput
+    connect?: projectsWhereUniqueInput
+    update?: XOR<XOR<projectsUpdateToOneWithWhereWithoutProject_budget_shareInput, projectsUpdateWithoutProject_budget_shareInput>, projectsUncheckedUpdateWithoutProject_budget_shareInput>
+  }
+
+  export type usersUpdateOneRequiredWithoutProject_budget_shareNestedInput = {
+    create?: XOR<usersCreateWithoutProject_budget_shareInput, usersUncheckedCreateWithoutProject_budget_shareInput>
+    connectOrCreate?: usersCreateOrConnectWithoutProject_budget_shareInput
+    upsert?: usersUpsertWithoutProject_budget_shareInput
+    connect?: usersWhereUniqueInput
+    update?: XOR<XOR<usersUpdateToOneWithWhereWithoutProject_budget_shareInput, usersUpdateWithoutProject_budget_shareInput>, usersUncheckedUpdateWithoutProject_budget_shareInput>
+  }
+
+  export type companyCreateNestedOneWithoutProject_membersInput = {
+    create?: XOR<companyCreateWithoutProject_membersInput, companyUncheckedCreateWithoutProject_membersInput>
+    connectOrCreate?: companyCreateOrConnectWithoutProject_membersInput
+    connect?: companyWhereUniqueInput
+  }
+
+  export type projectsCreateNestedOneWithoutProject_membersInput = {
+    create?: XOR<projectsCreateWithoutProject_membersInput, projectsUncheckedCreateWithoutProject_membersInput>
+    connectOrCreate?: projectsCreateOrConnectWithoutProject_membersInput
+    connect?: projectsWhereUniqueInput
+  }
+
+  export type usersCreateNestedOneWithoutProject_membersInput = {
+    create?: XOR<usersCreateWithoutProject_membersInput, usersUncheckedCreateWithoutProject_membersInput>
+    connectOrCreate?: usersCreateOrConnectWithoutProject_membersInput
+    connect?: usersWhereUniqueInput
+  }
+
+  export type companyUpdateOneRequiredWithoutProject_membersNestedInput = {
+    create?: XOR<companyCreateWithoutProject_membersInput, companyUncheckedCreateWithoutProject_membersInput>
+    connectOrCreate?: companyCreateOrConnectWithoutProject_membersInput
+    upsert?: companyUpsertWithoutProject_membersInput
+    connect?: companyWhereUniqueInput
+    update?: XOR<XOR<companyUpdateToOneWithWhereWithoutProject_membersInput, companyUpdateWithoutProject_membersInput>, companyUncheckedUpdateWithoutProject_membersInput>
+  }
+
+  export type projectsUpdateOneRequiredWithoutProject_membersNestedInput = {
+    create?: XOR<projectsCreateWithoutProject_membersInput, projectsUncheckedCreateWithoutProject_membersInput>
+    connectOrCreate?: projectsCreateOrConnectWithoutProject_membersInput
+    upsert?: projectsUpsertWithoutProject_membersInput
+    connect?: projectsWhereUniqueInput
+    update?: XOR<XOR<projectsUpdateToOneWithWhereWithoutProject_membersInput, projectsUpdateWithoutProject_membersInput>, projectsUncheckedUpdateWithoutProject_membersInput>
+  }
+
+  export type usersUpdateOneRequiredWithoutProject_membersNestedInput = {
+    create?: XOR<usersCreateWithoutProject_membersInput, usersUncheckedCreateWithoutProject_membersInput>
+    connectOrCreate?: usersCreateOrConnectWithoutProject_membersInput
+    upsert?: usersUpsertWithoutProject_membersInput
+    connect?: usersWhereUniqueInput
+    update?: XOR<XOR<usersUpdateToOneWithWhereWithoutProject_membersInput, usersUpdateWithoutProject_membersInput>, usersUncheckedUpdateWithoutProject_membersInput>
+  }
+
+  export type borclarCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<borclarCreateWithoutProjectsInput, borclarUncheckedCreateWithoutProjectsInput> | borclarCreateWithoutProjectsInput[] | borclarUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: borclarCreateOrConnectWithoutProjectsInput | borclarCreateOrConnectWithoutProjectsInput[]
+    createMany?: borclarCreateManyProjectsInputEnvelope
+    connect?: borclarWhereUniqueInput | borclarWhereUniqueInput[]
+  }
+
+  export type islemlerCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<islemlerCreateWithoutProjectsInput, islemlerUncheckedCreateWithoutProjectsInput> | islemlerCreateWithoutProjectsInput[] | islemlerUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: islemlerCreateOrConnectWithoutProjectsInput | islemlerCreateOrConnectWithoutProjectsInput[]
+    createMany?: islemlerCreateManyProjectsInputEnvelope
+    connect?: islemlerWhereUniqueInput | islemlerWhereUniqueInput[]
+  }
+
+  export type project_budget_shareCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<project_budget_shareCreateWithoutProjectsInput, project_budget_shareUncheckedCreateWithoutProjectsInput> | project_budget_shareCreateWithoutProjectsInput[] | project_budget_shareUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: project_budget_shareCreateOrConnectWithoutProjectsInput | project_budget_shareCreateOrConnectWithoutProjectsInput[]
+    createMany?: project_budget_shareCreateManyProjectsInputEnvelope
+    connect?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+  }
+
+  export type project_membersCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<project_membersCreateWithoutProjectsInput, project_membersUncheckedCreateWithoutProjectsInput> | project_membersCreateWithoutProjectsInput[] | project_membersUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: project_membersCreateOrConnectWithoutProjectsInput | project_membersCreateOrConnectWithoutProjectsInput[]
+    createMany?: project_membersCreateManyProjectsInputEnvelope
+    connect?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+  }
+
+  export type companyCreateNestedOneWithoutProjectsInput = {
+    create?: XOR<companyCreateWithoutProjectsInput, companyUncheckedCreateWithoutProjectsInput>
+    connectOrCreate?: companyCreateOrConnectWithoutProjectsInput
+    connect?: companyWhereUniqueInput
+  }
+
+  export type usersCreateNestedOneWithoutProjectsInput = {
+    create?: XOR<usersCreateWithoutProjectsInput, usersUncheckedCreateWithoutProjectsInput>
+    connectOrCreate?: usersCreateOrConnectWithoutProjectsInput
+    connect?: usersWhereUniqueInput
+  }
+
+  export type borclarUncheckedCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<borclarCreateWithoutProjectsInput, borclarUncheckedCreateWithoutProjectsInput> | borclarCreateWithoutProjectsInput[] | borclarUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: borclarCreateOrConnectWithoutProjectsInput | borclarCreateOrConnectWithoutProjectsInput[]
+    createMany?: borclarCreateManyProjectsInputEnvelope
+    connect?: borclarWhereUniqueInput | borclarWhereUniqueInput[]
+  }
+
+  export type islemlerUncheckedCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<islemlerCreateWithoutProjectsInput, islemlerUncheckedCreateWithoutProjectsInput> | islemlerCreateWithoutProjectsInput[] | islemlerUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: islemlerCreateOrConnectWithoutProjectsInput | islemlerCreateOrConnectWithoutProjectsInput[]
+    createMany?: islemlerCreateManyProjectsInputEnvelope
+    connect?: islemlerWhereUniqueInput | islemlerWhereUniqueInput[]
+  }
+
+  export type project_budget_shareUncheckedCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<project_budget_shareCreateWithoutProjectsInput, project_budget_shareUncheckedCreateWithoutProjectsInput> | project_budget_shareCreateWithoutProjectsInput[] | project_budget_shareUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: project_budget_shareCreateOrConnectWithoutProjectsInput | project_budget_shareCreateOrConnectWithoutProjectsInput[]
+    createMany?: project_budget_shareCreateManyProjectsInputEnvelope
+    connect?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+  }
+
+  export type project_membersUncheckedCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<project_membersCreateWithoutProjectsInput, project_membersUncheckedCreateWithoutProjectsInput> | project_membersCreateWithoutProjectsInput[] | project_membersUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: project_membersCreateOrConnectWithoutProjectsInput | project_membersCreateOrConnectWithoutProjectsInput[]
+    createMany?: project_membersCreateManyProjectsInputEnvelope
+    connect?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+  }
+
+  export type borclarUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<borclarCreateWithoutProjectsInput, borclarUncheckedCreateWithoutProjectsInput> | borclarCreateWithoutProjectsInput[] | borclarUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: borclarCreateOrConnectWithoutProjectsInput | borclarCreateOrConnectWithoutProjectsInput[]
+    upsert?: borclarUpsertWithWhereUniqueWithoutProjectsInput | borclarUpsertWithWhereUniqueWithoutProjectsInput[]
+    createMany?: borclarCreateManyProjectsInputEnvelope
+    set?: borclarWhereUniqueInput | borclarWhereUniqueInput[]
+    disconnect?: borclarWhereUniqueInput | borclarWhereUniqueInput[]
+    delete?: borclarWhereUniqueInput | borclarWhereUniqueInput[]
+    connect?: borclarWhereUniqueInput | borclarWhereUniqueInput[]
+    update?: borclarUpdateWithWhereUniqueWithoutProjectsInput | borclarUpdateWithWhereUniqueWithoutProjectsInput[]
+    updateMany?: borclarUpdateManyWithWhereWithoutProjectsInput | borclarUpdateManyWithWhereWithoutProjectsInput[]
+    deleteMany?: borclarScalarWhereInput | borclarScalarWhereInput[]
+  }
+
+  export type islemlerUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<islemlerCreateWithoutProjectsInput, islemlerUncheckedCreateWithoutProjectsInput> | islemlerCreateWithoutProjectsInput[] | islemlerUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: islemlerCreateOrConnectWithoutProjectsInput | islemlerCreateOrConnectWithoutProjectsInput[]
+    upsert?: islemlerUpsertWithWhereUniqueWithoutProjectsInput | islemlerUpsertWithWhereUniqueWithoutProjectsInput[]
+    createMany?: islemlerCreateManyProjectsInputEnvelope
+    set?: islemlerWhereUniqueInput | islemlerWhereUniqueInput[]
+    disconnect?: islemlerWhereUniqueInput | islemlerWhereUniqueInput[]
+    delete?: islemlerWhereUniqueInput | islemlerWhereUniqueInput[]
+    connect?: islemlerWhereUniqueInput | islemlerWhereUniqueInput[]
+    update?: islemlerUpdateWithWhereUniqueWithoutProjectsInput | islemlerUpdateWithWhereUniqueWithoutProjectsInput[]
+    updateMany?: islemlerUpdateManyWithWhereWithoutProjectsInput | islemlerUpdateManyWithWhereWithoutProjectsInput[]
+    deleteMany?: islemlerScalarWhereInput | islemlerScalarWhereInput[]
+  }
+
+  export type project_budget_shareUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<project_budget_shareCreateWithoutProjectsInput, project_budget_shareUncheckedCreateWithoutProjectsInput> | project_budget_shareCreateWithoutProjectsInput[] | project_budget_shareUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: project_budget_shareCreateOrConnectWithoutProjectsInput | project_budget_shareCreateOrConnectWithoutProjectsInput[]
+    upsert?: project_budget_shareUpsertWithWhereUniqueWithoutProjectsInput | project_budget_shareUpsertWithWhereUniqueWithoutProjectsInput[]
+    createMany?: project_budget_shareCreateManyProjectsInputEnvelope
+    set?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    disconnect?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    delete?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    connect?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    update?: project_budget_shareUpdateWithWhereUniqueWithoutProjectsInput | project_budget_shareUpdateWithWhereUniqueWithoutProjectsInput[]
+    updateMany?: project_budget_shareUpdateManyWithWhereWithoutProjectsInput | project_budget_shareUpdateManyWithWhereWithoutProjectsInput[]
+    deleteMany?: project_budget_shareScalarWhereInput | project_budget_shareScalarWhereInput[]
+  }
+
+  export type project_membersUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<project_membersCreateWithoutProjectsInput, project_membersUncheckedCreateWithoutProjectsInput> | project_membersCreateWithoutProjectsInput[] | project_membersUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: project_membersCreateOrConnectWithoutProjectsInput | project_membersCreateOrConnectWithoutProjectsInput[]
+    upsert?: project_membersUpsertWithWhereUniqueWithoutProjectsInput | project_membersUpsertWithWhereUniqueWithoutProjectsInput[]
+    createMany?: project_membersCreateManyProjectsInputEnvelope
+    set?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    disconnect?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    delete?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    connect?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    update?: project_membersUpdateWithWhereUniqueWithoutProjectsInput | project_membersUpdateWithWhereUniqueWithoutProjectsInput[]
+    updateMany?: project_membersUpdateManyWithWhereWithoutProjectsInput | project_membersUpdateManyWithWhereWithoutProjectsInput[]
+    deleteMany?: project_membersScalarWhereInput | project_membersScalarWhereInput[]
+  }
+
+  export type companyUpdateOneRequiredWithoutProjectsNestedInput = {
+    create?: XOR<companyCreateWithoutProjectsInput, companyUncheckedCreateWithoutProjectsInput>
+    connectOrCreate?: companyCreateOrConnectWithoutProjectsInput
+    upsert?: companyUpsertWithoutProjectsInput
+    connect?: companyWhereUniqueInput
+    update?: XOR<XOR<companyUpdateToOneWithWhereWithoutProjectsInput, companyUpdateWithoutProjectsInput>, companyUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type usersUpdateOneWithoutProjectsNestedInput = {
+    create?: XOR<usersCreateWithoutProjectsInput, usersUncheckedCreateWithoutProjectsInput>
+    connectOrCreate?: usersCreateOrConnectWithoutProjectsInput
+    upsert?: usersUpsertWithoutProjectsInput
+    disconnect?: usersWhereInput | boolean
+    delete?: usersWhereInput | boolean
+    connect?: usersWhereUniqueInput
+    update?: XOR<XOR<usersUpdateToOneWithWhereWithoutProjectsInput, usersUpdateWithoutProjectsInput>, usersUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type borclarUncheckedUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<borclarCreateWithoutProjectsInput, borclarUncheckedCreateWithoutProjectsInput> | borclarCreateWithoutProjectsInput[] | borclarUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: borclarCreateOrConnectWithoutProjectsInput | borclarCreateOrConnectWithoutProjectsInput[]
+    upsert?: borclarUpsertWithWhereUniqueWithoutProjectsInput | borclarUpsertWithWhereUniqueWithoutProjectsInput[]
+    createMany?: borclarCreateManyProjectsInputEnvelope
+    set?: borclarWhereUniqueInput | borclarWhereUniqueInput[]
+    disconnect?: borclarWhereUniqueInput | borclarWhereUniqueInput[]
+    delete?: borclarWhereUniqueInput | borclarWhereUniqueInput[]
+    connect?: borclarWhereUniqueInput | borclarWhereUniqueInput[]
+    update?: borclarUpdateWithWhereUniqueWithoutProjectsInput | borclarUpdateWithWhereUniqueWithoutProjectsInput[]
+    updateMany?: borclarUpdateManyWithWhereWithoutProjectsInput | borclarUpdateManyWithWhereWithoutProjectsInput[]
+    deleteMany?: borclarScalarWhereInput | borclarScalarWhereInput[]
+  }
+
+  export type islemlerUncheckedUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<islemlerCreateWithoutProjectsInput, islemlerUncheckedCreateWithoutProjectsInput> | islemlerCreateWithoutProjectsInput[] | islemlerUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: islemlerCreateOrConnectWithoutProjectsInput | islemlerCreateOrConnectWithoutProjectsInput[]
+    upsert?: islemlerUpsertWithWhereUniqueWithoutProjectsInput | islemlerUpsertWithWhereUniqueWithoutProjectsInput[]
+    createMany?: islemlerCreateManyProjectsInputEnvelope
+    set?: islemlerWhereUniqueInput | islemlerWhereUniqueInput[]
+    disconnect?: islemlerWhereUniqueInput | islemlerWhereUniqueInput[]
+    delete?: islemlerWhereUniqueInput | islemlerWhereUniqueInput[]
+    connect?: islemlerWhereUniqueInput | islemlerWhereUniqueInput[]
+    update?: islemlerUpdateWithWhereUniqueWithoutProjectsInput | islemlerUpdateWithWhereUniqueWithoutProjectsInput[]
+    updateMany?: islemlerUpdateManyWithWhereWithoutProjectsInput | islemlerUpdateManyWithWhereWithoutProjectsInput[]
+    deleteMany?: islemlerScalarWhereInput | islemlerScalarWhereInput[]
+  }
+
+  export type project_budget_shareUncheckedUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<project_budget_shareCreateWithoutProjectsInput, project_budget_shareUncheckedCreateWithoutProjectsInput> | project_budget_shareCreateWithoutProjectsInput[] | project_budget_shareUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: project_budget_shareCreateOrConnectWithoutProjectsInput | project_budget_shareCreateOrConnectWithoutProjectsInput[]
+    upsert?: project_budget_shareUpsertWithWhereUniqueWithoutProjectsInput | project_budget_shareUpsertWithWhereUniqueWithoutProjectsInput[]
+    createMany?: project_budget_shareCreateManyProjectsInputEnvelope
+    set?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    disconnect?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    delete?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    connect?: project_budget_shareWhereUniqueInput | project_budget_shareWhereUniqueInput[]
+    update?: project_budget_shareUpdateWithWhereUniqueWithoutProjectsInput | project_budget_shareUpdateWithWhereUniqueWithoutProjectsInput[]
+    updateMany?: project_budget_shareUpdateManyWithWhereWithoutProjectsInput | project_budget_shareUpdateManyWithWhereWithoutProjectsInput[]
+    deleteMany?: project_budget_shareScalarWhereInput | project_budget_shareScalarWhereInput[]
+  }
+
+  export type project_membersUncheckedUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<project_membersCreateWithoutProjectsInput, project_membersUncheckedCreateWithoutProjectsInput> | project_membersCreateWithoutProjectsInput[] | project_membersUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: project_membersCreateOrConnectWithoutProjectsInput | project_membersCreateOrConnectWithoutProjectsInput[]
+    upsert?: project_membersUpsertWithWhereUniqueWithoutProjectsInput | project_membersUpsertWithWhereUniqueWithoutProjectsInput[]
+    createMany?: project_membersCreateManyProjectsInputEnvelope
+    set?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    disconnect?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    delete?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    connect?: project_membersWhereUniqueInput | project_membersWhereUniqueInput[]
+    update?: project_membersUpdateWithWhereUniqueWithoutProjectsInput | project_membersUpdateWithWhereUniqueWithoutProjectsInput[]
+    updateMany?: project_membersUpdateManyWithWhereWithoutProjectsInput | project_membersUpdateManyWithWhereWithoutProjectsInput[]
+    deleteMany?: project_membersScalarWhereInput | project_membersScalarWhereInput[]
   }
 
   export type NestedUuidNullableFilter<$PrismaModel = never> = {
@@ -36425,6 +41939,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasCreateNestedManyWithoutUsersInput
     firmalar?: firmalarCreateNestedManyWithoutUsersInput
     islemler?: islemlerCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutUsersInput
+    project_members?: project_membersCreateNestedManyWithoutUsersInput
+    projects?: projectsCreateNestedManyWithoutUsersInput
   }
 
   export type usersUncheckedCreateWithoutIdentitiesInput = {
@@ -36472,6 +41989,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutUsersInput
     firmalar?: firmalarUncheckedCreateNestedManyWithoutUsersInput
     islemler?: islemlerUncheckedCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutUsersInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutUsersInput
+    projects?: projectsUncheckedCreateNestedManyWithoutUsersInput
   }
 
   export type usersCreateOrConnectWithoutIdentitiesInput = {
@@ -36535,6 +42055,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUpdateManyWithoutUsersNestedInput
+    projects?: projectsUpdateManyWithoutUsersNestedInput
   }
 
   export type usersUncheckedUpdateWithoutIdentitiesInput = {
@@ -36582,6 +42105,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUncheckedUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUncheckedUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUncheckedUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutUsersNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type sessionsCreateWithoutMfa_amr_claimsInput = {
@@ -36809,6 +42335,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasCreateNestedManyWithoutUsersInput
     firmalar?: firmalarCreateNestedManyWithoutUsersInput
     islemler?: islemlerCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutUsersInput
+    project_members?: project_membersCreateNestedManyWithoutUsersInput
+    projects?: projectsCreateNestedManyWithoutUsersInput
   }
 
   export type usersUncheckedCreateWithoutMfa_factorsInput = {
@@ -36856,6 +42385,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutUsersInput
     firmalar?: firmalarUncheckedCreateNestedManyWithoutUsersInput
     islemler?: islemlerUncheckedCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutUsersInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutUsersInput
+    projects?: projectsUncheckedCreateNestedManyWithoutUsersInput
   }
 
   export type usersCreateOrConnectWithoutMfa_factorsInput = {
@@ -36948,6 +42480,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUpdateManyWithoutUsersNestedInput
+    projects?: projectsUpdateManyWithoutUsersNestedInput
   }
 
   export type usersUncheckedUpdateWithoutMfa_factorsInput = {
@@ -36995,6 +42530,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUncheckedUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUncheckedUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUncheckedUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutUsersNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type usersCreateWithoutOne_time_tokensInput = {
@@ -37042,6 +42580,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasCreateNestedManyWithoutUsersInput
     firmalar?: firmalarCreateNestedManyWithoutUsersInput
     islemler?: islemlerCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutUsersInput
+    project_members?: project_membersCreateNestedManyWithoutUsersInput
+    projects?: projectsCreateNestedManyWithoutUsersInput
   }
 
   export type usersUncheckedCreateWithoutOne_time_tokensInput = {
@@ -37089,6 +42630,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutUsersInput
     firmalar?: firmalarUncheckedCreateNestedManyWithoutUsersInput
     islemler?: islemlerUncheckedCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutUsersInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutUsersInput
+    projects?: projectsUncheckedCreateNestedManyWithoutUsersInput
   }
 
   export type usersCreateOrConnectWithoutOne_time_tokensInput = {
@@ -37152,6 +42696,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUpdateManyWithoutUsersNestedInput
+    projects?: projectsUpdateManyWithoutUsersNestedInput
   }
 
   export type usersUncheckedUpdateWithoutOne_time_tokensInput = {
@@ -37199,6 +42746,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUncheckedUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUncheckedUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUncheckedUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutUsersNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type sessionsCreateWithoutRefresh_tokensInput = {
@@ -37566,6 +43116,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasCreateNestedManyWithoutUsersInput
     firmalar?: firmalarCreateNestedManyWithoutUsersInput
     islemler?: islemlerCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutUsersInput
+    project_members?: project_membersCreateNestedManyWithoutUsersInput
+    projects?: projectsCreateNestedManyWithoutUsersInput
   }
 
   export type usersUncheckedCreateWithoutSessionsInput = {
@@ -37613,6 +43166,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutUsersInput
     firmalar?: firmalarUncheckedCreateNestedManyWithoutUsersInput
     islemler?: islemlerUncheckedCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutUsersInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutUsersInput
+    projects?: projectsUncheckedCreateNestedManyWithoutUsersInput
   }
 
   export type usersCreateOrConnectWithoutSessionsInput = {
@@ -37734,6 +43290,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUpdateManyWithoutUsersNestedInput
+    projects?: projectsUpdateManyWithoutUsersNestedInput
   }
 
   export type usersUncheckedUpdateWithoutSessionsInput = {
@@ -37781,6 +43340,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUncheckedUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUncheckedUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUncheckedUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutUsersNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type sso_providersCreateWithoutSso_domainsInput = {
@@ -38147,14 +43709,16 @@ export namespace Prisma {
     odeme_tarihi: Date | string
     odeme_durumu?: string
     created_at?: Date | string | null
-    company: companyCreateNestedOneWithoutBorclarInput
     firmalar: firmalarCreateNestedOneWithoutBorclarInput
+    company: companyCreateNestedOneWithoutBorclarInput
     islemler: islemlerCreateNestedOneWithoutBorclarInput
+    projects?: projectsCreateNestedOneWithoutBorclarInput
   }
 
   export type borclarUncheckedCreateWithoutUsersInput = {
     borc_id?: bigint | number
     company_id: string
+    project_id?: string | null
     islem_id: bigint | number
     firma_id: bigint | number
     group_id?: bigint | number | null
@@ -38179,24 +43743,30 @@ export namespace Prisma {
     id?: string
     name: string
     created_at?: Date | string | null
-    plan?: string
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
     borclar?: borclarCreateNestedManyWithoutCompanyInput
     company_member?: company_memberCreateNestedManyWithoutCompanyInput
-    firma_alias?: firma_aliasCreateNestedManyWithoutCompanyInput
     firmalar?: firmalarCreateNestedManyWithoutCompanyInput
     islemler?: islemlerCreateNestedManyWithoutCompanyInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutCompanyInput
+    project_members?: project_membersCreateNestedManyWithoutCompanyInput
+    projects?: projectsCreateNestedManyWithoutCompanyInput
   }
 
   export type companyUncheckedCreateWithoutUsersInput = {
     id?: string
     name: string
     created_at?: Date | string | null
-    plan?: string
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
     borclar?: borclarUncheckedCreateNestedManyWithoutCompanyInput
     company_member?: company_memberUncheckedCreateNestedManyWithoutCompanyInput
-    firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutCompanyInput
     firmalar?: firmalarUncheckedCreateNestedManyWithoutCompanyInput
     islemler?: islemlerUncheckedCreateNestedManyWithoutCompanyInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutCompanyInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutCompanyInput
+    projects?: projectsUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type companyCreateOrConnectWithoutUsersInput = {
@@ -38210,13 +43780,13 @@ export namespace Prisma {
   }
 
   export type company_memberCreateWithoutUsersInput = {
-    role?: string | null
+    role?: string
     company: companyCreateNestedOneWithoutCompany_memberInput
   }
 
   export type company_memberUncheckedCreateWithoutUsersInput = {
     company_id: string
-    role?: string | null
+    role?: string
   }
 
   export type company_memberCreateOrConnectWithoutUsersInput = {
@@ -38234,7 +43804,6 @@ export namespace Prisma {
     urun?: string
     alias_adi: string
     created_at?: Date | string | null
-    company: companyCreateNestedOneWithoutFirma_aliasInput
     firmalar: firmalarCreateNestedOneWithoutFirma_aliasInput
   }
 
@@ -38301,13 +43870,15 @@ export namespace Prisma {
     aciklama?: string | null
     created_at?: Date | string | null
     borclar?: borclarCreateNestedManyWithoutIslemlerInput
-    company: companyCreateNestedOneWithoutIslemlerInput
     firmalar: firmalarCreateNestedOneWithoutIslemlerInput
+    company: companyCreateNestedOneWithoutIslemlerInput
+    projects?: projectsCreateNestedOneWithoutIslemlerInput
   }
 
   export type islemlerUncheckedCreateWithoutUsersInput = {
     islem_id?: bigint | number
     company_id: string
+    project_id?: string | null
     firma_id: bigint | number
     group_id?: bigint | number | null
     islem_turu?: string | null
@@ -38330,6 +43901,106 @@ export namespace Prisma {
 
   export type islemlerCreateManyUsersInputEnvelope = {
     data: islemlerCreateManyUsersInput | islemlerCreateManyUsersInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type project_budget_shareCreateWithoutUsersInput = {
+    id?: bigint | number
+    project_budget: Decimal | DecimalJsLike | number | string
+    status?: string
+    note?: string | null
+    created_at?: Date | string | null
+    created_by?: string | null
+    company: companyCreateNestedOneWithoutProject_budget_shareInput
+    projects: projectsCreateNestedOneWithoutProject_budget_shareInput
+  }
+
+  export type project_budget_shareUncheckedCreateWithoutUsersInput = {
+    id?: bigint | number
+    project_id: string
+    company_id: string
+    project_budget: Decimal | DecimalJsLike | number | string
+    status?: string
+    note?: string | null
+    created_at?: Date | string | null
+    created_by?: string | null
+  }
+
+  export type project_budget_shareCreateOrConnectWithoutUsersInput = {
+    where: project_budget_shareWhereUniqueInput
+    create: XOR<project_budget_shareCreateWithoutUsersInput, project_budget_shareUncheckedCreateWithoutUsersInput>
+  }
+
+  export type project_budget_shareCreateManyUsersInputEnvelope = {
+    data: project_budget_shareCreateManyUsersInput | project_budget_shareCreateManyUsersInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type project_membersCreateWithoutUsersInput = {
+    role?: string
+    company: companyCreateNestedOneWithoutProject_membersInput
+    projects: projectsCreateNestedOneWithoutProject_membersInput
+  }
+
+  export type project_membersUncheckedCreateWithoutUsersInput = {
+    project_id: string
+    company_id: string
+    role?: string
+  }
+
+  export type project_membersCreateOrConnectWithoutUsersInput = {
+    where: project_membersWhereUniqueInput
+    create: XOR<project_membersCreateWithoutUsersInput, project_membersUncheckedCreateWithoutUsersInput>
+  }
+
+  export type project_membersCreateManyUsersInputEnvelope = {
+    data: project_membersCreateManyUsersInput | project_membersCreateManyUsersInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type projectsCreateWithoutUsersInput = {
+    id?: string
+    name: string
+    description?: string | null
+    m2?: Decimal | DecimalJsLike | number | string | null
+    location?: string | null
+    floor_count?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    created_at?: Date | string | null
+    currency?: string
+    borclar?: borclarCreateNestedManyWithoutProjectsInput
+    islemler?: islemlerCreateNestedManyWithoutProjectsInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutProjectsInput
+    project_members?: project_membersCreateNestedManyWithoutProjectsInput
+    company: companyCreateNestedOneWithoutProjectsInput
+  }
+
+  export type projectsUncheckedCreateWithoutUsersInput = {
+    id?: string
+    company_id: string
+    name: string
+    description?: string | null
+    m2?: Decimal | DecimalJsLike | number | string | null
+    location?: string | null
+    floor_count?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    created_at?: Date | string | null
+    currency?: string
+    borclar?: borclarUncheckedCreateNestedManyWithoutProjectsInput
+    islemler?: islemlerUncheckedCreateNestedManyWithoutProjectsInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutProjectsInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutProjectsInput
+  }
+
+  export type projectsCreateOrConnectWithoutUsersInput = {
+    where: projectsWhereUniqueInput
+    create: XOR<projectsCreateWithoutUsersInput, projectsUncheckedCreateWithoutUsersInput>
+  }
+
+  export type projectsCreateManyUsersInputEnvelope = {
+    data: projectsCreateManyUsersInput | projectsCreateManyUsersInput[]
     skipDuplicates?: boolean
   }
 
@@ -38482,6 +44153,7 @@ export namespace Prisma {
     NOT?: borclarScalarWhereInput | borclarScalarWhereInput[]
     borc_id?: BigIntFilter<"borclar"> | bigint | number
     company_id?: UuidFilter<"borclar"> | string
+    project_id?: UuidNullableFilter<"borclar"> | string | null
     islem_id?: BigIntFilter<"borclar"> | bigint | number
     firma_id?: BigIntFilter<"borclar"> | bigint | number
     group_id?: BigIntNullableFilter<"borclar"> | bigint | number | null
@@ -38517,7 +44189,8 @@ export namespace Prisma {
     name?: StringFilter<"company"> | string
     owner?: UuidFilter<"company"> | string
     created_at?: DateTimeNullableFilter<"company"> | Date | string | null
-    plan?: StringFilter<"company"> | string
+    initial_budget?: DecimalFilter<"company"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"company"> | string
   }
 
   export type company_memberUpsertWithWhereUniqueWithoutUsersInput = {
@@ -38542,7 +44215,7 @@ export namespace Prisma {
     NOT?: company_memberScalarWhereInput | company_memberScalarWhereInput[]
     company_id?: UuidFilter<"company_member"> | string
     user_id?: UuidFilter<"company_member"> | string
-    role?: StringNullableFilter<"company_member"> | string | null
+    role?: StringFilter<"company_member"> | string
   }
 
   export type firma_aliasUpsertWithWhereUniqueWithoutUsersInput = {
@@ -38623,6 +44296,7 @@ export namespace Prisma {
     NOT?: islemlerScalarWhereInput | islemlerScalarWhereInput[]
     islem_id?: BigIntFilter<"islemler"> | bigint | number
     company_id?: UuidFilter<"islemler"> | string
+    project_id?: UuidNullableFilter<"islemler"> | string | null
     firma_id?: BigIntFilter<"islemler"> | bigint | number
     group_id?: BigIntNullableFilter<"islemler"> | bigint | number | null
     islem_turu?: StringNullableFilter<"islemler"> | string | null
@@ -38638,16 +44312,135 @@ export namespace Prisma {
     created_at?: DateTimeNullableFilter<"islemler"> | Date | string | null
   }
 
+  export type project_budget_shareUpsertWithWhereUniqueWithoutUsersInput = {
+    where: project_budget_shareWhereUniqueInput
+    update: XOR<project_budget_shareUpdateWithoutUsersInput, project_budget_shareUncheckedUpdateWithoutUsersInput>
+    create: XOR<project_budget_shareCreateWithoutUsersInput, project_budget_shareUncheckedCreateWithoutUsersInput>
+  }
+
+  export type project_budget_shareUpdateWithWhereUniqueWithoutUsersInput = {
+    where: project_budget_shareWhereUniqueInput
+    data: XOR<project_budget_shareUpdateWithoutUsersInput, project_budget_shareUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type project_budget_shareUpdateManyWithWhereWithoutUsersInput = {
+    where: project_budget_shareScalarWhereInput
+    data: XOR<project_budget_shareUpdateManyMutationInput, project_budget_shareUncheckedUpdateManyWithoutUsersInput>
+  }
+
+  export type project_budget_shareScalarWhereInput = {
+    AND?: project_budget_shareScalarWhereInput | project_budget_shareScalarWhereInput[]
+    OR?: project_budget_shareScalarWhereInput[]
+    NOT?: project_budget_shareScalarWhereInput | project_budget_shareScalarWhereInput[]
+    id?: BigIntFilter<"project_budget_share"> | bigint | number
+    project_id?: UuidFilter<"project_budget_share"> | string
+    company_id?: UuidFilter<"project_budget_share"> | string
+    user_id?: UuidFilter<"project_budget_share"> | string
+    project_budget?: DecimalFilter<"project_budget_share"> | Decimal | DecimalJsLike | number | string
+    status?: StringFilter<"project_budget_share"> | string
+    note?: StringNullableFilter<"project_budget_share"> | string | null
+    created_at?: DateTimeNullableFilter<"project_budget_share"> | Date | string | null
+    created_by?: UuidNullableFilter<"project_budget_share"> | string | null
+  }
+
+  export type project_membersUpsertWithWhereUniqueWithoutUsersInput = {
+    where: project_membersWhereUniqueInput
+    update: XOR<project_membersUpdateWithoutUsersInput, project_membersUncheckedUpdateWithoutUsersInput>
+    create: XOR<project_membersCreateWithoutUsersInput, project_membersUncheckedCreateWithoutUsersInput>
+  }
+
+  export type project_membersUpdateWithWhereUniqueWithoutUsersInput = {
+    where: project_membersWhereUniqueInput
+    data: XOR<project_membersUpdateWithoutUsersInput, project_membersUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type project_membersUpdateManyWithWhereWithoutUsersInput = {
+    where: project_membersScalarWhereInput
+    data: XOR<project_membersUpdateManyMutationInput, project_membersUncheckedUpdateManyWithoutUsersInput>
+  }
+
+  export type project_membersScalarWhereInput = {
+    AND?: project_membersScalarWhereInput | project_membersScalarWhereInput[]
+    OR?: project_membersScalarWhereInput[]
+    NOT?: project_membersScalarWhereInput | project_membersScalarWhereInput[]
+    project_id?: UuidFilter<"project_members"> | string
+    user_id?: UuidFilter<"project_members"> | string
+    company_id?: UuidFilter<"project_members"> | string
+    role?: StringFilter<"project_members"> | string
+  }
+
+  export type projectsUpsertWithWhereUniqueWithoutUsersInput = {
+    where: projectsWhereUniqueInput
+    update: XOR<projectsUpdateWithoutUsersInput, projectsUncheckedUpdateWithoutUsersInput>
+    create: XOR<projectsCreateWithoutUsersInput, projectsUncheckedCreateWithoutUsersInput>
+  }
+
+  export type projectsUpdateWithWhereUniqueWithoutUsersInput = {
+    where: projectsWhereUniqueInput
+    data: XOR<projectsUpdateWithoutUsersInput, projectsUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type projectsUpdateManyWithWhereWithoutUsersInput = {
+    where: projectsScalarWhereInput
+    data: XOR<projectsUpdateManyMutationInput, projectsUncheckedUpdateManyWithoutUsersInput>
+  }
+
+  export type projectsScalarWhereInput = {
+    AND?: projectsScalarWhereInput | projectsScalarWhereInput[]
+    OR?: projectsScalarWhereInput[]
+    NOT?: projectsScalarWhereInput | projectsScalarWhereInput[]
+    id?: UuidFilter<"projects"> | string
+    company_id?: UuidFilter<"projects"> | string
+    name?: StringFilter<"projects"> | string
+    description?: StringNullableFilter<"projects"> | string | null
+    m2?: DecimalNullableFilter<"projects"> | Decimal | DecimalJsLike | number | string | null
+    location?: StringNullableFilter<"projects"> | string | null
+    floor_count?: IntNullableFilter<"projects"> | number | null
+    start_date?: DateTimeNullableFilter<"projects"> | Date | string | null
+    end_date?: DateTimeNullableFilter<"projects"> | Date | string | null
+    created_by?: UuidNullableFilter<"projects"> | string | null
+    created_at?: DateTimeNullableFilter<"projects"> | Date | string | null
+    currency?: StringFilter<"projects"> | string
+  }
+
+  export type firmalarCreateWithoutBorclarInput = {
+    firma_id?: bigint | number
+    firma_adi?: string | null
+    created_at?: Date | string | null
+    firma_alias?: firma_aliasCreateNestedManyWithoutFirmalarInput
+    company: companyCreateNestedOneWithoutFirmalarInput
+    users?: usersCreateNestedOneWithoutFirmalarInput
+    islemler?: islemlerCreateNestedManyWithoutFirmalarInput
+  }
+
+  export type firmalarUncheckedCreateWithoutBorclarInput = {
+    firma_id?: bigint | number
+    company_id: string
+    firma_adi?: string | null
+    created_by?: string | null
+    created_at?: Date | string | null
+    firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutFirmalarInput
+    islemler?: islemlerUncheckedCreateNestedManyWithoutFirmalarInput
+  }
+
+  export type firmalarCreateOrConnectWithoutBorclarInput = {
+    where: firmalarWhereUniqueInput
+    create: XOR<firmalarCreateWithoutBorclarInput, firmalarUncheckedCreateWithoutBorclarInput>
+  }
+
   export type companyCreateWithoutBorclarInput = {
     id?: string
     name: string
     created_at?: Date | string | null
-    plan?: string
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
     users: usersCreateNestedOneWithoutCompanyInput
     company_member?: company_memberCreateNestedManyWithoutCompanyInput
-    firma_alias?: firma_aliasCreateNestedManyWithoutCompanyInput
     firmalar?: firmalarCreateNestedManyWithoutCompanyInput
     islemler?: islemlerCreateNestedManyWithoutCompanyInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutCompanyInput
+    project_members?: project_membersCreateNestedManyWithoutCompanyInput
+    projects?: projectsCreateNestedManyWithoutCompanyInput
   }
 
   export type companyUncheckedCreateWithoutBorclarInput = {
@@ -38655,16 +44448,103 @@ export namespace Prisma {
     name: string
     owner: string
     created_at?: Date | string | null
-    plan?: string
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
     company_member?: company_memberUncheckedCreateNestedManyWithoutCompanyInput
-    firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutCompanyInput
     firmalar?: firmalarUncheckedCreateNestedManyWithoutCompanyInput
     islemler?: islemlerUncheckedCreateNestedManyWithoutCompanyInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutCompanyInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutCompanyInput
+    projects?: projectsUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type companyCreateOrConnectWithoutBorclarInput = {
     where: companyWhereUniqueInput
     create: XOR<companyCreateWithoutBorclarInput, companyUncheckedCreateWithoutBorclarInput>
+  }
+
+  export type islemlerCreateWithoutBorclarInput = {
+    islem_id?: bigint | number
+    group_id?: bigint | number | null
+    islem_turu?: string | null
+    isim?: string | null
+    urun_hizmet?: string | null
+    miktar?: Decimal | DecimalJsLike | number | string | null
+    birim?: string | null
+    fiyat?: Decimal | DecimalJsLike | number | string | null
+    islem_tarihi?: Date | string | null
+    odeme_tarihi?: Date | string | null
+    aciklama?: string | null
+    created_at?: Date | string | null
+    firmalar: firmalarCreateNestedOneWithoutIslemlerInput
+    company: companyCreateNestedOneWithoutIslemlerInput
+    projects?: projectsCreateNestedOneWithoutIslemlerInput
+    users?: usersCreateNestedOneWithoutIslemlerInput
+  }
+
+  export type islemlerUncheckedCreateWithoutBorclarInput = {
+    islem_id?: bigint | number
+    company_id: string
+    project_id?: string | null
+    firma_id: bigint | number
+    group_id?: bigint | number | null
+    islem_turu?: string | null
+    isim?: string | null
+    urun_hizmet?: string | null
+    miktar?: Decimal | DecimalJsLike | number | string | null
+    birim?: string | null
+    fiyat?: Decimal | DecimalJsLike | number | string | null
+    islem_tarihi?: Date | string | null
+    odeme_tarihi?: Date | string | null
+    aciklama?: string | null
+    created_by?: string | null
+    created_at?: Date | string | null
+  }
+
+  export type islemlerCreateOrConnectWithoutBorclarInput = {
+    where: islemlerWhereUniqueInput
+    create: XOR<islemlerCreateWithoutBorclarInput, islemlerUncheckedCreateWithoutBorclarInput>
+  }
+
+  export type projectsCreateWithoutBorclarInput = {
+    id?: string
+    name: string
+    description?: string | null
+    m2?: Decimal | DecimalJsLike | number | string | null
+    location?: string | null
+    floor_count?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    created_at?: Date | string | null
+    currency?: string
+    islemler?: islemlerCreateNestedManyWithoutProjectsInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutProjectsInput
+    project_members?: project_membersCreateNestedManyWithoutProjectsInput
+    company: companyCreateNestedOneWithoutProjectsInput
+    users?: usersCreateNestedOneWithoutProjectsInput
+  }
+
+  export type projectsUncheckedCreateWithoutBorclarInput = {
+    id?: string
+    company_id: string
+    name: string
+    description?: string | null
+    m2?: Decimal | DecimalJsLike | number | string | null
+    location?: string | null
+    floor_count?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    created_by?: string | null
+    created_at?: Date | string | null
+    currency?: string
+    islemler?: islemlerUncheckedCreateNestedManyWithoutProjectsInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutProjectsInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutProjectsInput
+  }
+
+  export type projectsCreateOrConnectWithoutBorclarInput = {
+    where: projectsWhereUniqueInput
+    create: XOR<projectsCreateWithoutBorclarInput, projectsUncheckedCreateWithoutBorclarInput>
   }
 
   export type usersCreateWithoutBorclarInput = {
@@ -38712,6 +44592,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasCreateNestedManyWithoutUsersInput
     firmalar?: firmalarCreateNestedManyWithoutUsersInput
     islemler?: islemlerCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutUsersInput
+    project_members?: project_membersCreateNestedManyWithoutUsersInput
+    projects?: projectsCreateNestedManyWithoutUsersInput
   }
 
   export type usersUncheckedCreateWithoutBorclarInput = {
@@ -38759,6 +44642,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutUsersInput
     firmalar?: firmalarUncheckedCreateNestedManyWithoutUsersInput
     islemler?: islemlerUncheckedCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutUsersInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutUsersInput
+    projects?: projectsUncheckedCreateNestedManyWithoutUsersInput
   }
 
   export type usersCreateOrConnectWithoutBorclarInput = {
@@ -38766,70 +44652,35 @@ export namespace Prisma {
     create: XOR<usersCreateWithoutBorclarInput, usersUncheckedCreateWithoutBorclarInput>
   }
 
-  export type firmalarCreateWithoutBorclarInput = {
-    firma_id?: bigint | number
-    firma_adi?: string | null
-    created_at?: Date | string | null
-    firma_alias?: firma_aliasCreateNestedManyWithoutFirmalarInput
-    company: companyCreateNestedOneWithoutFirmalarInput
-    users?: usersCreateNestedOneWithoutFirmalarInput
-    islemler?: islemlerCreateNestedManyWithoutFirmalarInput
-  }
-
-  export type firmalarUncheckedCreateWithoutBorclarInput = {
-    firma_id?: bigint | number
-    company_id: string
-    firma_adi?: string | null
-    created_by?: string | null
-    created_at?: Date | string | null
-    firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutFirmalarInput
-    islemler?: islemlerUncheckedCreateNestedManyWithoutFirmalarInput
-  }
-
-  export type firmalarCreateOrConnectWithoutBorclarInput = {
-    where: firmalarWhereUniqueInput
+  export type firmalarUpsertWithoutBorclarInput = {
+    update: XOR<firmalarUpdateWithoutBorclarInput, firmalarUncheckedUpdateWithoutBorclarInput>
     create: XOR<firmalarCreateWithoutBorclarInput, firmalarUncheckedCreateWithoutBorclarInput>
+    where?: firmalarWhereInput
   }
 
-  export type islemlerCreateWithoutBorclarInput = {
-    islem_id?: bigint | number
-    group_id?: bigint | number | null
-    islem_turu?: string | null
-    isim?: string | null
-    urun_hizmet?: string | null
-    miktar?: Decimal | DecimalJsLike | number | string | null
-    birim?: string | null
-    fiyat?: Decimal | DecimalJsLike | number | string | null
-    islem_tarihi?: Date | string | null
-    odeme_tarihi?: Date | string | null
-    aciklama?: string | null
-    created_at?: Date | string | null
-    company: companyCreateNestedOneWithoutIslemlerInput
-    users?: usersCreateNestedOneWithoutIslemlerInput
-    firmalar: firmalarCreateNestedOneWithoutIslemlerInput
+  export type firmalarUpdateToOneWithWhereWithoutBorclarInput = {
+    where?: firmalarWhereInput
+    data: XOR<firmalarUpdateWithoutBorclarInput, firmalarUncheckedUpdateWithoutBorclarInput>
   }
 
-  export type islemlerUncheckedCreateWithoutBorclarInput = {
-    islem_id?: bigint | number
-    company_id: string
-    firma_id: bigint | number
-    group_id?: bigint | number | null
-    islem_turu?: string | null
-    isim?: string | null
-    urun_hizmet?: string | null
-    miktar?: Decimal | DecimalJsLike | number | string | null
-    birim?: string | null
-    fiyat?: Decimal | DecimalJsLike | number | string | null
-    islem_tarihi?: Date | string | null
-    odeme_tarihi?: Date | string | null
-    aciklama?: string | null
-    created_by?: string | null
-    created_at?: Date | string | null
+  export type firmalarUpdateWithoutBorclarInput = {
+    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    firma_adi?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    firma_alias?: firma_aliasUpdateManyWithoutFirmalarNestedInput
+    company?: companyUpdateOneRequiredWithoutFirmalarNestedInput
+    users?: usersUpdateOneWithoutFirmalarNestedInput
+    islemler?: islemlerUpdateManyWithoutFirmalarNestedInput
   }
 
-  export type islemlerCreateOrConnectWithoutBorclarInput = {
-    where: islemlerWhereUniqueInput
-    create: XOR<islemlerCreateWithoutBorclarInput, islemlerUncheckedCreateWithoutBorclarInput>
+  export type firmalarUncheckedUpdateWithoutBorclarInput = {
+    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    company_id?: StringFieldUpdateOperationsInput | string
+    firma_adi?: NullableStringFieldUpdateOperationsInput | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    firma_alias?: firma_aliasUncheckedUpdateManyWithoutFirmalarNestedInput
+    islemler?: islemlerUncheckedUpdateManyWithoutFirmalarNestedInput
   }
 
   export type companyUpsertWithoutBorclarInput = {
@@ -38847,12 +44698,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    plan?: StringFieldUpdateOperationsInput | string
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
     users?: usersUpdateOneRequiredWithoutCompanyNestedInput
     company_member?: company_memberUpdateManyWithoutCompanyNestedInput
-    firma_alias?: firma_aliasUpdateManyWithoutCompanyNestedInput
     firmalar?: firmalarUpdateManyWithoutCompanyNestedInput
     islemler?: islemlerUpdateManyWithoutCompanyNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutCompanyNestedInput
+    project_members?: project_membersUpdateManyWithoutCompanyNestedInput
+    projects?: projectsUpdateManyWithoutCompanyNestedInput
   }
 
   export type companyUncheckedUpdateWithoutBorclarInput = {
@@ -38860,11 +44714,110 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     owner?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    plan?: StringFieldUpdateOperationsInput | string
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
     company_member?: company_memberUncheckedUpdateManyWithoutCompanyNestedInput
-    firma_alias?: firma_aliasUncheckedUpdateManyWithoutCompanyNestedInput
     firmalar?: firmalarUncheckedUpdateManyWithoutCompanyNestedInput
     islemler?: islemlerUncheckedUpdateManyWithoutCompanyNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutCompanyNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutCompanyNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type islemlerUpsertWithoutBorclarInput = {
+    update: XOR<islemlerUpdateWithoutBorclarInput, islemlerUncheckedUpdateWithoutBorclarInput>
+    create: XOR<islemlerCreateWithoutBorclarInput, islemlerUncheckedCreateWithoutBorclarInput>
+    where?: islemlerWhereInput
+  }
+
+  export type islemlerUpdateToOneWithWhereWithoutBorclarInput = {
+    where?: islemlerWhereInput
+    data: XOR<islemlerUpdateWithoutBorclarInput, islemlerUncheckedUpdateWithoutBorclarInput>
+  }
+
+  export type islemlerUpdateWithoutBorclarInput = {
+    islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    islem_turu?: NullableStringFieldUpdateOperationsInput | string | null
+    isim?: NullableStringFieldUpdateOperationsInput | string | null
+    urun_hizmet?: NullableStringFieldUpdateOperationsInput | string | null
+    miktar?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    birim?: NullableStringFieldUpdateOperationsInput | string | null
+    fiyat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    islem_tarihi?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    odeme_tarihi?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aciklama?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    firmalar?: firmalarUpdateOneRequiredWithoutIslemlerNestedInput
+    company?: companyUpdateOneRequiredWithoutIslemlerNestedInput
+    projects?: projectsUpdateOneWithoutIslemlerNestedInput
+    users?: usersUpdateOneWithoutIslemlerNestedInput
+  }
+
+  export type islemlerUncheckedUpdateWithoutBorclarInput = {
+    islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    company_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
+    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    islem_turu?: NullableStringFieldUpdateOperationsInput | string | null
+    isim?: NullableStringFieldUpdateOperationsInput | string | null
+    urun_hizmet?: NullableStringFieldUpdateOperationsInput | string | null
+    miktar?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    birim?: NullableStringFieldUpdateOperationsInput | string | null
+    fiyat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    islem_tarihi?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    odeme_tarihi?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aciklama?: NullableStringFieldUpdateOperationsInput | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type projectsUpsertWithoutBorclarInput = {
+    update: XOR<projectsUpdateWithoutBorclarInput, projectsUncheckedUpdateWithoutBorclarInput>
+    create: XOR<projectsCreateWithoutBorclarInput, projectsUncheckedCreateWithoutBorclarInput>
+    where?: projectsWhereInput
+  }
+
+  export type projectsUpdateToOneWithWhereWithoutBorclarInput = {
+    where?: projectsWhereInput
+    data: XOR<projectsUpdateWithoutBorclarInput, projectsUncheckedUpdateWithoutBorclarInput>
+  }
+
+  export type projectsUpdateWithoutBorclarInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    m2?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    floor_count?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    islemler?: islemlerUpdateManyWithoutProjectsNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutProjectsNestedInput
+    project_members?: project_membersUpdateManyWithoutProjectsNestedInput
+    company?: companyUpdateOneRequiredWithoutProjectsNestedInput
+    users?: usersUpdateOneWithoutProjectsNestedInput
+  }
+
+  export type projectsUncheckedUpdateWithoutBorclarInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    m2?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    floor_count?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    islemler?: islemlerUncheckedUpdateManyWithoutProjectsNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutProjectsNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type usersUpsertWithoutBorclarInput = {
@@ -38923,6 +44876,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUpdateManyWithoutUsersNestedInput
+    projects?: projectsUpdateManyWithoutUsersNestedInput
   }
 
   export type usersUncheckedUpdateWithoutBorclarInput = {
@@ -38970,84 +44926,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUncheckedUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUncheckedUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUncheckedUpdateManyWithoutUsersNestedInput
-  }
-
-  export type firmalarUpsertWithoutBorclarInput = {
-    update: XOR<firmalarUpdateWithoutBorclarInput, firmalarUncheckedUpdateWithoutBorclarInput>
-    create: XOR<firmalarCreateWithoutBorclarInput, firmalarUncheckedCreateWithoutBorclarInput>
-    where?: firmalarWhereInput
-  }
-
-  export type firmalarUpdateToOneWithWhereWithoutBorclarInput = {
-    where?: firmalarWhereInput
-    data: XOR<firmalarUpdateWithoutBorclarInput, firmalarUncheckedUpdateWithoutBorclarInput>
-  }
-
-  export type firmalarUpdateWithoutBorclarInput = {
-    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    firma_adi?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    firma_alias?: firma_aliasUpdateManyWithoutFirmalarNestedInput
-    company?: companyUpdateOneRequiredWithoutFirmalarNestedInput
-    users?: usersUpdateOneWithoutFirmalarNestedInput
-    islemler?: islemlerUpdateManyWithoutFirmalarNestedInput
-  }
-
-  export type firmalarUncheckedUpdateWithoutBorclarInput = {
-    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    company_id?: StringFieldUpdateOperationsInput | string
-    firma_adi?: NullableStringFieldUpdateOperationsInput | string | null
-    created_by?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    firma_alias?: firma_aliasUncheckedUpdateManyWithoutFirmalarNestedInput
-    islemler?: islemlerUncheckedUpdateManyWithoutFirmalarNestedInput
-  }
-
-  export type islemlerUpsertWithoutBorclarInput = {
-    update: XOR<islemlerUpdateWithoutBorclarInput, islemlerUncheckedUpdateWithoutBorclarInput>
-    create: XOR<islemlerCreateWithoutBorclarInput, islemlerUncheckedCreateWithoutBorclarInput>
-    where?: islemlerWhereInput
-  }
-
-  export type islemlerUpdateToOneWithWhereWithoutBorclarInput = {
-    where?: islemlerWhereInput
-    data: XOR<islemlerUpdateWithoutBorclarInput, islemlerUncheckedUpdateWithoutBorclarInput>
-  }
-
-  export type islemlerUpdateWithoutBorclarInput = {
-    islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    islem_turu?: NullableStringFieldUpdateOperationsInput | string | null
-    isim?: NullableStringFieldUpdateOperationsInput | string | null
-    urun_hizmet?: NullableStringFieldUpdateOperationsInput | string | null
-    miktar?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    birim?: NullableStringFieldUpdateOperationsInput | string | null
-    fiyat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    islem_tarihi?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    odeme_tarihi?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    aciklama?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    company?: companyUpdateOneRequiredWithoutIslemlerNestedInput
-    users?: usersUpdateOneWithoutIslemlerNestedInput
-    firmalar?: firmalarUpdateOneRequiredWithoutIslemlerNestedInput
-  }
-
-  export type islemlerUncheckedUpdateWithoutBorclarInput = {
-    islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    company_id?: StringFieldUpdateOperationsInput | string
-    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    islem_turu?: NullableStringFieldUpdateOperationsInput | string | null
-    isim?: NullableStringFieldUpdateOperationsInput | string | null
-    urun_hizmet?: NullableStringFieldUpdateOperationsInput | string | null
-    miktar?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    birim?: NullableStringFieldUpdateOperationsInput | string | null
-    fiyat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    islem_tarihi?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    odeme_tarihi?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    aciklama?: NullableStringFieldUpdateOperationsInput | string | null
-    created_by?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutUsersNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type borclarCreateWithoutCompanyInput = {
@@ -39058,13 +44939,15 @@ export namespace Prisma {
     odeme_tarihi: Date | string
     odeme_durumu?: string
     created_at?: Date | string | null
-    users?: usersCreateNestedOneWithoutBorclarInput
     firmalar: firmalarCreateNestedOneWithoutBorclarInput
     islemler: islemlerCreateNestedOneWithoutBorclarInput
+    projects?: projectsCreateNestedOneWithoutBorclarInput
+    users?: usersCreateNestedOneWithoutBorclarInput
   }
 
   export type borclarUncheckedCreateWithoutCompanyInput = {
     borc_id?: bigint | number
+    project_id?: string | null
     islem_id: bigint | number
     firma_id: bigint | number
     group_id?: bigint | number | null
@@ -39131,6 +45014,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasCreateNestedManyWithoutUsersInput
     firmalar?: firmalarCreateNestedManyWithoutUsersInput
     islemler?: islemlerCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutUsersInput
+    project_members?: project_membersCreateNestedManyWithoutUsersInput
+    projects?: projectsCreateNestedManyWithoutUsersInput
   }
 
   export type usersUncheckedCreateWithoutCompanyInput = {
@@ -39178,6 +45064,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutUsersInput
     firmalar?: firmalarUncheckedCreateNestedManyWithoutUsersInput
     islemler?: islemlerUncheckedCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutUsersInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutUsersInput
+    projects?: projectsUncheckedCreateNestedManyWithoutUsersInput
   }
 
   export type usersCreateOrConnectWithoutCompanyInput = {
@@ -39186,13 +45075,13 @@ export namespace Prisma {
   }
 
   export type company_memberCreateWithoutCompanyInput = {
-    role?: string | null
+    role?: string
     users: usersCreateNestedOneWithoutCompany_memberInput
   }
 
   export type company_memberUncheckedCreateWithoutCompanyInput = {
     user_id: string
-    role?: string | null
+    role?: string
   }
 
   export type company_memberCreateOrConnectWithoutCompanyInput = {
@@ -39202,34 +45091,6 @@ export namespace Prisma {
 
   export type company_memberCreateManyCompanyInputEnvelope = {
     data: company_memberCreateManyCompanyInput | company_memberCreateManyCompanyInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type firma_aliasCreateWithoutCompanyInput = {
-    alias_id?: bigint | number
-    urun?: string
-    alias_adi: string
-    created_at?: Date | string | null
-    users?: usersCreateNestedOneWithoutFirma_aliasInput
-    firmalar: firmalarCreateNestedOneWithoutFirma_aliasInput
-  }
-
-  export type firma_aliasUncheckedCreateWithoutCompanyInput = {
-    alias_id?: bigint | number
-    firma_id: bigint | number
-    urun?: string
-    alias_adi: string
-    created_by?: string | null
-    created_at?: Date | string | null
-  }
-
-  export type firma_aliasCreateOrConnectWithoutCompanyInput = {
-    where: firma_aliasWhereUniqueInput
-    create: XOR<firma_aliasCreateWithoutCompanyInput, firma_aliasUncheckedCreateWithoutCompanyInput>
-  }
-
-  export type firma_aliasCreateManyCompanyInputEnvelope = {
-    data: firma_aliasCreateManyCompanyInput | firma_aliasCreateManyCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -39277,12 +45138,14 @@ export namespace Prisma {
     aciklama?: string | null
     created_at?: Date | string | null
     borclar?: borclarCreateNestedManyWithoutIslemlerInput
-    users?: usersCreateNestedOneWithoutIslemlerInput
     firmalar: firmalarCreateNestedOneWithoutIslemlerInput
+    projects?: projectsCreateNestedOneWithoutIslemlerInput
+    users?: usersCreateNestedOneWithoutIslemlerInput
   }
 
   export type islemlerUncheckedCreateWithoutCompanyInput = {
     islem_id?: bigint | number
+    project_id?: string | null
     firma_id: bigint | number
     group_id?: bigint | number | null
     islem_turu?: string | null
@@ -39306,6 +45169,106 @@ export namespace Prisma {
 
   export type islemlerCreateManyCompanyInputEnvelope = {
     data: islemlerCreateManyCompanyInput | islemlerCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type project_budget_shareCreateWithoutCompanyInput = {
+    id?: bigint | number
+    project_budget: Decimal | DecimalJsLike | number | string
+    status?: string
+    note?: string | null
+    created_at?: Date | string | null
+    created_by?: string | null
+    projects: projectsCreateNestedOneWithoutProject_budget_shareInput
+    users: usersCreateNestedOneWithoutProject_budget_shareInput
+  }
+
+  export type project_budget_shareUncheckedCreateWithoutCompanyInput = {
+    id?: bigint | number
+    project_id: string
+    user_id: string
+    project_budget: Decimal | DecimalJsLike | number | string
+    status?: string
+    note?: string | null
+    created_at?: Date | string | null
+    created_by?: string | null
+  }
+
+  export type project_budget_shareCreateOrConnectWithoutCompanyInput = {
+    where: project_budget_shareWhereUniqueInput
+    create: XOR<project_budget_shareCreateWithoutCompanyInput, project_budget_shareUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type project_budget_shareCreateManyCompanyInputEnvelope = {
+    data: project_budget_shareCreateManyCompanyInput | project_budget_shareCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type project_membersCreateWithoutCompanyInput = {
+    role?: string
+    projects: projectsCreateNestedOneWithoutProject_membersInput
+    users: usersCreateNestedOneWithoutProject_membersInput
+  }
+
+  export type project_membersUncheckedCreateWithoutCompanyInput = {
+    project_id: string
+    user_id: string
+    role?: string
+  }
+
+  export type project_membersCreateOrConnectWithoutCompanyInput = {
+    where: project_membersWhereUniqueInput
+    create: XOR<project_membersCreateWithoutCompanyInput, project_membersUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type project_membersCreateManyCompanyInputEnvelope = {
+    data: project_membersCreateManyCompanyInput | project_membersCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type projectsCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    m2?: Decimal | DecimalJsLike | number | string | null
+    location?: string | null
+    floor_count?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    created_at?: Date | string | null
+    currency?: string
+    borclar?: borclarCreateNestedManyWithoutProjectsInput
+    islemler?: islemlerCreateNestedManyWithoutProjectsInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutProjectsInput
+    project_members?: project_membersCreateNestedManyWithoutProjectsInput
+    users?: usersCreateNestedOneWithoutProjectsInput
+  }
+
+  export type projectsUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    m2?: Decimal | DecimalJsLike | number | string | null
+    location?: string | null
+    floor_count?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    created_by?: string | null
+    created_at?: Date | string | null
+    currency?: string
+    borclar?: borclarUncheckedCreateNestedManyWithoutProjectsInput
+    islemler?: islemlerUncheckedCreateNestedManyWithoutProjectsInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutProjectsInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutProjectsInput
+  }
+
+  export type projectsCreateOrConnectWithoutCompanyInput = {
+    where: projectsWhereUniqueInput
+    create: XOR<projectsCreateWithoutCompanyInput, projectsUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type projectsCreateManyCompanyInputEnvelope = {
+    data: projectsCreateManyCompanyInput | projectsCreateManyCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -39381,6 +45344,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUpdateManyWithoutUsersNestedInput
+    projects?: projectsUpdateManyWithoutUsersNestedInput
   }
 
   export type usersUncheckedUpdateWithoutCompanyInput = {
@@ -39428,6 +45394,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUncheckedUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUncheckedUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUncheckedUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutUsersNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type company_memberUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -39444,22 +45413,6 @@ export namespace Prisma {
   export type company_memberUpdateManyWithWhereWithoutCompanyInput = {
     where: company_memberScalarWhereInput
     data: XOR<company_memberUpdateManyMutationInput, company_memberUncheckedUpdateManyWithoutCompanyInput>
-  }
-
-  export type firma_aliasUpsertWithWhereUniqueWithoutCompanyInput = {
-    where: firma_aliasWhereUniqueInput
-    update: XOR<firma_aliasUpdateWithoutCompanyInput, firma_aliasUncheckedUpdateWithoutCompanyInput>
-    create: XOR<firma_aliasCreateWithoutCompanyInput, firma_aliasUncheckedCreateWithoutCompanyInput>
-  }
-
-  export type firma_aliasUpdateWithWhereUniqueWithoutCompanyInput = {
-    where: firma_aliasWhereUniqueInput
-    data: XOR<firma_aliasUpdateWithoutCompanyInput, firma_aliasUncheckedUpdateWithoutCompanyInput>
-  }
-
-  export type firma_aliasUpdateManyWithWhereWithoutCompanyInput = {
-    where: firma_aliasScalarWhereInput
-    data: XOR<firma_aliasUpdateManyMutationInput, firma_aliasUncheckedUpdateManyWithoutCompanyInput>
   }
 
   export type firmalarUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -39494,16 +45447,67 @@ export namespace Prisma {
     data: XOR<islemlerUpdateManyMutationInput, islemlerUncheckedUpdateManyWithoutCompanyInput>
   }
 
+  export type project_budget_shareUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: project_budget_shareWhereUniqueInput
+    update: XOR<project_budget_shareUpdateWithoutCompanyInput, project_budget_shareUncheckedUpdateWithoutCompanyInput>
+    create: XOR<project_budget_shareCreateWithoutCompanyInput, project_budget_shareUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type project_budget_shareUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: project_budget_shareWhereUniqueInput
+    data: XOR<project_budget_shareUpdateWithoutCompanyInput, project_budget_shareUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type project_budget_shareUpdateManyWithWhereWithoutCompanyInput = {
+    where: project_budget_shareScalarWhereInput
+    data: XOR<project_budget_shareUpdateManyMutationInput, project_budget_shareUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type project_membersUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: project_membersWhereUniqueInput
+    update: XOR<project_membersUpdateWithoutCompanyInput, project_membersUncheckedUpdateWithoutCompanyInput>
+    create: XOR<project_membersCreateWithoutCompanyInput, project_membersUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type project_membersUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: project_membersWhereUniqueInput
+    data: XOR<project_membersUpdateWithoutCompanyInput, project_membersUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type project_membersUpdateManyWithWhereWithoutCompanyInput = {
+    where: project_membersScalarWhereInput
+    data: XOR<project_membersUpdateManyMutationInput, project_membersUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type projectsUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: projectsWhereUniqueInput
+    update: XOR<projectsUpdateWithoutCompanyInput, projectsUncheckedUpdateWithoutCompanyInput>
+    create: XOR<projectsCreateWithoutCompanyInput, projectsUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type projectsUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: projectsWhereUniqueInput
+    data: XOR<projectsUpdateWithoutCompanyInput, projectsUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type projectsUpdateManyWithWhereWithoutCompanyInput = {
+    where: projectsScalarWhereInput
+    data: XOR<projectsUpdateManyMutationInput, projectsUncheckedUpdateManyWithoutCompanyInput>
+  }
+
   export type companyCreateWithoutCompany_memberInput = {
     id?: string
     name: string
     created_at?: Date | string | null
-    plan?: string
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
     borclar?: borclarCreateNestedManyWithoutCompanyInput
     users: usersCreateNestedOneWithoutCompanyInput
-    firma_alias?: firma_aliasCreateNestedManyWithoutCompanyInput
     firmalar?: firmalarCreateNestedManyWithoutCompanyInput
     islemler?: islemlerCreateNestedManyWithoutCompanyInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutCompanyInput
+    project_members?: project_membersCreateNestedManyWithoutCompanyInput
+    projects?: projectsCreateNestedManyWithoutCompanyInput
   }
 
   export type companyUncheckedCreateWithoutCompany_memberInput = {
@@ -39511,11 +45515,14 @@ export namespace Prisma {
     name: string
     owner: string
     created_at?: Date | string | null
-    plan?: string
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
     borclar?: borclarUncheckedCreateNestedManyWithoutCompanyInput
-    firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutCompanyInput
     firmalar?: firmalarUncheckedCreateNestedManyWithoutCompanyInput
     islemler?: islemlerUncheckedCreateNestedManyWithoutCompanyInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutCompanyInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutCompanyInput
+    projects?: projectsUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type companyCreateOrConnectWithoutCompany_memberInput = {
@@ -39568,6 +45575,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasCreateNestedManyWithoutUsersInput
     firmalar?: firmalarCreateNestedManyWithoutUsersInput
     islemler?: islemlerCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutUsersInput
+    project_members?: project_membersCreateNestedManyWithoutUsersInput
+    projects?: projectsCreateNestedManyWithoutUsersInput
   }
 
   export type usersUncheckedCreateWithoutCompany_memberInput = {
@@ -39615,6 +45625,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutUsersInput
     firmalar?: firmalarUncheckedCreateNestedManyWithoutUsersInput
     islemler?: islemlerUncheckedCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutUsersInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutUsersInput
+    projects?: projectsUncheckedCreateNestedManyWithoutUsersInput
   }
 
   export type usersCreateOrConnectWithoutCompany_memberInput = {
@@ -39637,12 +45650,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    plan?: StringFieldUpdateOperationsInput | string
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUpdateManyWithoutCompanyNestedInput
     users?: usersUpdateOneRequiredWithoutCompanyNestedInput
-    firma_alias?: firma_aliasUpdateManyWithoutCompanyNestedInput
     firmalar?: firmalarUpdateManyWithoutCompanyNestedInput
     islemler?: islemlerUpdateManyWithoutCompanyNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutCompanyNestedInput
+    project_members?: project_membersUpdateManyWithoutCompanyNestedInput
+    projects?: projectsUpdateManyWithoutCompanyNestedInput
   }
 
   export type companyUncheckedUpdateWithoutCompany_memberInput = {
@@ -39650,11 +45666,14 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     owner?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    plan?: StringFieldUpdateOperationsInput | string
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUncheckedUpdateManyWithoutCompanyNestedInput
-    firma_alias?: firma_aliasUncheckedUpdateManyWithoutCompanyNestedInput
     firmalar?: firmalarUncheckedUpdateManyWithoutCompanyNestedInput
     islemler?: islemlerUncheckedUpdateManyWithoutCompanyNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutCompanyNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutCompanyNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type usersUpsertWithoutCompany_memberInput = {
@@ -39713,6 +45732,9 @@ export namespace Prisma {
     firma_alias?: firma_aliasUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUpdateManyWithoutUsersNestedInput
+    projects?: projectsUpdateManyWithoutUsersNestedInput
   }
 
   export type usersUncheckedUpdateWithoutCompany_memberInput = {
@@ -39760,35 +45782,34 @@ export namespace Prisma {
     firma_alias?: firma_aliasUncheckedUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUncheckedUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUncheckedUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutUsersNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutUsersNestedInput
   }
 
-  export type companyCreateWithoutFirma_aliasInput = {
-    id?: string
-    name: string
+  export type firmalarCreateWithoutFirma_aliasInput = {
+    firma_id?: bigint | number
+    firma_adi?: string | null
     created_at?: Date | string | null
-    plan?: string
-    borclar?: borclarCreateNestedManyWithoutCompanyInput
-    users: usersCreateNestedOneWithoutCompanyInput
-    company_member?: company_memberCreateNestedManyWithoutCompanyInput
-    firmalar?: firmalarCreateNestedManyWithoutCompanyInput
-    islemler?: islemlerCreateNestedManyWithoutCompanyInput
+    borclar?: borclarCreateNestedManyWithoutFirmalarInput
+    company: companyCreateNestedOneWithoutFirmalarInput
+    users?: usersCreateNestedOneWithoutFirmalarInput
+    islemler?: islemlerCreateNestedManyWithoutFirmalarInput
   }
 
-  export type companyUncheckedCreateWithoutFirma_aliasInput = {
-    id?: string
-    name: string
-    owner: string
+  export type firmalarUncheckedCreateWithoutFirma_aliasInput = {
+    firma_id?: bigint | number
+    company_id: string
+    firma_adi?: string | null
+    created_by?: string | null
     created_at?: Date | string | null
-    plan?: string
-    borclar?: borclarUncheckedCreateNestedManyWithoutCompanyInput
-    company_member?: company_memberUncheckedCreateNestedManyWithoutCompanyInput
-    firmalar?: firmalarUncheckedCreateNestedManyWithoutCompanyInput
-    islemler?: islemlerUncheckedCreateNestedManyWithoutCompanyInput
+    borclar?: borclarUncheckedCreateNestedManyWithoutFirmalarInput
+    islemler?: islemlerUncheckedCreateNestedManyWithoutFirmalarInput
   }
 
-  export type companyCreateOrConnectWithoutFirma_aliasInput = {
-    where: companyWhereUniqueInput
-    create: XOR<companyCreateWithoutFirma_aliasInput, companyUncheckedCreateWithoutFirma_aliasInput>
+  export type firmalarCreateOrConnectWithoutFirma_aliasInput = {
+    where: firmalarWhereUniqueInput
+    create: XOR<firmalarCreateWithoutFirma_aliasInput, firmalarUncheckedCreateWithoutFirma_aliasInput>
   }
 
   export type usersCreateWithoutFirma_aliasInput = {
@@ -39836,6 +45857,9 @@ export namespace Prisma {
     company_member?: company_memberCreateNestedManyWithoutUsersInput
     firmalar?: firmalarCreateNestedManyWithoutUsersInput
     islemler?: islemlerCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutUsersInput
+    project_members?: project_membersCreateNestedManyWithoutUsersInput
+    projects?: projectsCreateNestedManyWithoutUsersInput
   }
 
   export type usersUncheckedCreateWithoutFirma_aliasInput = {
@@ -39883,6 +45907,9 @@ export namespace Prisma {
     company_member?: company_memberUncheckedCreateNestedManyWithoutUsersInput
     firmalar?: firmalarUncheckedCreateNestedManyWithoutUsersInput
     islemler?: islemlerUncheckedCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutUsersInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutUsersInput
+    projects?: projectsUncheckedCreateNestedManyWithoutUsersInput
   }
 
   export type usersCreateOrConnectWithoutFirma_aliasInput = {
@@ -39890,64 +45917,35 @@ export namespace Prisma {
     create: XOR<usersCreateWithoutFirma_aliasInput, usersUncheckedCreateWithoutFirma_aliasInput>
   }
 
-  export type firmalarCreateWithoutFirma_aliasInput = {
-    firma_id?: bigint | number
-    firma_adi?: string | null
-    created_at?: Date | string | null
-    borclar?: borclarCreateNestedManyWithoutFirmalarInput
-    company: companyCreateNestedOneWithoutFirmalarInput
-    users?: usersCreateNestedOneWithoutFirmalarInput
-    islemler?: islemlerCreateNestedManyWithoutFirmalarInput
-  }
-
-  export type firmalarUncheckedCreateWithoutFirma_aliasInput = {
-    firma_id?: bigint | number
-    company_id: string
-    firma_adi?: string | null
-    created_by?: string | null
-    created_at?: Date | string | null
-    borclar?: borclarUncheckedCreateNestedManyWithoutFirmalarInput
-    islemler?: islemlerUncheckedCreateNestedManyWithoutFirmalarInput
-  }
-
-  export type firmalarCreateOrConnectWithoutFirma_aliasInput = {
-    where: firmalarWhereUniqueInput
+  export type firmalarUpsertWithoutFirma_aliasInput = {
+    update: XOR<firmalarUpdateWithoutFirma_aliasInput, firmalarUncheckedUpdateWithoutFirma_aliasInput>
     create: XOR<firmalarCreateWithoutFirma_aliasInput, firmalarUncheckedCreateWithoutFirma_aliasInput>
+    where?: firmalarWhereInput
   }
 
-  export type companyUpsertWithoutFirma_aliasInput = {
-    update: XOR<companyUpdateWithoutFirma_aliasInput, companyUncheckedUpdateWithoutFirma_aliasInput>
-    create: XOR<companyCreateWithoutFirma_aliasInput, companyUncheckedCreateWithoutFirma_aliasInput>
-    where?: companyWhereInput
+  export type firmalarUpdateToOneWithWhereWithoutFirma_aliasInput = {
+    where?: firmalarWhereInput
+    data: XOR<firmalarUpdateWithoutFirma_aliasInput, firmalarUncheckedUpdateWithoutFirma_aliasInput>
   }
 
-  export type companyUpdateToOneWithWhereWithoutFirma_aliasInput = {
-    where?: companyWhereInput
-    data: XOR<companyUpdateWithoutFirma_aliasInput, companyUncheckedUpdateWithoutFirma_aliasInput>
-  }
-
-  export type companyUpdateWithoutFirma_aliasInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+  export type firmalarUpdateWithoutFirma_aliasInput = {
+    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    firma_adi?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    plan?: StringFieldUpdateOperationsInput | string
-    borclar?: borclarUpdateManyWithoutCompanyNestedInput
-    users?: usersUpdateOneRequiredWithoutCompanyNestedInput
-    company_member?: company_memberUpdateManyWithoutCompanyNestedInput
-    firmalar?: firmalarUpdateManyWithoutCompanyNestedInput
-    islemler?: islemlerUpdateManyWithoutCompanyNestedInput
+    borclar?: borclarUpdateManyWithoutFirmalarNestedInput
+    company?: companyUpdateOneRequiredWithoutFirmalarNestedInput
+    users?: usersUpdateOneWithoutFirmalarNestedInput
+    islemler?: islemlerUpdateManyWithoutFirmalarNestedInput
   }
 
-  export type companyUncheckedUpdateWithoutFirma_aliasInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    owner?: StringFieldUpdateOperationsInput | string
+  export type firmalarUncheckedUpdateWithoutFirma_aliasInput = {
+    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    company_id?: StringFieldUpdateOperationsInput | string
+    firma_adi?: NullableStringFieldUpdateOperationsInput | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    plan?: StringFieldUpdateOperationsInput | string
-    borclar?: borclarUncheckedUpdateManyWithoutCompanyNestedInput
-    company_member?: company_memberUncheckedUpdateManyWithoutCompanyNestedInput
-    firmalar?: firmalarUncheckedUpdateManyWithoutCompanyNestedInput
-    islemler?: islemlerUncheckedUpdateManyWithoutCompanyNestedInput
+    borclar?: borclarUncheckedUpdateManyWithoutFirmalarNestedInput
+    islemler?: islemlerUncheckedUpdateManyWithoutFirmalarNestedInput
   }
 
   export type usersUpsertWithoutFirma_aliasInput = {
@@ -40006,6 +46004,9 @@ export namespace Prisma {
     company_member?: company_memberUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUpdateManyWithoutUsersNestedInput
+    projects?: projectsUpdateManyWithoutUsersNestedInput
   }
 
   export type usersUncheckedUpdateWithoutFirma_aliasInput = {
@@ -40053,37 +46054,9 @@ export namespace Prisma {
     company_member?: company_memberUncheckedUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUncheckedUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUncheckedUpdateManyWithoutUsersNestedInput
-  }
-
-  export type firmalarUpsertWithoutFirma_aliasInput = {
-    update: XOR<firmalarUpdateWithoutFirma_aliasInput, firmalarUncheckedUpdateWithoutFirma_aliasInput>
-    create: XOR<firmalarCreateWithoutFirma_aliasInput, firmalarUncheckedCreateWithoutFirma_aliasInput>
-    where?: firmalarWhereInput
-  }
-
-  export type firmalarUpdateToOneWithWhereWithoutFirma_aliasInput = {
-    where?: firmalarWhereInput
-    data: XOR<firmalarUpdateWithoutFirma_aliasInput, firmalarUncheckedUpdateWithoutFirma_aliasInput>
-  }
-
-  export type firmalarUpdateWithoutFirma_aliasInput = {
-    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    firma_adi?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    borclar?: borclarUpdateManyWithoutFirmalarNestedInput
-    company?: companyUpdateOneRequiredWithoutFirmalarNestedInput
-    users?: usersUpdateOneWithoutFirmalarNestedInput
-    islemler?: islemlerUpdateManyWithoutFirmalarNestedInput
-  }
-
-  export type firmalarUncheckedUpdateWithoutFirma_aliasInput = {
-    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    company_id?: StringFieldUpdateOperationsInput | string
-    firma_adi?: NullableStringFieldUpdateOperationsInput | string | null
-    created_by?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    borclar?: borclarUncheckedUpdateManyWithoutFirmalarNestedInput
-    islemler?: islemlerUncheckedUpdateManyWithoutFirmalarNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutUsersNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type borclarCreateWithoutFirmalarInput = {
@@ -40095,13 +46068,14 @@ export namespace Prisma {
     odeme_durumu?: string
     created_at?: Date | string | null
     company: companyCreateNestedOneWithoutBorclarInput
-    users?: usersCreateNestedOneWithoutBorclarInput
     islemler: islemlerCreateNestedOneWithoutBorclarInput
+    projects?: projectsCreateNestedOneWithoutBorclarInput
+    users?: usersCreateNestedOneWithoutBorclarInput
   }
 
   export type borclarUncheckedCreateWithoutFirmalarInput = {
     borc_id?: bigint | number
-    company_id: string
+    project_id?: string | null
     islem_id: bigint | number
     group_id?: bigint | number | null
     satir_tipi?: string
@@ -40127,13 +46101,11 @@ export namespace Prisma {
     urun?: string
     alias_adi: string
     created_at?: Date | string | null
-    company: companyCreateNestedOneWithoutFirma_aliasInput
     users?: usersCreateNestedOneWithoutFirma_aliasInput
   }
 
   export type firma_aliasUncheckedCreateWithoutFirmalarInput = {
     alias_id?: bigint | number
-    company_id: string
     urun?: string
     alias_adi: string
     created_by?: string | null
@@ -40154,12 +46126,15 @@ export namespace Prisma {
     id?: string
     name: string
     created_at?: Date | string | null
-    plan?: string
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
     borclar?: borclarCreateNestedManyWithoutCompanyInput
     users: usersCreateNestedOneWithoutCompanyInput
     company_member?: company_memberCreateNestedManyWithoutCompanyInput
-    firma_alias?: firma_aliasCreateNestedManyWithoutCompanyInput
     islemler?: islemlerCreateNestedManyWithoutCompanyInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutCompanyInput
+    project_members?: project_membersCreateNestedManyWithoutCompanyInput
+    projects?: projectsCreateNestedManyWithoutCompanyInput
   }
 
   export type companyUncheckedCreateWithoutFirmalarInput = {
@@ -40167,11 +46142,14 @@ export namespace Prisma {
     name: string
     owner: string
     created_at?: Date | string | null
-    plan?: string
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
     borclar?: borclarUncheckedCreateNestedManyWithoutCompanyInput
     company_member?: company_memberUncheckedCreateNestedManyWithoutCompanyInput
-    firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutCompanyInput
     islemler?: islemlerUncheckedCreateNestedManyWithoutCompanyInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutCompanyInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutCompanyInput
+    projects?: projectsUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type companyCreateOrConnectWithoutFirmalarInput = {
@@ -40224,6 +46202,9 @@ export namespace Prisma {
     company_member?: company_memberCreateNestedManyWithoutUsersInput
     firma_alias?: firma_aliasCreateNestedManyWithoutUsersInput
     islemler?: islemlerCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutUsersInput
+    project_members?: project_membersCreateNestedManyWithoutUsersInput
+    projects?: projectsCreateNestedManyWithoutUsersInput
   }
 
   export type usersUncheckedCreateWithoutFirmalarInput = {
@@ -40271,6 +46252,9 @@ export namespace Prisma {
     company_member?: company_memberUncheckedCreateNestedManyWithoutUsersInput
     firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutUsersInput
     islemler?: islemlerUncheckedCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutUsersInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutUsersInput
+    projects?: projectsUncheckedCreateNestedManyWithoutUsersInput
   }
 
   export type usersCreateOrConnectWithoutFirmalarInput = {
@@ -40293,12 +46277,13 @@ export namespace Prisma {
     created_at?: Date | string | null
     borclar?: borclarCreateNestedManyWithoutIslemlerInput
     company: companyCreateNestedOneWithoutIslemlerInput
+    projects?: projectsCreateNestedOneWithoutIslemlerInput
     users?: usersCreateNestedOneWithoutIslemlerInput
   }
 
   export type islemlerUncheckedCreateWithoutFirmalarInput = {
     islem_id?: bigint | number
-    company_id: string
+    project_id?: string | null
     group_id?: bigint | number | null
     islem_turu?: string | null
     isim?: string | null
@@ -40371,12 +46356,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    plan?: StringFieldUpdateOperationsInput | string
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUpdateManyWithoutCompanyNestedInput
     users?: usersUpdateOneRequiredWithoutCompanyNestedInput
     company_member?: company_memberUpdateManyWithoutCompanyNestedInput
-    firma_alias?: firma_aliasUpdateManyWithoutCompanyNestedInput
     islemler?: islemlerUpdateManyWithoutCompanyNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutCompanyNestedInput
+    project_members?: project_membersUpdateManyWithoutCompanyNestedInput
+    projects?: projectsUpdateManyWithoutCompanyNestedInput
   }
 
   export type companyUncheckedUpdateWithoutFirmalarInput = {
@@ -40384,11 +46372,14 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     owner?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    plan?: StringFieldUpdateOperationsInput | string
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUncheckedUpdateManyWithoutCompanyNestedInput
     company_member?: company_memberUncheckedUpdateManyWithoutCompanyNestedInput
-    firma_alias?: firma_aliasUncheckedUpdateManyWithoutCompanyNestedInput
     islemler?: islemlerUncheckedUpdateManyWithoutCompanyNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutCompanyNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutCompanyNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type usersUpsertWithoutFirmalarInput = {
@@ -40447,6 +46438,9 @@ export namespace Prisma {
     company_member?: company_memberUpdateManyWithoutUsersNestedInput
     firma_alias?: firma_aliasUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUpdateManyWithoutUsersNestedInput
+    projects?: projectsUpdateManyWithoutUsersNestedInput
   }
 
   export type usersUncheckedUpdateWithoutFirmalarInput = {
@@ -40494,6 +46488,9 @@ export namespace Prisma {
     company_member?: company_memberUncheckedUpdateManyWithoutUsersNestedInput
     firma_alias?: firma_aliasUncheckedUpdateManyWithoutUsersNestedInput
     islemler?: islemlerUncheckedUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutUsersNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type islemlerUpsertWithWhereUniqueWithoutFirmalarInput = {
@@ -40520,14 +46517,15 @@ export namespace Prisma {
     odeme_tarihi: Date | string
     odeme_durumu?: string
     created_at?: Date | string | null
-    company: companyCreateNestedOneWithoutBorclarInput
-    users?: usersCreateNestedOneWithoutBorclarInput
     firmalar: firmalarCreateNestedOneWithoutBorclarInput
+    company: companyCreateNestedOneWithoutBorclarInput
+    projects?: projectsCreateNestedOneWithoutBorclarInput
+    users?: usersCreateNestedOneWithoutBorclarInput
   }
 
   export type borclarUncheckedCreateWithoutIslemlerInput = {
     borc_id?: bigint | number
-    company_id: string
+    project_id?: string | null
     firma_id: bigint | number
     group_id?: bigint | number | null
     satir_tipi?: string
@@ -40548,16 +46546,44 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type firmalarCreateWithoutIslemlerInput = {
+    firma_id?: bigint | number
+    firma_adi?: string | null
+    created_at?: Date | string | null
+    borclar?: borclarCreateNestedManyWithoutFirmalarInput
+    firma_alias?: firma_aliasCreateNestedManyWithoutFirmalarInput
+    company: companyCreateNestedOneWithoutFirmalarInput
+    users?: usersCreateNestedOneWithoutFirmalarInput
+  }
+
+  export type firmalarUncheckedCreateWithoutIslemlerInput = {
+    firma_id?: bigint | number
+    company_id: string
+    firma_adi?: string | null
+    created_by?: string | null
+    created_at?: Date | string | null
+    borclar?: borclarUncheckedCreateNestedManyWithoutFirmalarInput
+    firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutFirmalarInput
+  }
+
+  export type firmalarCreateOrConnectWithoutIslemlerInput = {
+    where: firmalarWhereUniqueInput
+    create: XOR<firmalarCreateWithoutIslemlerInput, firmalarUncheckedCreateWithoutIslemlerInput>
+  }
+
   export type companyCreateWithoutIslemlerInput = {
     id?: string
     name: string
     created_at?: Date | string | null
-    plan?: string
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
     borclar?: borclarCreateNestedManyWithoutCompanyInput
     users: usersCreateNestedOneWithoutCompanyInput
     company_member?: company_memberCreateNestedManyWithoutCompanyInput
-    firma_alias?: firma_aliasCreateNestedManyWithoutCompanyInput
     firmalar?: firmalarCreateNestedManyWithoutCompanyInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutCompanyInput
+    project_members?: project_membersCreateNestedManyWithoutCompanyInput
+    projects?: projectsCreateNestedManyWithoutCompanyInput
   }
 
   export type companyUncheckedCreateWithoutIslemlerInput = {
@@ -40565,16 +46591,60 @@ export namespace Prisma {
     name: string
     owner: string
     created_at?: Date | string | null
-    plan?: string
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
     borclar?: borclarUncheckedCreateNestedManyWithoutCompanyInput
     company_member?: company_memberUncheckedCreateNestedManyWithoutCompanyInput
-    firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutCompanyInput
     firmalar?: firmalarUncheckedCreateNestedManyWithoutCompanyInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutCompanyInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutCompanyInput
+    projects?: projectsUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type companyCreateOrConnectWithoutIslemlerInput = {
     where: companyWhereUniqueInput
     create: XOR<companyCreateWithoutIslemlerInput, companyUncheckedCreateWithoutIslemlerInput>
+  }
+
+  export type projectsCreateWithoutIslemlerInput = {
+    id?: string
+    name: string
+    description?: string | null
+    m2?: Decimal | DecimalJsLike | number | string | null
+    location?: string | null
+    floor_count?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    created_at?: Date | string | null
+    currency?: string
+    borclar?: borclarCreateNestedManyWithoutProjectsInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutProjectsInput
+    project_members?: project_membersCreateNestedManyWithoutProjectsInput
+    company: companyCreateNestedOneWithoutProjectsInput
+    users?: usersCreateNestedOneWithoutProjectsInput
+  }
+
+  export type projectsUncheckedCreateWithoutIslemlerInput = {
+    id?: string
+    company_id: string
+    name: string
+    description?: string | null
+    m2?: Decimal | DecimalJsLike | number | string | null
+    location?: string | null
+    floor_count?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    created_by?: string | null
+    created_at?: Date | string | null
+    currency?: string
+    borclar?: borclarUncheckedCreateNestedManyWithoutProjectsInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutProjectsInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutProjectsInput
+  }
+
+  export type projectsCreateOrConnectWithoutIslemlerInput = {
+    where: projectsWhereUniqueInput
+    create: XOR<projectsCreateWithoutIslemlerInput, projectsUncheckedCreateWithoutIslemlerInput>
   }
 
   export type usersCreateWithoutIslemlerInput = {
@@ -40622,6 +46692,9 @@ export namespace Prisma {
     company_member?: company_memberCreateNestedManyWithoutUsersInput
     firma_alias?: firma_aliasCreateNestedManyWithoutUsersInput
     firmalar?: firmalarCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutUsersInput
+    project_members?: project_membersCreateNestedManyWithoutUsersInput
+    projects?: projectsCreateNestedManyWithoutUsersInput
   }
 
   export type usersUncheckedCreateWithoutIslemlerInput = {
@@ -40669,36 +46742,14 @@ export namespace Prisma {
     company_member?: company_memberUncheckedCreateNestedManyWithoutUsersInput
     firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutUsersInput
     firmalar?: firmalarUncheckedCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutUsersInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutUsersInput
+    projects?: projectsUncheckedCreateNestedManyWithoutUsersInput
   }
 
   export type usersCreateOrConnectWithoutIslemlerInput = {
     where: usersWhereUniqueInput
     create: XOR<usersCreateWithoutIslemlerInput, usersUncheckedCreateWithoutIslemlerInput>
-  }
-
-  export type firmalarCreateWithoutIslemlerInput = {
-    firma_id?: bigint | number
-    firma_adi?: string | null
-    created_at?: Date | string | null
-    borclar?: borclarCreateNestedManyWithoutFirmalarInput
-    firma_alias?: firma_aliasCreateNestedManyWithoutFirmalarInput
-    company: companyCreateNestedOneWithoutFirmalarInput
-    users?: usersCreateNestedOneWithoutFirmalarInput
-  }
-
-  export type firmalarUncheckedCreateWithoutIslemlerInput = {
-    firma_id?: bigint | number
-    company_id: string
-    firma_adi?: string | null
-    created_by?: string | null
-    created_at?: Date | string | null
-    borclar?: borclarUncheckedCreateNestedManyWithoutFirmalarInput
-    firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutFirmalarInput
-  }
-
-  export type firmalarCreateOrConnectWithoutIslemlerInput = {
-    where: firmalarWhereUniqueInput
-    create: XOR<firmalarCreateWithoutIslemlerInput, firmalarUncheckedCreateWithoutIslemlerInput>
   }
 
   export type borclarUpsertWithWhereUniqueWithoutIslemlerInput = {
@@ -40717,6 +46768,37 @@ export namespace Prisma {
     data: XOR<borclarUpdateManyMutationInput, borclarUncheckedUpdateManyWithoutIslemlerInput>
   }
 
+  export type firmalarUpsertWithoutIslemlerInput = {
+    update: XOR<firmalarUpdateWithoutIslemlerInput, firmalarUncheckedUpdateWithoutIslemlerInput>
+    create: XOR<firmalarCreateWithoutIslemlerInput, firmalarUncheckedCreateWithoutIslemlerInput>
+    where?: firmalarWhereInput
+  }
+
+  export type firmalarUpdateToOneWithWhereWithoutIslemlerInput = {
+    where?: firmalarWhereInput
+    data: XOR<firmalarUpdateWithoutIslemlerInput, firmalarUncheckedUpdateWithoutIslemlerInput>
+  }
+
+  export type firmalarUpdateWithoutIslemlerInput = {
+    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    firma_adi?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    borclar?: borclarUpdateManyWithoutFirmalarNestedInput
+    firma_alias?: firma_aliasUpdateManyWithoutFirmalarNestedInput
+    company?: companyUpdateOneRequiredWithoutFirmalarNestedInput
+    users?: usersUpdateOneWithoutFirmalarNestedInput
+  }
+
+  export type firmalarUncheckedUpdateWithoutIslemlerInput = {
+    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    company_id?: StringFieldUpdateOperationsInput | string
+    firma_adi?: NullableStringFieldUpdateOperationsInput | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    borclar?: borclarUncheckedUpdateManyWithoutFirmalarNestedInput
+    firma_alias?: firma_aliasUncheckedUpdateManyWithoutFirmalarNestedInput
+  }
+
   export type companyUpsertWithoutIslemlerInput = {
     update: XOR<companyUpdateWithoutIslemlerInput, companyUncheckedUpdateWithoutIslemlerInput>
     create: XOR<companyCreateWithoutIslemlerInput, companyUncheckedCreateWithoutIslemlerInput>
@@ -40732,12 +46814,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    plan?: StringFieldUpdateOperationsInput | string
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUpdateManyWithoutCompanyNestedInput
     users?: usersUpdateOneRequiredWithoutCompanyNestedInput
     company_member?: company_memberUpdateManyWithoutCompanyNestedInput
-    firma_alias?: firma_aliasUpdateManyWithoutCompanyNestedInput
     firmalar?: firmalarUpdateManyWithoutCompanyNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutCompanyNestedInput
+    project_members?: project_membersUpdateManyWithoutCompanyNestedInput
+    projects?: projectsUpdateManyWithoutCompanyNestedInput
   }
 
   export type companyUncheckedUpdateWithoutIslemlerInput = {
@@ -40745,11 +46830,61 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     owner?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    plan?: StringFieldUpdateOperationsInput | string
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUncheckedUpdateManyWithoutCompanyNestedInput
     company_member?: company_memberUncheckedUpdateManyWithoutCompanyNestedInput
-    firma_alias?: firma_aliasUncheckedUpdateManyWithoutCompanyNestedInput
     firmalar?: firmalarUncheckedUpdateManyWithoutCompanyNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutCompanyNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutCompanyNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type projectsUpsertWithoutIslemlerInput = {
+    update: XOR<projectsUpdateWithoutIslemlerInput, projectsUncheckedUpdateWithoutIslemlerInput>
+    create: XOR<projectsCreateWithoutIslemlerInput, projectsUncheckedCreateWithoutIslemlerInput>
+    where?: projectsWhereInput
+  }
+
+  export type projectsUpdateToOneWithWhereWithoutIslemlerInput = {
+    where?: projectsWhereInput
+    data: XOR<projectsUpdateWithoutIslemlerInput, projectsUncheckedUpdateWithoutIslemlerInput>
+  }
+
+  export type projectsUpdateWithoutIslemlerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    m2?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    floor_count?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    borclar?: borclarUpdateManyWithoutProjectsNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutProjectsNestedInput
+    project_members?: project_membersUpdateManyWithoutProjectsNestedInput
+    company?: companyUpdateOneRequiredWithoutProjectsNestedInput
+    users?: usersUpdateOneWithoutProjectsNestedInput
+  }
+
+  export type projectsUncheckedUpdateWithoutIslemlerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    m2?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    floor_count?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    borclar?: borclarUncheckedUpdateManyWithoutProjectsNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutProjectsNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type usersUpsertWithoutIslemlerInput = {
@@ -40808,6 +46943,9 @@ export namespace Prisma {
     company_member?: company_memberUpdateManyWithoutUsersNestedInput
     firma_alias?: firma_aliasUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUpdateManyWithoutUsersNestedInput
+    projects?: projectsUpdateManyWithoutUsersNestedInput
   }
 
   export type usersUncheckedUpdateWithoutIslemlerInput = {
@@ -40855,37 +46993,1263 @@ export namespace Prisma {
     company_member?: company_memberUncheckedUpdateManyWithoutUsersNestedInput
     firma_alias?: firma_aliasUncheckedUpdateManyWithoutUsersNestedInput
     firmalar?: firmalarUncheckedUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutUsersNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutUsersNestedInput
   }
 
-  export type firmalarUpsertWithoutIslemlerInput = {
-    update: XOR<firmalarUpdateWithoutIslemlerInput, firmalarUncheckedUpdateWithoutIslemlerInput>
-    create: XOR<firmalarCreateWithoutIslemlerInput, firmalarUncheckedCreateWithoutIslemlerInput>
-    where?: firmalarWhereInput
+  export type companyCreateWithoutProject_budget_shareInput = {
+    id?: string
+    name: string
+    created_at?: Date | string | null
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    borclar?: borclarCreateNestedManyWithoutCompanyInput
+    users: usersCreateNestedOneWithoutCompanyInput
+    company_member?: company_memberCreateNestedManyWithoutCompanyInput
+    firmalar?: firmalarCreateNestedManyWithoutCompanyInput
+    islemler?: islemlerCreateNestedManyWithoutCompanyInput
+    project_members?: project_membersCreateNestedManyWithoutCompanyInput
+    projects?: projectsCreateNestedManyWithoutCompanyInput
   }
 
-  export type firmalarUpdateToOneWithWhereWithoutIslemlerInput = {
-    where?: firmalarWhereInput
-    data: XOR<firmalarUpdateWithoutIslemlerInput, firmalarUncheckedUpdateWithoutIslemlerInput>
+  export type companyUncheckedCreateWithoutProject_budget_shareInput = {
+    id?: string
+    name: string
+    owner: string
+    created_at?: Date | string | null
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    borclar?: borclarUncheckedCreateNestedManyWithoutCompanyInput
+    company_member?: company_memberUncheckedCreateNestedManyWithoutCompanyInput
+    firmalar?: firmalarUncheckedCreateNestedManyWithoutCompanyInput
+    islemler?: islemlerUncheckedCreateNestedManyWithoutCompanyInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutCompanyInput
+    projects?: projectsUncheckedCreateNestedManyWithoutCompanyInput
   }
 
-  export type firmalarUpdateWithoutIslemlerInput = {
-    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    firma_adi?: NullableStringFieldUpdateOperationsInput | string | null
+  export type companyCreateOrConnectWithoutProject_budget_shareInput = {
+    where: companyWhereUniqueInput
+    create: XOR<companyCreateWithoutProject_budget_shareInput, companyUncheckedCreateWithoutProject_budget_shareInput>
+  }
+
+  export type projectsCreateWithoutProject_budget_shareInput = {
+    id?: string
+    name: string
+    description?: string | null
+    m2?: Decimal | DecimalJsLike | number | string | null
+    location?: string | null
+    floor_count?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    created_at?: Date | string | null
+    currency?: string
+    borclar?: borclarCreateNestedManyWithoutProjectsInput
+    islemler?: islemlerCreateNestedManyWithoutProjectsInput
+    project_members?: project_membersCreateNestedManyWithoutProjectsInput
+    company: companyCreateNestedOneWithoutProjectsInput
+    users?: usersCreateNestedOneWithoutProjectsInput
+  }
+
+  export type projectsUncheckedCreateWithoutProject_budget_shareInput = {
+    id?: string
+    company_id: string
+    name: string
+    description?: string | null
+    m2?: Decimal | DecimalJsLike | number | string | null
+    location?: string | null
+    floor_count?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    created_by?: string | null
+    created_at?: Date | string | null
+    currency?: string
+    borclar?: borclarUncheckedCreateNestedManyWithoutProjectsInput
+    islemler?: islemlerUncheckedCreateNestedManyWithoutProjectsInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutProjectsInput
+  }
+
+  export type projectsCreateOrConnectWithoutProject_budget_shareInput = {
+    where: projectsWhereUniqueInput
+    create: XOR<projectsCreateWithoutProject_budget_shareInput, projectsUncheckedCreateWithoutProject_budget_shareInput>
+  }
+
+  export type usersCreateWithoutProject_budget_shareInput = {
+    instance_id?: string | null
+    id: string
+    aud?: string | null
+    role?: string | null
+    email?: string | null
+    encrypted_password?: string | null
+    email_confirmed_at?: Date | string | null
+    invited_at?: Date | string | null
+    confirmation_token?: string | null
+    confirmation_sent_at?: Date | string | null
+    recovery_token?: string | null
+    recovery_sent_at?: Date | string | null
+    email_change_token_new?: string | null
+    email_change?: string | null
+    email_change_sent_at?: Date | string | null
+    last_sign_in_at?: Date | string | null
+    raw_app_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    raw_user_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    is_super_admin?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    phone?: string | null
+    phone_confirmed_at?: Date | string | null
+    phone_change?: string | null
+    phone_change_token?: string | null
+    phone_change_sent_at?: Date | string | null
+    confirmed_at?: Date | string | null
+    email_change_token_current?: string | null
+    email_change_confirm_status?: number | null
+    banned_until?: Date | string | null
+    reauthentication_token?: string | null
+    reauthentication_sent_at?: Date | string | null
+    is_sso_user?: boolean
+    deleted_at?: Date | string | null
+    is_anonymous?: boolean
+    identities?: identitiesCreateNestedManyWithoutUsersInput
+    mfa_factors?: mfa_factorsCreateNestedManyWithoutUsersInput
+    one_time_tokens?: one_time_tokensCreateNestedManyWithoutUsersInput
+    sessions?: sessionsCreateNestedManyWithoutUsersInput
+    borclar?: borclarCreateNestedManyWithoutUsersInput
+    company?: companyCreateNestedManyWithoutUsersInput
+    company_member?: company_memberCreateNestedManyWithoutUsersInput
+    firma_alias?: firma_aliasCreateNestedManyWithoutUsersInput
+    firmalar?: firmalarCreateNestedManyWithoutUsersInput
+    islemler?: islemlerCreateNestedManyWithoutUsersInput
+    project_members?: project_membersCreateNestedManyWithoutUsersInput
+    projects?: projectsCreateNestedManyWithoutUsersInput
+  }
+
+  export type usersUncheckedCreateWithoutProject_budget_shareInput = {
+    instance_id?: string | null
+    id: string
+    aud?: string | null
+    role?: string | null
+    email?: string | null
+    encrypted_password?: string | null
+    email_confirmed_at?: Date | string | null
+    invited_at?: Date | string | null
+    confirmation_token?: string | null
+    confirmation_sent_at?: Date | string | null
+    recovery_token?: string | null
+    recovery_sent_at?: Date | string | null
+    email_change_token_new?: string | null
+    email_change?: string | null
+    email_change_sent_at?: Date | string | null
+    last_sign_in_at?: Date | string | null
+    raw_app_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    raw_user_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    is_super_admin?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    phone?: string | null
+    phone_confirmed_at?: Date | string | null
+    phone_change?: string | null
+    phone_change_token?: string | null
+    phone_change_sent_at?: Date | string | null
+    confirmed_at?: Date | string | null
+    email_change_token_current?: string | null
+    email_change_confirm_status?: number | null
+    banned_until?: Date | string | null
+    reauthentication_token?: string | null
+    reauthentication_sent_at?: Date | string | null
+    is_sso_user?: boolean
+    deleted_at?: Date | string | null
+    is_anonymous?: boolean
+    identities?: identitiesUncheckedCreateNestedManyWithoutUsersInput
+    mfa_factors?: mfa_factorsUncheckedCreateNestedManyWithoutUsersInput
+    one_time_tokens?: one_time_tokensUncheckedCreateNestedManyWithoutUsersInput
+    sessions?: sessionsUncheckedCreateNestedManyWithoutUsersInput
+    borclar?: borclarUncheckedCreateNestedManyWithoutUsersInput
+    company?: companyUncheckedCreateNestedManyWithoutUsersInput
+    company_member?: company_memberUncheckedCreateNestedManyWithoutUsersInput
+    firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutUsersInput
+    firmalar?: firmalarUncheckedCreateNestedManyWithoutUsersInput
+    islemler?: islemlerUncheckedCreateNestedManyWithoutUsersInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutUsersInput
+    projects?: projectsUncheckedCreateNestedManyWithoutUsersInput
+  }
+
+  export type usersCreateOrConnectWithoutProject_budget_shareInput = {
+    where: usersWhereUniqueInput
+    create: XOR<usersCreateWithoutProject_budget_shareInput, usersUncheckedCreateWithoutProject_budget_shareInput>
+  }
+
+  export type companyUpsertWithoutProject_budget_shareInput = {
+    update: XOR<companyUpdateWithoutProject_budget_shareInput, companyUncheckedUpdateWithoutProject_budget_shareInput>
+    create: XOR<companyCreateWithoutProject_budget_shareInput, companyUncheckedCreateWithoutProject_budget_shareInput>
+    where?: companyWhereInput
+  }
+
+  export type companyUpdateToOneWithWhereWithoutProject_budget_shareInput = {
+    where?: companyWhereInput
+    data: XOR<companyUpdateWithoutProject_budget_shareInput, companyUncheckedUpdateWithoutProject_budget_shareInput>
+  }
+
+  export type companyUpdateWithoutProject_budget_shareInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    borclar?: borclarUpdateManyWithoutFirmalarNestedInput
-    firma_alias?: firma_aliasUpdateManyWithoutFirmalarNestedInput
-    company?: companyUpdateOneRequiredWithoutFirmalarNestedInput
-    users?: usersUpdateOneWithoutFirmalarNestedInput
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    borclar?: borclarUpdateManyWithoutCompanyNestedInput
+    users?: usersUpdateOneRequiredWithoutCompanyNestedInput
+    company_member?: company_memberUpdateManyWithoutCompanyNestedInput
+    firmalar?: firmalarUpdateManyWithoutCompanyNestedInput
+    islemler?: islemlerUpdateManyWithoutCompanyNestedInput
+    project_members?: project_membersUpdateManyWithoutCompanyNestedInput
+    projects?: projectsUpdateManyWithoutCompanyNestedInput
   }
 
-  export type firmalarUncheckedUpdateWithoutIslemlerInput = {
-    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
+  export type companyUncheckedUpdateWithoutProject_budget_shareInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    owner?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    borclar?: borclarUncheckedUpdateManyWithoutCompanyNestedInput
+    company_member?: company_memberUncheckedUpdateManyWithoutCompanyNestedInput
+    firmalar?: firmalarUncheckedUpdateManyWithoutCompanyNestedInput
+    islemler?: islemlerUncheckedUpdateManyWithoutCompanyNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutCompanyNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type projectsUpsertWithoutProject_budget_shareInput = {
+    update: XOR<projectsUpdateWithoutProject_budget_shareInput, projectsUncheckedUpdateWithoutProject_budget_shareInput>
+    create: XOR<projectsCreateWithoutProject_budget_shareInput, projectsUncheckedCreateWithoutProject_budget_shareInput>
+    where?: projectsWhereInput
+  }
+
+  export type projectsUpdateToOneWithWhereWithoutProject_budget_shareInput = {
+    where?: projectsWhereInput
+    data: XOR<projectsUpdateWithoutProject_budget_shareInput, projectsUncheckedUpdateWithoutProject_budget_shareInput>
+  }
+
+  export type projectsUpdateWithoutProject_budget_shareInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    m2?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    floor_count?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    borclar?: borclarUpdateManyWithoutProjectsNestedInput
+    islemler?: islemlerUpdateManyWithoutProjectsNestedInput
+    project_members?: project_membersUpdateManyWithoutProjectsNestedInput
+    company?: companyUpdateOneRequiredWithoutProjectsNestedInput
+    users?: usersUpdateOneWithoutProjectsNestedInput
+  }
+
+  export type projectsUncheckedUpdateWithoutProject_budget_shareInput = {
+    id?: StringFieldUpdateOperationsInput | string
     company_id?: StringFieldUpdateOperationsInput | string
-    firma_adi?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    m2?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    floor_count?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    borclar?: borclarUncheckedUpdateManyWithoutFirmalarNestedInput
-    firma_alias?: firma_aliasUncheckedUpdateManyWithoutFirmalarNestedInput
+    currency?: StringFieldUpdateOperationsInput | string
+    borclar?: borclarUncheckedUpdateManyWithoutProjectsNestedInput
+    islemler?: islemlerUncheckedUpdateManyWithoutProjectsNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type usersUpsertWithoutProject_budget_shareInput = {
+    update: XOR<usersUpdateWithoutProject_budget_shareInput, usersUncheckedUpdateWithoutProject_budget_shareInput>
+    create: XOR<usersCreateWithoutProject_budget_shareInput, usersUncheckedCreateWithoutProject_budget_shareInput>
+    where?: usersWhereInput
+  }
+
+  export type usersUpdateToOneWithWhereWithoutProject_budget_shareInput = {
+    where?: usersWhereInput
+    data: XOR<usersUpdateWithoutProject_budget_shareInput, usersUncheckedUpdateWithoutProject_budget_shareInput>
+  }
+
+  export type usersUpdateWithoutProject_budget_shareInput = {
+    instance_id?: NullableStringFieldUpdateOperationsInput | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    aud?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    encrypted_password?: NullableStringFieldUpdateOperationsInput | string | null
+    email_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    invited_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmation_token?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmation_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recovery_token?: NullableStringFieldUpdateOperationsInput | string | null
+    recovery_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email_change_token_new?: NullableStringFieldUpdateOperationsInput | string | null
+    email_change?: NullableStringFieldUpdateOperationsInput | string | null
+    email_change_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_sign_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    raw_app_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    raw_user_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    is_super_admin?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    phone_change?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_change_token?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_change_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email_change_token_current?: NullableStringFieldUpdateOperationsInput | string | null
+    email_change_confirm_status?: NullableIntFieldUpdateOperationsInput | number | null
+    banned_until?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reauthentication_token?: NullableStringFieldUpdateOperationsInput | string | null
+    reauthentication_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_sso_user?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_anonymous?: BoolFieldUpdateOperationsInput | boolean
+    identities?: identitiesUpdateManyWithoutUsersNestedInput
+    mfa_factors?: mfa_factorsUpdateManyWithoutUsersNestedInput
+    one_time_tokens?: one_time_tokensUpdateManyWithoutUsersNestedInput
+    sessions?: sessionsUpdateManyWithoutUsersNestedInput
+    borclar?: borclarUpdateManyWithoutUsersNestedInput
+    company?: companyUpdateManyWithoutUsersNestedInput
+    company_member?: company_memberUpdateManyWithoutUsersNestedInput
+    firma_alias?: firma_aliasUpdateManyWithoutUsersNestedInput
+    firmalar?: firmalarUpdateManyWithoutUsersNestedInput
+    islemler?: islemlerUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUpdateManyWithoutUsersNestedInput
+    projects?: projectsUpdateManyWithoutUsersNestedInput
+  }
+
+  export type usersUncheckedUpdateWithoutProject_budget_shareInput = {
+    instance_id?: NullableStringFieldUpdateOperationsInput | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    aud?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    encrypted_password?: NullableStringFieldUpdateOperationsInput | string | null
+    email_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    invited_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmation_token?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmation_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recovery_token?: NullableStringFieldUpdateOperationsInput | string | null
+    recovery_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email_change_token_new?: NullableStringFieldUpdateOperationsInput | string | null
+    email_change?: NullableStringFieldUpdateOperationsInput | string | null
+    email_change_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_sign_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    raw_app_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    raw_user_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    is_super_admin?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    phone_change?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_change_token?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_change_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email_change_token_current?: NullableStringFieldUpdateOperationsInput | string | null
+    email_change_confirm_status?: NullableIntFieldUpdateOperationsInput | number | null
+    banned_until?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reauthentication_token?: NullableStringFieldUpdateOperationsInput | string | null
+    reauthentication_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_sso_user?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_anonymous?: BoolFieldUpdateOperationsInput | boolean
+    identities?: identitiesUncheckedUpdateManyWithoutUsersNestedInput
+    mfa_factors?: mfa_factorsUncheckedUpdateManyWithoutUsersNestedInput
+    one_time_tokens?: one_time_tokensUncheckedUpdateManyWithoutUsersNestedInput
+    sessions?: sessionsUncheckedUpdateManyWithoutUsersNestedInput
+    borclar?: borclarUncheckedUpdateManyWithoutUsersNestedInput
+    company?: companyUncheckedUpdateManyWithoutUsersNestedInput
+    company_member?: company_memberUncheckedUpdateManyWithoutUsersNestedInput
+    firma_alias?: firma_aliasUncheckedUpdateManyWithoutUsersNestedInput
+    firmalar?: firmalarUncheckedUpdateManyWithoutUsersNestedInput
+    islemler?: islemlerUncheckedUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutUsersNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type companyCreateWithoutProject_membersInput = {
+    id?: string
+    name: string
+    created_at?: Date | string | null
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    borclar?: borclarCreateNestedManyWithoutCompanyInput
+    users: usersCreateNestedOneWithoutCompanyInput
+    company_member?: company_memberCreateNestedManyWithoutCompanyInput
+    firmalar?: firmalarCreateNestedManyWithoutCompanyInput
+    islemler?: islemlerCreateNestedManyWithoutCompanyInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutCompanyInput
+    projects?: projectsCreateNestedManyWithoutCompanyInput
+  }
+
+  export type companyUncheckedCreateWithoutProject_membersInput = {
+    id?: string
+    name: string
+    owner: string
+    created_at?: Date | string | null
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    borclar?: borclarUncheckedCreateNestedManyWithoutCompanyInput
+    company_member?: company_memberUncheckedCreateNestedManyWithoutCompanyInput
+    firmalar?: firmalarUncheckedCreateNestedManyWithoutCompanyInput
+    islemler?: islemlerUncheckedCreateNestedManyWithoutCompanyInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutCompanyInput
+    projects?: projectsUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type companyCreateOrConnectWithoutProject_membersInput = {
+    where: companyWhereUniqueInput
+    create: XOR<companyCreateWithoutProject_membersInput, companyUncheckedCreateWithoutProject_membersInput>
+  }
+
+  export type projectsCreateWithoutProject_membersInput = {
+    id?: string
+    name: string
+    description?: string | null
+    m2?: Decimal | DecimalJsLike | number | string | null
+    location?: string | null
+    floor_count?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    created_at?: Date | string | null
+    currency?: string
+    borclar?: borclarCreateNestedManyWithoutProjectsInput
+    islemler?: islemlerCreateNestedManyWithoutProjectsInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutProjectsInput
+    company: companyCreateNestedOneWithoutProjectsInput
+    users?: usersCreateNestedOneWithoutProjectsInput
+  }
+
+  export type projectsUncheckedCreateWithoutProject_membersInput = {
+    id?: string
+    company_id: string
+    name: string
+    description?: string | null
+    m2?: Decimal | DecimalJsLike | number | string | null
+    location?: string | null
+    floor_count?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    created_by?: string | null
+    created_at?: Date | string | null
+    currency?: string
+    borclar?: borclarUncheckedCreateNestedManyWithoutProjectsInput
+    islemler?: islemlerUncheckedCreateNestedManyWithoutProjectsInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutProjectsInput
+  }
+
+  export type projectsCreateOrConnectWithoutProject_membersInput = {
+    where: projectsWhereUniqueInput
+    create: XOR<projectsCreateWithoutProject_membersInput, projectsUncheckedCreateWithoutProject_membersInput>
+  }
+
+  export type usersCreateWithoutProject_membersInput = {
+    instance_id?: string | null
+    id: string
+    aud?: string | null
+    role?: string | null
+    email?: string | null
+    encrypted_password?: string | null
+    email_confirmed_at?: Date | string | null
+    invited_at?: Date | string | null
+    confirmation_token?: string | null
+    confirmation_sent_at?: Date | string | null
+    recovery_token?: string | null
+    recovery_sent_at?: Date | string | null
+    email_change_token_new?: string | null
+    email_change?: string | null
+    email_change_sent_at?: Date | string | null
+    last_sign_in_at?: Date | string | null
+    raw_app_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    raw_user_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    is_super_admin?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    phone?: string | null
+    phone_confirmed_at?: Date | string | null
+    phone_change?: string | null
+    phone_change_token?: string | null
+    phone_change_sent_at?: Date | string | null
+    confirmed_at?: Date | string | null
+    email_change_token_current?: string | null
+    email_change_confirm_status?: number | null
+    banned_until?: Date | string | null
+    reauthentication_token?: string | null
+    reauthentication_sent_at?: Date | string | null
+    is_sso_user?: boolean
+    deleted_at?: Date | string | null
+    is_anonymous?: boolean
+    identities?: identitiesCreateNestedManyWithoutUsersInput
+    mfa_factors?: mfa_factorsCreateNestedManyWithoutUsersInput
+    one_time_tokens?: one_time_tokensCreateNestedManyWithoutUsersInput
+    sessions?: sessionsCreateNestedManyWithoutUsersInput
+    borclar?: borclarCreateNestedManyWithoutUsersInput
+    company?: companyCreateNestedManyWithoutUsersInput
+    company_member?: company_memberCreateNestedManyWithoutUsersInput
+    firma_alias?: firma_aliasCreateNestedManyWithoutUsersInput
+    firmalar?: firmalarCreateNestedManyWithoutUsersInput
+    islemler?: islemlerCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutUsersInput
+    projects?: projectsCreateNestedManyWithoutUsersInput
+  }
+
+  export type usersUncheckedCreateWithoutProject_membersInput = {
+    instance_id?: string | null
+    id: string
+    aud?: string | null
+    role?: string | null
+    email?: string | null
+    encrypted_password?: string | null
+    email_confirmed_at?: Date | string | null
+    invited_at?: Date | string | null
+    confirmation_token?: string | null
+    confirmation_sent_at?: Date | string | null
+    recovery_token?: string | null
+    recovery_sent_at?: Date | string | null
+    email_change_token_new?: string | null
+    email_change?: string | null
+    email_change_sent_at?: Date | string | null
+    last_sign_in_at?: Date | string | null
+    raw_app_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    raw_user_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    is_super_admin?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    phone?: string | null
+    phone_confirmed_at?: Date | string | null
+    phone_change?: string | null
+    phone_change_token?: string | null
+    phone_change_sent_at?: Date | string | null
+    confirmed_at?: Date | string | null
+    email_change_token_current?: string | null
+    email_change_confirm_status?: number | null
+    banned_until?: Date | string | null
+    reauthentication_token?: string | null
+    reauthentication_sent_at?: Date | string | null
+    is_sso_user?: boolean
+    deleted_at?: Date | string | null
+    is_anonymous?: boolean
+    identities?: identitiesUncheckedCreateNestedManyWithoutUsersInput
+    mfa_factors?: mfa_factorsUncheckedCreateNestedManyWithoutUsersInput
+    one_time_tokens?: one_time_tokensUncheckedCreateNestedManyWithoutUsersInput
+    sessions?: sessionsUncheckedCreateNestedManyWithoutUsersInput
+    borclar?: borclarUncheckedCreateNestedManyWithoutUsersInput
+    company?: companyUncheckedCreateNestedManyWithoutUsersInput
+    company_member?: company_memberUncheckedCreateNestedManyWithoutUsersInput
+    firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutUsersInput
+    firmalar?: firmalarUncheckedCreateNestedManyWithoutUsersInput
+    islemler?: islemlerUncheckedCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutUsersInput
+    projects?: projectsUncheckedCreateNestedManyWithoutUsersInput
+  }
+
+  export type usersCreateOrConnectWithoutProject_membersInput = {
+    where: usersWhereUniqueInput
+    create: XOR<usersCreateWithoutProject_membersInput, usersUncheckedCreateWithoutProject_membersInput>
+  }
+
+  export type companyUpsertWithoutProject_membersInput = {
+    update: XOR<companyUpdateWithoutProject_membersInput, companyUncheckedUpdateWithoutProject_membersInput>
+    create: XOR<companyCreateWithoutProject_membersInput, companyUncheckedCreateWithoutProject_membersInput>
+    where?: companyWhereInput
+  }
+
+  export type companyUpdateToOneWithWhereWithoutProject_membersInput = {
+    where?: companyWhereInput
+    data: XOR<companyUpdateWithoutProject_membersInput, companyUncheckedUpdateWithoutProject_membersInput>
+  }
+
+  export type companyUpdateWithoutProject_membersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    borclar?: borclarUpdateManyWithoutCompanyNestedInput
+    users?: usersUpdateOneRequiredWithoutCompanyNestedInput
+    company_member?: company_memberUpdateManyWithoutCompanyNestedInput
+    firmalar?: firmalarUpdateManyWithoutCompanyNestedInput
+    islemler?: islemlerUpdateManyWithoutCompanyNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutCompanyNestedInput
+    projects?: projectsUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type companyUncheckedUpdateWithoutProject_membersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    owner?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    borclar?: borclarUncheckedUpdateManyWithoutCompanyNestedInput
+    company_member?: company_memberUncheckedUpdateManyWithoutCompanyNestedInput
+    firmalar?: firmalarUncheckedUpdateManyWithoutCompanyNestedInput
+    islemler?: islemlerUncheckedUpdateManyWithoutCompanyNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutCompanyNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type projectsUpsertWithoutProject_membersInput = {
+    update: XOR<projectsUpdateWithoutProject_membersInput, projectsUncheckedUpdateWithoutProject_membersInput>
+    create: XOR<projectsCreateWithoutProject_membersInput, projectsUncheckedCreateWithoutProject_membersInput>
+    where?: projectsWhereInput
+  }
+
+  export type projectsUpdateToOneWithWhereWithoutProject_membersInput = {
+    where?: projectsWhereInput
+    data: XOR<projectsUpdateWithoutProject_membersInput, projectsUncheckedUpdateWithoutProject_membersInput>
+  }
+
+  export type projectsUpdateWithoutProject_membersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    m2?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    floor_count?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    borclar?: borclarUpdateManyWithoutProjectsNestedInput
+    islemler?: islemlerUpdateManyWithoutProjectsNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutProjectsNestedInput
+    company?: companyUpdateOneRequiredWithoutProjectsNestedInput
+    users?: usersUpdateOneWithoutProjectsNestedInput
+  }
+
+  export type projectsUncheckedUpdateWithoutProject_membersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    m2?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    floor_count?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    borclar?: borclarUncheckedUpdateManyWithoutProjectsNestedInput
+    islemler?: islemlerUncheckedUpdateManyWithoutProjectsNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type usersUpsertWithoutProject_membersInput = {
+    update: XOR<usersUpdateWithoutProject_membersInput, usersUncheckedUpdateWithoutProject_membersInput>
+    create: XOR<usersCreateWithoutProject_membersInput, usersUncheckedCreateWithoutProject_membersInput>
+    where?: usersWhereInput
+  }
+
+  export type usersUpdateToOneWithWhereWithoutProject_membersInput = {
+    where?: usersWhereInput
+    data: XOR<usersUpdateWithoutProject_membersInput, usersUncheckedUpdateWithoutProject_membersInput>
+  }
+
+  export type usersUpdateWithoutProject_membersInput = {
+    instance_id?: NullableStringFieldUpdateOperationsInput | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    aud?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    encrypted_password?: NullableStringFieldUpdateOperationsInput | string | null
+    email_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    invited_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmation_token?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmation_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recovery_token?: NullableStringFieldUpdateOperationsInput | string | null
+    recovery_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email_change_token_new?: NullableStringFieldUpdateOperationsInput | string | null
+    email_change?: NullableStringFieldUpdateOperationsInput | string | null
+    email_change_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_sign_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    raw_app_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    raw_user_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    is_super_admin?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    phone_change?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_change_token?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_change_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email_change_token_current?: NullableStringFieldUpdateOperationsInput | string | null
+    email_change_confirm_status?: NullableIntFieldUpdateOperationsInput | number | null
+    banned_until?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reauthentication_token?: NullableStringFieldUpdateOperationsInput | string | null
+    reauthentication_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_sso_user?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_anonymous?: BoolFieldUpdateOperationsInput | boolean
+    identities?: identitiesUpdateManyWithoutUsersNestedInput
+    mfa_factors?: mfa_factorsUpdateManyWithoutUsersNestedInput
+    one_time_tokens?: one_time_tokensUpdateManyWithoutUsersNestedInput
+    sessions?: sessionsUpdateManyWithoutUsersNestedInput
+    borclar?: borclarUpdateManyWithoutUsersNestedInput
+    company?: companyUpdateManyWithoutUsersNestedInput
+    company_member?: company_memberUpdateManyWithoutUsersNestedInput
+    firma_alias?: firma_aliasUpdateManyWithoutUsersNestedInput
+    firmalar?: firmalarUpdateManyWithoutUsersNestedInput
+    islemler?: islemlerUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutUsersNestedInput
+    projects?: projectsUpdateManyWithoutUsersNestedInput
+  }
+
+  export type usersUncheckedUpdateWithoutProject_membersInput = {
+    instance_id?: NullableStringFieldUpdateOperationsInput | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    aud?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    encrypted_password?: NullableStringFieldUpdateOperationsInput | string | null
+    email_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    invited_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmation_token?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmation_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recovery_token?: NullableStringFieldUpdateOperationsInput | string | null
+    recovery_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email_change_token_new?: NullableStringFieldUpdateOperationsInput | string | null
+    email_change?: NullableStringFieldUpdateOperationsInput | string | null
+    email_change_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_sign_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    raw_app_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    raw_user_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    is_super_admin?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    phone_change?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_change_token?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_change_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email_change_token_current?: NullableStringFieldUpdateOperationsInput | string | null
+    email_change_confirm_status?: NullableIntFieldUpdateOperationsInput | number | null
+    banned_until?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reauthentication_token?: NullableStringFieldUpdateOperationsInput | string | null
+    reauthentication_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_sso_user?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_anonymous?: BoolFieldUpdateOperationsInput | boolean
+    identities?: identitiesUncheckedUpdateManyWithoutUsersNestedInput
+    mfa_factors?: mfa_factorsUncheckedUpdateManyWithoutUsersNestedInput
+    one_time_tokens?: one_time_tokensUncheckedUpdateManyWithoutUsersNestedInput
+    sessions?: sessionsUncheckedUpdateManyWithoutUsersNestedInput
+    borclar?: borclarUncheckedUpdateManyWithoutUsersNestedInput
+    company?: companyUncheckedUpdateManyWithoutUsersNestedInput
+    company_member?: company_memberUncheckedUpdateManyWithoutUsersNestedInput
+    firma_alias?: firma_aliasUncheckedUpdateManyWithoutUsersNestedInput
+    firmalar?: firmalarUncheckedUpdateManyWithoutUsersNestedInput
+    islemler?: islemlerUncheckedUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutUsersNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type borclarCreateWithoutProjectsInput = {
+    borc_id?: bigint | number
+    group_id?: bigint | number | null
+    satir_tipi?: string
+    tutar: Decimal | DecimalJsLike | number | string
+    odeme_tarihi: Date | string
+    odeme_durumu?: string
+    created_at?: Date | string | null
+    firmalar: firmalarCreateNestedOneWithoutBorclarInput
+    company: companyCreateNestedOneWithoutBorclarInput
+    islemler: islemlerCreateNestedOneWithoutBorclarInput
+    users?: usersCreateNestedOneWithoutBorclarInput
+  }
+
+  export type borclarUncheckedCreateWithoutProjectsInput = {
+    borc_id?: bigint | number
+    islem_id: bigint | number
+    firma_id: bigint | number
+    group_id?: bigint | number | null
+    satir_tipi?: string
+    tutar: Decimal | DecimalJsLike | number | string
+    odeme_tarihi: Date | string
+    odeme_durumu?: string
+    created_by?: string | null
+    created_at?: Date | string | null
+  }
+
+  export type borclarCreateOrConnectWithoutProjectsInput = {
+    where: borclarWhereUniqueInput
+    create: XOR<borclarCreateWithoutProjectsInput, borclarUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type borclarCreateManyProjectsInputEnvelope = {
+    data: borclarCreateManyProjectsInput | borclarCreateManyProjectsInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type islemlerCreateWithoutProjectsInput = {
+    islem_id?: bigint | number
+    group_id?: bigint | number | null
+    islem_turu?: string | null
+    isim?: string | null
+    urun_hizmet?: string | null
+    miktar?: Decimal | DecimalJsLike | number | string | null
+    birim?: string | null
+    fiyat?: Decimal | DecimalJsLike | number | string | null
+    islem_tarihi?: Date | string | null
+    odeme_tarihi?: Date | string | null
+    aciklama?: string | null
+    created_at?: Date | string | null
+    borclar?: borclarCreateNestedManyWithoutIslemlerInput
+    firmalar: firmalarCreateNestedOneWithoutIslemlerInput
+    company: companyCreateNestedOneWithoutIslemlerInput
+    users?: usersCreateNestedOneWithoutIslemlerInput
+  }
+
+  export type islemlerUncheckedCreateWithoutProjectsInput = {
+    islem_id?: bigint | number
+    firma_id: bigint | number
+    group_id?: bigint | number | null
+    islem_turu?: string | null
+    isim?: string | null
+    urun_hizmet?: string | null
+    miktar?: Decimal | DecimalJsLike | number | string | null
+    birim?: string | null
+    fiyat?: Decimal | DecimalJsLike | number | string | null
+    islem_tarihi?: Date | string | null
+    odeme_tarihi?: Date | string | null
+    aciklama?: string | null
+    created_by?: string | null
+    created_at?: Date | string | null
+    borclar?: borclarUncheckedCreateNestedManyWithoutIslemlerInput
+  }
+
+  export type islemlerCreateOrConnectWithoutProjectsInput = {
+    where: islemlerWhereUniqueInput
+    create: XOR<islemlerCreateWithoutProjectsInput, islemlerUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type islemlerCreateManyProjectsInputEnvelope = {
+    data: islemlerCreateManyProjectsInput | islemlerCreateManyProjectsInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type project_budget_shareCreateWithoutProjectsInput = {
+    id?: bigint | number
+    project_budget: Decimal | DecimalJsLike | number | string
+    status?: string
+    note?: string | null
+    created_at?: Date | string | null
+    created_by?: string | null
+    company: companyCreateNestedOneWithoutProject_budget_shareInput
+    users: usersCreateNestedOneWithoutProject_budget_shareInput
+  }
+
+  export type project_budget_shareUncheckedCreateWithoutProjectsInput = {
+    id?: bigint | number
+    company_id: string
+    user_id: string
+    project_budget: Decimal | DecimalJsLike | number | string
+    status?: string
+    note?: string | null
+    created_at?: Date | string | null
+    created_by?: string | null
+  }
+
+  export type project_budget_shareCreateOrConnectWithoutProjectsInput = {
+    where: project_budget_shareWhereUniqueInput
+    create: XOR<project_budget_shareCreateWithoutProjectsInput, project_budget_shareUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type project_budget_shareCreateManyProjectsInputEnvelope = {
+    data: project_budget_shareCreateManyProjectsInput | project_budget_shareCreateManyProjectsInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type project_membersCreateWithoutProjectsInput = {
+    role?: string
+    company: companyCreateNestedOneWithoutProject_membersInput
+    users: usersCreateNestedOneWithoutProject_membersInput
+  }
+
+  export type project_membersUncheckedCreateWithoutProjectsInput = {
+    user_id: string
+    company_id: string
+    role?: string
+  }
+
+  export type project_membersCreateOrConnectWithoutProjectsInput = {
+    where: project_membersWhereUniqueInput
+    create: XOR<project_membersCreateWithoutProjectsInput, project_membersUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type project_membersCreateManyProjectsInputEnvelope = {
+    data: project_membersCreateManyProjectsInput | project_membersCreateManyProjectsInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type companyCreateWithoutProjectsInput = {
+    id?: string
+    name: string
+    created_at?: Date | string | null
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    borclar?: borclarCreateNestedManyWithoutCompanyInput
+    users: usersCreateNestedOneWithoutCompanyInput
+    company_member?: company_memberCreateNestedManyWithoutCompanyInput
+    firmalar?: firmalarCreateNestedManyWithoutCompanyInput
+    islemler?: islemlerCreateNestedManyWithoutCompanyInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutCompanyInput
+    project_members?: project_membersCreateNestedManyWithoutCompanyInput
+  }
+
+  export type companyUncheckedCreateWithoutProjectsInput = {
+    id?: string
+    name: string
+    owner: string
+    created_at?: Date | string | null
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    borclar?: borclarUncheckedCreateNestedManyWithoutCompanyInput
+    company_member?: company_memberUncheckedCreateNestedManyWithoutCompanyInput
+    firmalar?: firmalarUncheckedCreateNestedManyWithoutCompanyInput
+    islemler?: islemlerUncheckedCreateNestedManyWithoutCompanyInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutCompanyInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type companyCreateOrConnectWithoutProjectsInput = {
+    where: companyWhereUniqueInput
+    create: XOR<companyCreateWithoutProjectsInput, companyUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type usersCreateWithoutProjectsInput = {
+    instance_id?: string | null
+    id: string
+    aud?: string | null
+    role?: string | null
+    email?: string | null
+    encrypted_password?: string | null
+    email_confirmed_at?: Date | string | null
+    invited_at?: Date | string | null
+    confirmation_token?: string | null
+    confirmation_sent_at?: Date | string | null
+    recovery_token?: string | null
+    recovery_sent_at?: Date | string | null
+    email_change_token_new?: string | null
+    email_change?: string | null
+    email_change_sent_at?: Date | string | null
+    last_sign_in_at?: Date | string | null
+    raw_app_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    raw_user_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    is_super_admin?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    phone?: string | null
+    phone_confirmed_at?: Date | string | null
+    phone_change?: string | null
+    phone_change_token?: string | null
+    phone_change_sent_at?: Date | string | null
+    confirmed_at?: Date | string | null
+    email_change_token_current?: string | null
+    email_change_confirm_status?: number | null
+    banned_until?: Date | string | null
+    reauthentication_token?: string | null
+    reauthentication_sent_at?: Date | string | null
+    is_sso_user?: boolean
+    deleted_at?: Date | string | null
+    is_anonymous?: boolean
+    identities?: identitiesCreateNestedManyWithoutUsersInput
+    mfa_factors?: mfa_factorsCreateNestedManyWithoutUsersInput
+    one_time_tokens?: one_time_tokensCreateNestedManyWithoutUsersInput
+    sessions?: sessionsCreateNestedManyWithoutUsersInput
+    borclar?: borclarCreateNestedManyWithoutUsersInput
+    company?: companyCreateNestedManyWithoutUsersInput
+    company_member?: company_memberCreateNestedManyWithoutUsersInput
+    firma_alias?: firma_aliasCreateNestedManyWithoutUsersInput
+    firmalar?: firmalarCreateNestedManyWithoutUsersInput
+    islemler?: islemlerCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareCreateNestedManyWithoutUsersInput
+    project_members?: project_membersCreateNestedManyWithoutUsersInput
+  }
+
+  export type usersUncheckedCreateWithoutProjectsInput = {
+    instance_id?: string | null
+    id: string
+    aud?: string | null
+    role?: string | null
+    email?: string | null
+    encrypted_password?: string | null
+    email_confirmed_at?: Date | string | null
+    invited_at?: Date | string | null
+    confirmation_token?: string | null
+    confirmation_sent_at?: Date | string | null
+    recovery_token?: string | null
+    recovery_sent_at?: Date | string | null
+    email_change_token_new?: string | null
+    email_change?: string | null
+    email_change_sent_at?: Date | string | null
+    last_sign_in_at?: Date | string | null
+    raw_app_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    raw_user_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    is_super_admin?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    phone?: string | null
+    phone_confirmed_at?: Date | string | null
+    phone_change?: string | null
+    phone_change_token?: string | null
+    phone_change_sent_at?: Date | string | null
+    confirmed_at?: Date | string | null
+    email_change_token_current?: string | null
+    email_change_confirm_status?: number | null
+    banned_until?: Date | string | null
+    reauthentication_token?: string | null
+    reauthentication_sent_at?: Date | string | null
+    is_sso_user?: boolean
+    deleted_at?: Date | string | null
+    is_anonymous?: boolean
+    identities?: identitiesUncheckedCreateNestedManyWithoutUsersInput
+    mfa_factors?: mfa_factorsUncheckedCreateNestedManyWithoutUsersInput
+    one_time_tokens?: one_time_tokensUncheckedCreateNestedManyWithoutUsersInput
+    sessions?: sessionsUncheckedCreateNestedManyWithoutUsersInput
+    borclar?: borclarUncheckedCreateNestedManyWithoutUsersInput
+    company?: companyUncheckedCreateNestedManyWithoutUsersInput
+    company_member?: company_memberUncheckedCreateNestedManyWithoutUsersInput
+    firma_alias?: firma_aliasUncheckedCreateNestedManyWithoutUsersInput
+    firmalar?: firmalarUncheckedCreateNestedManyWithoutUsersInput
+    islemler?: islemlerUncheckedCreateNestedManyWithoutUsersInput
+    project_budget_share?: project_budget_shareUncheckedCreateNestedManyWithoutUsersInput
+    project_members?: project_membersUncheckedCreateNestedManyWithoutUsersInput
+  }
+
+  export type usersCreateOrConnectWithoutProjectsInput = {
+    where: usersWhereUniqueInput
+    create: XOR<usersCreateWithoutProjectsInput, usersUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type borclarUpsertWithWhereUniqueWithoutProjectsInput = {
+    where: borclarWhereUniqueInput
+    update: XOR<borclarUpdateWithoutProjectsInput, borclarUncheckedUpdateWithoutProjectsInput>
+    create: XOR<borclarCreateWithoutProjectsInput, borclarUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type borclarUpdateWithWhereUniqueWithoutProjectsInput = {
+    where: borclarWhereUniqueInput
+    data: XOR<borclarUpdateWithoutProjectsInput, borclarUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type borclarUpdateManyWithWhereWithoutProjectsInput = {
+    where: borclarScalarWhereInput
+    data: XOR<borclarUpdateManyMutationInput, borclarUncheckedUpdateManyWithoutProjectsInput>
+  }
+
+  export type islemlerUpsertWithWhereUniqueWithoutProjectsInput = {
+    where: islemlerWhereUniqueInput
+    update: XOR<islemlerUpdateWithoutProjectsInput, islemlerUncheckedUpdateWithoutProjectsInput>
+    create: XOR<islemlerCreateWithoutProjectsInput, islemlerUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type islemlerUpdateWithWhereUniqueWithoutProjectsInput = {
+    where: islemlerWhereUniqueInput
+    data: XOR<islemlerUpdateWithoutProjectsInput, islemlerUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type islemlerUpdateManyWithWhereWithoutProjectsInput = {
+    where: islemlerScalarWhereInput
+    data: XOR<islemlerUpdateManyMutationInput, islemlerUncheckedUpdateManyWithoutProjectsInput>
+  }
+
+  export type project_budget_shareUpsertWithWhereUniqueWithoutProjectsInput = {
+    where: project_budget_shareWhereUniqueInput
+    update: XOR<project_budget_shareUpdateWithoutProjectsInput, project_budget_shareUncheckedUpdateWithoutProjectsInput>
+    create: XOR<project_budget_shareCreateWithoutProjectsInput, project_budget_shareUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type project_budget_shareUpdateWithWhereUniqueWithoutProjectsInput = {
+    where: project_budget_shareWhereUniqueInput
+    data: XOR<project_budget_shareUpdateWithoutProjectsInput, project_budget_shareUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type project_budget_shareUpdateManyWithWhereWithoutProjectsInput = {
+    where: project_budget_shareScalarWhereInput
+    data: XOR<project_budget_shareUpdateManyMutationInput, project_budget_shareUncheckedUpdateManyWithoutProjectsInput>
+  }
+
+  export type project_membersUpsertWithWhereUniqueWithoutProjectsInput = {
+    where: project_membersWhereUniqueInput
+    update: XOR<project_membersUpdateWithoutProjectsInput, project_membersUncheckedUpdateWithoutProjectsInput>
+    create: XOR<project_membersCreateWithoutProjectsInput, project_membersUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type project_membersUpdateWithWhereUniqueWithoutProjectsInput = {
+    where: project_membersWhereUniqueInput
+    data: XOR<project_membersUpdateWithoutProjectsInput, project_membersUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type project_membersUpdateManyWithWhereWithoutProjectsInput = {
+    where: project_membersScalarWhereInput
+    data: XOR<project_membersUpdateManyMutationInput, project_membersUncheckedUpdateManyWithoutProjectsInput>
+  }
+
+  export type companyUpsertWithoutProjectsInput = {
+    update: XOR<companyUpdateWithoutProjectsInput, companyUncheckedUpdateWithoutProjectsInput>
+    create: XOR<companyCreateWithoutProjectsInput, companyUncheckedCreateWithoutProjectsInput>
+    where?: companyWhereInput
+  }
+
+  export type companyUpdateToOneWithWhereWithoutProjectsInput = {
+    where?: companyWhereInput
+    data: XOR<companyUpdateWithoutProjectsInput, companyUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type companyUpdateWithoutProjectsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    borclar?: borclarUpdateManyWithoutCompanyNestedInput
+    users?: usersUpdateOneRequiredWithoutCompanyNestedInput
+    company_member?: company_memberUpdateManyWithoutCompanyNestedInput
+    firmalar?: firmalarUpdateManyWithoutCompanyNestedInput
+    islemler?: islemlerUpdateManyWithoutCompanyNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutCompanyNestedInput
+    project_members?: project_membersUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type companyUncheckedUpdateWithoutProjectsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    owner?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    borclar?: borclarUncheckedUpdateManyWithoutCompanyNestedInput
+    company_member?: company_memberUncheckedUpdateManyWithoutCompanyNestedInput
+    firmalar?: firmalarUncheckedUpdateManyWithoutCompanyNestedInput
+    islemler?: islemlerUncheckedUpdateManyWithoutCompanyNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutCompanyNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type usersUpsertWithoutProjectsInput = {
+    update: XOR<usersUpdateWithoutProjectsInput, usersUncheckedUpdateWithoutProjectsInput>
+    create: XOR<usersCreateWithoutProjectsInput, usersUncheckedCreateWithoutProjectsInput>
+    where?: usersWhereInput
+  }
+
+  export type usersUpdateToOneWithWhereWithoutProjectsInput = {
+    where?: usersWhereInput
+    data: XOR<usersUpdateWithoutProjectsInput, usersUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type usersUpdateWithoutProjectsInput = {
+    instance_id?: NullableStringFieldUpdateOperationsInput | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    aud?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    encrypted_password?: NullableStringFieldUpdateOperationsInput | string | null
+    email_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    invited_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmation_token?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmation_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recovery_token?: NullableStringFieldUpdateOperationsInput | string | null
+    recovery_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email_change_token_new?: NullableStringFieldUpdateOperationsInput | string | null
+    email_change?: NullableStringFieldUpdateOperationsInput | string | null
+    email_change_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_sign_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    raw_app_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    raw_user_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    is_super_admin?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    phone_change?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_change_token?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_change_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email_change_token_current?: NullableStringFieldUpdateOperationsInput | string | null
+    email_change_confirm_status?: NullableIntFieldUpdateOperationsInput | number | null
+    banned_until?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reauthentication_token?: NullableStringFieldUpdateOperationsInput | string | null
+    reauthentication_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_sso_user?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_anonymous?: BoolFieldUpdateOperationsInput | boolean
+    identities?: identitiesUpdateManyWithoutUsersNestedInput
+    mfa_factors?: mfa_factorsUpdateManyWithoutUsersNestedInput
+    one_time_tokens?: one_time_tokensUpdateManyWithoutUsersNestedInput
+    sessions?: sessionsUpdateManyWithoutUsersNestedInput
+    borclar?: borclarUpdateManyWithoutUsersNestedInput
+    company?: companyUpdateManyWithoutUsersNestedInput
+    company_member?: company_memberUpdateManyWithoutUsersNestedInput
+    firma_alias?: firma_aliasUpdateManyWithoutUsersNestedInput
+    firmalar?: firmalarUpdateManyWithoutUsersNestedInput
+    islemler?: islemlerUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUpdateManyWithoutUsersNestedInput
+  }
+
+  export type usersUncheckedUpdateWithoutProjectsInput = {
+    instance_id?: NullableStringFieldUpdateOperationsInput | string | null
+    id?: StringFieldUpdateOperationsInput | string
+    aud?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    encrypted_password?: NullableStringFieldUpdateOperationsInput | string | null
+    email_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    invited_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmation_token?: NullableStringFieldUpdateOperationsInput | string | null
+    confirmation_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recovery_token?: NullableStringFieldUpdateOperationsInput | string | null
+    recovery_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email_change_token_new?: NullableStringFieldUpdateOperationsInput | string | null
+    email_change?: NullableStringFieldUpdateOperationsInput | string | null
+    email_change_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_sign_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    raw_app_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    raw_user_meta_data?: NullableJsonNullValueInput | InputJsonValue
+    is_super_admin?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    phone_change?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_change_token?: NullableStringFieldUpdateOperationsInput | string | null
+    phone_change_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email_change_token_current?: NullableStringFieldUpdateOperationsInput | string | null
+    email_change_confirm_status?: NullableIntFieldUpdateOperationsInput | number | null
+    banned_until?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reauthentication_token?: NullableStringFieldUpdateOperationsInput | string | null
+    reauthentication_sent_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_sso_user?: BoolFieldUpdateOperationsInput | boolean
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_anonymous?: BoolFieldUpdateOperationsInput | boolean
+    identities?: identitiesUncheckedUpdateManyWithoutUsersNestedInput
+    mfa_factors?: mfa_factorsUncheckedUpdateManyWithoutUsersNestedInput
+    one_time_tokens?: one_time_tokensUncheckedUpdateManyWithoutUsersNestedInput
+    sessions?: sessionsUncheckedUpdateManyWithoutUsersNestedInput
+    borclar?: borclarUncheckedUpdateManyWithoutUsersNestedInput
+    company?: companyUncheckedUpdateManyWithoutUsersNestedInput
+    company_member?: company_memberUncheckedUpdateManyWithoutUsersNestedInput
+    firma_alias?: firma_aliasUncheckedUpdateManyWithoutUsersNestedInput
+    firmalar?: firmalarUncheckedUpdateManyWithoutUsersNestedInput
+    islemler?: islemlerUncheckedUpdateManyWithoutUsersNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutUsersNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutUsersNestedInput
   }
 
   export type saml_relay_statesCreateManyFlow_stateInput = {
@@ -41198,6 +48562,7 @@ export namespace Prisma {
   export type borclarCreateManyUsersInput = {
     borc_id?: bigint | number
     company_id: string
+    project_id?: string | null
     islem_id: bigint | number
     firma_id: bigint | number
     group_id?: bigint | number | null
@@ -41212,12 +48577,13 @@ export namespace Prisma {
     id?: string
     name: string
     created_at?: Date | string | null
-    plan?: string
+    initial_budget?: Decimal | DecimalJsLike | number | string
+    currency?: string
   }
 
   export type company_memberCreateManyUsersInput = {
     company_id: string
-    role?: string | null
+    role?: string
   }
 
   export type firma_aliasCreateManyUsersInput = {
@@ -41239,6 +48605,7 @@ export namespace Prisma {
   export type islemlerCreateManyUsersInput = {
     islem_id?: bigint | number
     company_id: string
+    project_id?: string | null
     firma_id: bigint | number
     group_id?: bigint | number | null
     islem_turu?: string | null
@@ -41251,6 +48618,37 @@ export namespace Prisma {
     odeme_tarihi?: Date | string | null
     aciklama?: string | null
     created_at?: Date | string | null
+  }
+
+  export type project_budget_shareCreateManyUsersInput = {
+    id?: bigint | number
+    project_id: string
+    company_id: string
+    project_budget: Decimal | DecimalJsLike | number | string
+    status?: string
+    note?: string | null
+    created_at?: Date | string | null
+    created_by?: string | null
+  }
+
+  export type project_membersCreateManyUsersInput = {
+    project_id: string
+    company_id: string
+    role?: string
+  }
+
+  export type projectsCreateManyUsersInput = {
+    id?: string
+    company_id: string
+    name: string
+    description?: string | null
+    m2?: Decimal | DecimalJsLike | number | string | null
+    location?: string | null
+    floor_count?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    created_at?: Date | string | null
+    currency?: string
   }
 
   export type identitiesUpdateWithoutUsersInput = {
@@ -41408,14 +48806,16 @@ export namespace Prisma {
     odeme_tarihi?: DateTimeFieldUpdateOperationsInput | Date | string
     odeme_durumu?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    company?: companyUpdateOneRequiredWithoutBorclarNestedInput
     firmalar?: firmalarUpdateOneRequiredWithoutBorclarNestedInput
+    company?: companyUpdateOneRequiredWithoutBorclarNestedInput
     islemler?: islemlerUpdateOneRequiredWithoutBorclarNestedInput
+    projects?: projectsUpdateOneWithoutBorclarNestedInput
   }
 
   export type borclarUncheckedUpdateWithoutUsersInput = {
     borc_id?: BigIntFieldUpdateOperationsInput | bigint | number
     company_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
     firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
     group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -41429,6 +48829,7 @@ export namespace Prisma {
   export type borclarUncheckedUpdateManyWithoutUsersInput = {
     borc_id?: BigIntFieldUpdateOperationsInput | bigint | number
     company_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
     firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
     group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -41443,46 +48844,53 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    plan?: StringFieldUpdateOperationsInput | string
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUpdateManyWithoutCompanyNestedInput
     company_member?: company_memberUpdateManyWithoutCompanyNestedInput
-    firma_alias?: firma_aliasUpdateManyWithoutCompanyNestedInput
     firmalar?: firmalarUpdateManyWithoutCompanyNestedInput
     islemler?: islemlerUpdateManyWithoutCompanyNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutCompanyNestedInput
+    project_members?: project_membersUpdateManyWithoutCompanyNestedInput
+    projects?: projectsUpdateManyWithoutCompanyNestedInput
   }
 
   export type companyUncheckedUpdateWithoutUsersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    plan?: StringFieldUpdateOperationsInput | string
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
     borclar?: borclarUncheckedUpdateManyWithoutCompanyNestedInput
     company_member?: company_memberUncheckedUpdateManyWithoutCompanyNestedInput
-    firma_alias?: firma_aliasUncheckedUpdateManyWithoutCompanyNestedInput
     firmalar?: firmalarUncheckedUpdateManyWithoutCompanyNestedInput
     islemler?: islemlerUncheckedUpdateManyWithoutCompanyNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutCompanyNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutCompanyNestedInput
+    projects?: projectsUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type companyUncheckedUpdateManyWithoutUsersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    plan?: StringFieldUpdateOperationsInput | string
+    initial_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
   }
 
   export type company_memberUpdateWithoutUsersInput = {
-    role?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
     company?: companyUpdateOneRequiredWithoutCompany_memberNestedInput
   }
 
   export type company_memberUncheckedUpdateWithoutUsersInput = {
     company_id?: StringFieldUpdateOperationsInput | string
-    role?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
   }
 
   export type company_memberUncheckedUpdateManyWithoutUsersInput = {
     company_id?: StringFieldUpdateOperationsInput | string
-    role?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
   }
 
   export type firma_aliasUpdateWithoutUsersInput = {
@@ -41490,7 +48898,6 @@ export namespace Prisma {
     urun?: StringFieldUpdateOperationsInput | string
     alias_adi?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    company?: companyUpdateOneRequiredWithoutFirma_aliasNestedInput
     firmalar?: firmalarUpdateOneRequiredWithoutFirma_aliasNestedInput
   }
 
@@ -41553,13 +48960,15 @@ export namespace Prisma {
     aciklama?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     borclar?: borclarUpdateManyWithoutIslemlerNestedInput
-    company?: companyUpdateOneRequiredWithoutIslemlerNestedInput
     firmalar?: firmalarUpdateOneRequiredWithoutIslemlerNestedInput
+    company?: companyUpdateOneRequiredWithoutIslemlerNestedInput
+    projects?: projectsUpdateOneWithoutIslemlerNestedInput
   }
 
   export type islemlerUncheckedUpdateWithoutUsersInput = {
     islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
     company_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
     group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     islem_turu?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41578,6 +48987,7 @@ export namespace Prisma {
   export type islemlerUncheckedUpdateManyWithoutUsersInput = {
     islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
     company_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
     group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     islem_turu?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41592,8 +49002,110 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type project_budget_shareUpdateWithoutUsersInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    project_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: companyUpdateOneRequiredWithoutProject_budget_shareNestedInput
+    projects?: projectsUpdateOneRequiredWithoutProject_budget_shareNestedInput
+  }
+
+  export type project_budget_shareUncheckedUpdateWithoutUsersInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    project_id?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+    project_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type project_budget_shareUncheckedUpdateManyWithoutUsersInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    project_id?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+    project_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type project_membersUpdateWithoutUsersInput = {
+    role?: StringFieldUpdateOperationsInput | string
+    company?: companyUpdateOneRequiredWithoutProject_membersNestedInput
+    projects?: projectsUpdateOneRequiredWithoutProject_membersNestedInput
+  }
+
+  export type project_membersUncheckedUpdateWithoutUsersInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type project_membersUncheckedUpdateManyWithoutUsersInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type projectsUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    m2?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    floor_count?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    borclar?: borclarUpdateManyWithoutProjectsNestedInput
+    islemler?: islemlerUpdateManyWithoutProjectsNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutProjectsNestedInput
+    project_members?: project_membersUpdateManyWithoutProjectsNestedInput
+    company?: companyUpdateOneRequiredWithoutProjectsNestedInput
+  }
+
+  export type projectsUncheckedUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    m2?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    floor_count?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    borclar?: borclarUncheckedUpdateManyWithoutProjectsNestedInput
+    islemler?: islemlerUncheckedUpdateManyWithoutProjectsNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutProjectsNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type projectsUncheckedUpdateManyWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    m2?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    floor_count?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+  }
+
   export type borclarCreateManyCompanyInput = {
     borc_id?: bigint | number
+    project_id?: string | null
     islem_id: bigint | number
     firma_id: bigint | number
     group_id?: bigint | number | null
@@ -41607,16 +49119,7 @@ export namespace Prisma {
 
   export type company_memberCreateManyCompanyInput = {
     user_id: string
-    role?: string | null
-  }
-
-  export type firma_aliasCreateManyCompanyInput = {
-    alias_id?: bigint | number
-    firma_id: bigint | number
-    urun?: string
-    alias_adi: string
-    created_by?: string | null
-    created_at?: Date | string | null
+    role?: string
   }
 
   export type firmalarCreateManyCompanyInput = {
@@ -41628,6 +49131,7 @@ export namespace Prisma {
 
   export type islemlerCreateManyCompanyInput = {
     islem_id?: bigint | number
+    project_id?: string | null
     firma_id: bigint | number
     group_id?: bigint | number | null
     islem_turu?: string | null
@@ -41643,6 +49147,37 @@ export namespace Prisma {
     created_at?: Date | string | null
   }
 
+  export type project_budget_shareCreateManyCompanyInput = {
+    id?: bigint | number
+    project_id: string
+    user_id: string
+    project_budget: Decimal | DecimalJsLike | number | string
+    status?: string
+    note?: string | null
+    created_at?: Date | string | null
+    created_by?: string | null
+  }
+
+  export type project_membersCreateManyCompanyInput = {
+    project_id: string
+    user_id: string
+    role?: string
+  }
+
+  export type projectsCreateManyCompanyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    m2?: Decimal | DecimalJsLike | number | string | null
+    location?: string | null
+    floor_count?: number | null
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    created_by?: string | null
+    created_at?: Date | string | null
+    currency?: string
+  }
+
   export type borclarUpdateWithoutCompanyInput = {
     borc_id?: BigIntFieldUpdateOperationsInput | bigint | number
     group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -41651,13 +49186,15 @@ export namespace Prisma {
     odeme_tarihi?: DateTimeFieldUpdateOperationsInput | Date | string
     odeme_durumu?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    users?: usersUpdateOneWithoutBorclarNestedInput
     firmalar?: firmalarUpdateOneRequiredWithoutBorclarNestedInput
     islemler?: islemlerUpdateOneRequiredWithoutBorclarNestedInput
+    projects?: projectsUpdateOneWithoutBorclarNestedInput
+    users?: usersUpdateOneWithoutBorclarNestedInput
   }
 
   export type borclarUncheckedUpdateWithoutCompanyInput = {
     borc_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
     firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
     group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -41671,6 +49208,7 @@ export namespace Prisma {
 
   export type borclarUncheckedUpdateManyWithoutCompanyInput = {
     borc_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
     firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
     group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -41683,45 +49221,18 @@ export namespace Prisma {
   }
 
   export type company_memberUpdateWithoutCompanyInput = {
-    role?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
     users?: usersUpdateOneRequiredWithoutCompany_memberNestedInput
   }
 
   export type company_memberUncheckedUpdateWithoutCompanyInput = {
     user_id?: StringFieldUpdateOperationsInput | string
-    role?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
   }
 
   export type company_memberUncheckedUpdateManyWithoutCompanyInput = {
     user_id?: StringFieldUpdateOperationsInput | string
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type firma_aliasUpdateWithoutCompanyInput = {
-    alias_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    urun?: StringFieldUpdateOperationsInput | string
-    alias_adi?: StringFieldUpdateOperationsInput | string
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    users?: usersUpdateOneWithoutFirma_aliasNestedInput
-    firmalar?: firmalarUpdateOneRequiredWithoutFirma_aliasNestedInput
-  }
-
-  export type firma_aliasUncheckedUpdateWithoutCompanyInput = {
-    alias_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    urun?: StringFieldUpdateOperationsInput | string
-    alias_adi?: StringFieldUpdateOperationsInput | string
-    created_by?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type firma_aliasUncheckedUpdateManyWithoutCompanyInput = {
-    alias_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    urun?: StringFieldUpdateOperationsInput | string
-    alias_adi?: StringFieldUpdateOperationsInput | string
-    created_by?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    role?: StringFieldUpdateOperationsInput | string
   }
 
   export type firmalarUpdateWithoutCompanyInput = {
@@ -41765,12 +49276,14 @@ export namespace Prisma {
     aciklama?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     borclar?: borclarUpdateManyWithoutIslemlerNestedInput
-    users?: usersUpdateOneWithoutIslemlerNestedInput
     firmalar?: firmalarUpdateOneRequiredWithoutIslemlerNestedInput
+    projects?: projectsUpdateOneWithoutIslemlerNestedInput
+    users?: usersUpdateOneWithoutIslemlerNestedInput
   }
 
   export type islemlerUncheckedUpdateWithoutCompanyInput = {
     islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
     group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     islem_turu?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41789,6 +49302,7 @@ export namespace Prisma {
 
   export type islemlerUncheckedUpdateManyWithoutCompanyInput = {
     islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
     group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     islem_turu?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41804,9 +49318,110 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type project_budget_shareUpdateWithoutCompanyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    project_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    projects?: projectsUpdateOneRequiredWithoutProject_budget_shareNestedInput
+    users?: usersUpdateOneRequiredWithoutProject_budget_shareNestedInput
+  }
+
+  export type project_budget_shareUncheckedUpdateWithoutCompanyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    project_id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    project_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type project_budget_shareUncheckedUpdateManyWithoutCompanyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    project_id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    project_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type project_membersUpdateWithoutCompanyInput = {
+    role?: StringFieldUpdateOperationsInput | string
+    projects?: projectsUpdateOneRequiredWithoutProject_membersNestedInput
+    users?: usersUpdateOneRequiredWithoutProject_membersNestedInput
+  }
+
+  export type project_membersUncheckedUpdateWithoutCompanyInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type project_membersUncheckedUpdateManyWithoutCompanyInput = {
+    project_id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type projectsUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    m2?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    floor_count?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    borclar?: borclarUpdateManyWithoutProjectsNestedInput
+    islemler?: islemlerUpdateManyWithoutProjectsNestedInput
+    project_budget_share?: project_budget_shareUpdateManyWithoutProjectsNestedInput
+    project_members?: project_membersUpdateManyWithoutProjectsNestedInput
+    users?: usersUpdateOneWithoutProjectsNestedInput
+  }
+
+  export type projectsUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    m2?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    floor_count?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+    borclar?: borclarUncheckedUpdateManyWithoutProjectsNestedInput
+    islemler?: islemlerUncheckedUpdateManyWithoutProjectsNestedInput
+    project_budget_share?: project_budget_shareUncheckedUpdateManyWithoutProjectsNestedInput
+    project_members?: project_membersUncheckedUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type projectsUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    m2?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    floor_count?: NullableIntFieldUpdateOperationsInput | number | null
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currency?: StringFieldUpdateOperationsInput | string
+  }
+
   export type borclarCreateManyFirmalarInput = {
     borc_id?: bigint | number
-    company_id: string
+    project_id?: string | null
     islem_id: bigint | number
     group_id?: bigint | number | null
     satir_tipi?: string
@@ -41819,7 +49434,6 @@ export namespace Prisma {
 
   export type firma_aliasCreateManyFirmalarInput = {
     alias_id?: bigint | number
-    company_id: string
     urun?: string
     alias_adi: string
     created_by?: string | null
@@ -41828,7 +49442,7 @@ export namespace Prisma {
 
   export type islemlerCreateManyFirmalarInput = {
     islem_id?: bigint | number
-    company_id: string
+    project_id?: string | null
     group_id?: bigint | number | null
     islem_turu?: string | null
     isim?: string | null
@@ -41852,13 +49466,14 @@ export namespace Prisma {
     odeme_durumu?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company?: companyUpdateOneRequiredWithoutBorclarNestedInput
-    users?: usersUpdateOneWithoutBorclarNestedInput
     islemler?: islemlerUpdateOneRequiredWithoutBorclarNestedInput
+    projects?: projectsUpdateOneWithoutBorclarNestedInput
+    users?: usersUpdateOneWithoutBorclarNestedInput
   }
 
   export type borclarUncheckedUpdateWithoutFirmalarInput = {
     borc_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    company_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
     group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     satir_tipi?: StringFieldUpdateOperationsInput | string
@@ -41871,7 +49486,7 @@ export namespace Prisma {
 
   export type borclarUncheckedUpdateManyWithoutFirmalarInput = {
     borc_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    company_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
     group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     satir_tipi?: StringFieldUpdateOperationsInput | string
@@ -41887,13 +49502,11 @@ export namespace Prisma {
     urun?: StringFieldUpdateOperationsInput | string
     alias_adi?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    company?: companyUpdateOneRequiredWithoutFirma_aliasNestedInput
     users?: usersUpdateOneWithoutFirma_aliasNestedInput
   }
 
   export type firma_aliasUncheckedUpdateWithoutFirmalarInput = {
     alias_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    company_id?: StringFieldUpdateOperationsInput | string
     urun?: StringFieldUpdateOperationsInput | string
     alias_adi?: StringFieldUpdateOperationsInput | string
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41902,7 +49515,6 @@ export namespace Prisma {
 
   export type firma_aliasUncheckedUpdateManyWithoutFirmalarInput = {
     alias_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    company_id?: StringFieldUpdateOperationsInput | string
     urun?: StringFieldUpdateOperationsInput | string
     alias_adi?: StringFieldUpdateOperationsInput | string
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41924,12 +49536,13 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     borclar?: borclarUpdateManyWithoutIslemlerNestedInput
     company?: companyUpdateOneRequiredWithoutIslemlerNestedInput
+    projects?: projectsUpdateOneWithoutIslemlerNestedInput
     users?: usersUpdateOneWithoutIslemlerNestedInput
   }
 
   export type islemlerUncheckedUpdateWithoutFirmalarInput = {
     islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    company_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     islem_turu?: NullableStringFieldUpdateOperationsInput | string | null
     isim?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41947,7 +49560,7 @@ export namespace Prisma {
 
   export type islemlerUncheckedUpdateManyWithoutFirmalarInput = {
     islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    company_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     islem_turu?: NullableStringFieldUpdateOperationsInput | string | null
     isim?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41964,7 +49577,7 @@ export namespace Prisma {
 
   export type borclarCreateManyIslemlerInput = {
     borc_id?: bigint | number
-    company_id: string
+    project_id?: string | null
     firma_id: bigint | number
     group_id?: bigint | number | null
     satir_tipi?: string
@@ -41983,14 +49596,15 @@ export namespace Prisma {
     odeme_tarihi?: DateTimeFieldUpdateOperationsInput | Date | string
     odeme_durumu?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    company?: companyUpdateOneRequiredWithoutBorclarNestedInput
-    users?: usersUpdateOneWithoutBorclarNestedInput
     firmalar?: firmalarUpdateOneRequiredWithoutBorclarNestedInput
+    company?: companyUpdateOneRequiredWithoutBorclarNestedInput
+    projects?: projectsUpdateOneWithoutBorclarNestedInput
+    users?: usersUpdateOneWithoutBorclarNestedInput
   }
 
   export type borclarUncheckedUpdateWithoutIslemlerInput = {
     borc_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    company_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
     group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     satir_tipi?: StringFieldUpdateOperationsInput | string
@@ -42003,7 +49617,7 @@ export namespace Prisma {
 
   export type borclarUncheckedUpdateManyWithoutIslemlerInput = {
     borc_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    company_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
     group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     satir_tipi?: StringFieldUpdateOperationsInput | string
@@ -42012,6 +49626,198 @@ export namespace Prisma {
     odeme_durumu?: StringFieldUpdateOperationsInput | string
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type borclarCreateManyProjectsInput = {
+    borc_id?: bigint | number
+    islem_id: bigint | number
+    firma_id: bigint | number
+    group_id?: bigint | number | null
+    satir_tipi?: string
+    tutar: Decimal | DecimalJsLike | number | string
+    odeme_tarihi: Date | string
+    odeme_durumu?: string
+    created_by?: string | null
+    created_at?: Date | string | null
+  }
+
+  export type islemlerCreateManyProjectsInput = {
+    islem_id?: bigint | number
+    firma_id: bigint | number
+    group_id?: bigint | number | null
+    islem_turu?: string | null
+    isim?: string | null
+    urun_hizmet?: string | null
+    miktar?: Decimal | DecimalJsLike | number | string | null
+    birim?: string | null
+    fiyat?: Decimal | DecimalJsLike | number | string | null
+    islem_tarihi?: Date | string | null
+    odeme_tarihi?: Date | string | null
+    aciklama?: string | null
+    created_by?: string | null
+    created_at?: Date | string | null
+  }
+
+  export type project_budget_shareCreateManyProjectsInput = {
+    id?: bigint | number
+    company_id: string
+    user_id: string
+    project_budget: Decimal | DecimalJsLike | number | string
+    status?: string
+    note?: string | null
+    created_at?: Date | string | null
+    created_by?: string | null
+  }
+
+  export type project_membersCreateManyProjectsInput = {
+    user_id: string
+    company_id: string
+    role?: string
+  }
+
+  export type borclarUpdateWithoutProjectsInput = {
+    borc_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    satir_tipi?: StringFieldUpdateOperationsInput | string
+    tutar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    odeme_tarihi?: DateTimeFieldUpdateOperationsInput | Date | string
+    odeme_durumu?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    firmalar?: firmalarUpdateOneRequiredWithoutBorclarNestedInput
+    company?: companyUpdateOneRequiredWithoutBorclarNestedInput
+    islemler?: islemlerUpdateOneRequiredWithoutBorclarNestedInput
+    users?: usersUpdateOneWithoutBorclarNestedInput
+  }
+
+  export type borclarUncheckedUpdateWithoutProjectsInput = {
+    borc_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    satir_tipi?: StringFieldUpdateOperationsInput | string
+    tutar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    odeme_tarihi?: DateTimeFieldUpdateOperationsInput | Date | string
+    odeme_durumu?: StringFieldUpdateOperationsInput | string
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type borclarUncheckedUpdateManyWithoutProjectsInput = {
+    borc_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    satir_tipi?: StringFieldUpdateOperationsInput | string
+    tutar?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    odeme_tarihi?: DateTimeFieldUpdateOperationsInput | Date | string
+    odeme_durumu?: StringFieldUpdateOperationsInput | string
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type islemlerUpdateWithoutProjectsInput = {
+    islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    islem_turu?: NullableStringFieldUpdateOperationsInput | string | null
+    isim?: NullableStringFieldUpdateOperationsInput | string | null
+    urun_hizmet?: NullableStringFieldUpdateOperationsInput | string | null
+    miktar?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    birim?: NullableStringFieldUpdateOperationsInput | string | null
+    fiyat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    islem_tarihi?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    odeme_tarihi?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aciklama?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    borclar?: borclarUpdateManyWithoutIslemlerNestedInput
+    firmalar?: firmalarUpdateOneRequiredWithoutIslemlerNestedInput
+    company?: companyUpdateOneRequiredWithoutIslemlerNestedInput
+    users?: usersUpdateOneWithoutIslemlerNestedInput
+  }
+
+  export type islemlerUncheckedUpdateWithoutProjectsInput = {
+    islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    islem_turu?: NullableStringFieldUpdateOperationsInput | string | null
+    isim?: NullableStringFieldUpdateOperationsInput | string | null
+    urun_hizmet?: NullableStringFieldUpdateOperationsInput | string | null
+    miktar?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    birim?: NullableStringFieldUpdateOperationsInput | string | null
+    fiyat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    islem_tarihi?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    odeme_tarihi?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aciklama?: NullableStringFieldUpdateOperationsInput | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    borclar?: borclarUncheckedUpdateManyWithoutIslemlerNestedInput
+  }
+
+  export type islemlerUncheckedUpdateManyWithoutProjectsInput = {
+    islem_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    firma_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    group_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    islem_turu?: NullableStringFieldUpdateOperationsInput | string | null
+    isim?: NullableStringFieldUpdateOperationsInput | string | null
+    urun_hizmet?: NullableStringFieldUpdateOperationsInput | string | null
+    miktar?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    birim?: NullableStringFieldUpdateOperationsInput | string | null
+    fiyat?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    islem_tarihi?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    odeme_tarihi?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aciklama?: NullableStringFieldUpdateOperationsInput | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type project_budget_shareUpdateWithoutProjectsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    project_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: companyUpdateOneRequiredWithoutProject_budget_shareNestedInput
+    users?: usersUpdateOneRequiredWithoutProject_budget_shareNestedInput
+  }
+
+  export type project_budget_shareUncheckedUpdateWithoutProjectsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    company_id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    project_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type project_budget_shareUncheckedUpdateManyWithoutProjectsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    company_id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    project_budget?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type project_membersUpdateWithoutProjectsInput = {
+    role?: StringFieldUpdateOperationsInput | string
+    company?: companyUpdateOneRequiredWithoutProject_membersNestedInput
+    users?: usersUpdateOneRequiredWithoutProject_membersNestedInput
+  }
+
+  export type project_membersUncheckedUpdateWithoutProjectsInput = {
+    user_id?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type project_membersUncheckedUpdateManyWithoutProjectsInput = {
+    user_id?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
   }
 
 
