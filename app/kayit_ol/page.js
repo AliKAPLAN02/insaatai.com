@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 export default function SignupPage() {
   const [fullName, setFullName] = useState("");
@@ -16,7 +18,7 @@ export default function SignupPage() {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [signedUp, setSignedUp] = useState(false); // ✅ email onayı bekleniyor mu?
+  const [signedUp, setSignedUp] = useState(false);
 
   // Aynı anda hem kurucu hem davet olmasın
   const onChangeCompany = (v) => {
@@ -121,13 +123,13 @@ export default function SignupPage() {
             disabled={formDisabled}
           />
 
-          <input
-            type="tel"
-            placeholder="Telefon (+905...)"
+          {/* Profesyonel Telefon Inputu */}
+          <PhoneInput
+            country={"tr"}
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg"
-            required
+            onChange={(val) => setPhone("+" + val)}
+            inputClass="!w-full !h-10 !px-3 !py-2 !rounded-lg !border"
+            placeholder="Telefon numaran"
             disabled={formDisabled}
           />
 
@@ -173,7 +175,6 @@ export default function SignupPage() {
             disabled={formDisabled}
           />
 
-          {/* Paket seçimi */}
           {companyName && (
             <select
               value={plan}
@@ -187,7 +188,6 @@ export default function SignupPage() {
             </select>
           )}
 
-          {/* Davet kodu */}
           <input
             type="text"
             placeholder="Davet Kodu (Katılıyorsan)"
