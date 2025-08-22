@@ -16,9 +16,9 @@ export default function SignupPage() {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [signedUp, setSignedUp] = useState(false); // email onayı bekleniyor mu?
+  const [signedUp, setSignedUp] = useState(false); // ✅ email onayı bekleniyor mu?
 
-  // Bir alan dolarken diğerini sıfırla: aynı anda kurucu + davet olmasın
+  // Aynı anda hem kurucu hem davet olmasın
   const onChangeCompany = (v) => {
     setCompanyName(v);
     if (v) setInviteCode("");
@@ -32,7 +32,6 @@ export default function SignupPage() {
     e.preventDefault();
     setMessage("");
 
-    // Daha önce signup olduysa tekrar izin verme
     if (signedUp) {
       setMessage("⚠️ Lütfen e-postanı kontrol et. Doğrulamadan tekrar kayıt olamazsın.");
       return;
@@ -57,7 +56,7 @@ export default function SignupPage() {
       return;
     }
 
-    // Redirect URL'i belirle (ENV varsa onu kullan; yoksa /auth/callback'a gönder)
+    // Redirect URL
     const baseEnv =
       process.env.NEXT_PUBLIC_AUTH_REDIRECT_URL || process.env.NEXT_PUBLIC_BASE_URL;
     const redirectTo = baseEnv
@@ -79,10 +78,7 @@ export default function SignupPage() {
 
     if (error) {
       const msg = (error.message || "").toLowerCase();
-      if (
-        msg.includes("already") &&
-        (msg.includes("registered") || msg.includes("exists"))
-      ) {
+      if (msg.includes("already") && (msg.includes("registered") || msg.includes("exists"))) {
         setMessage("⚠️ Bu e-posta zaten kayıtlı. Lütfen giriş yapın.");
       } else if (msg.includes("rate limit")) {
         setMessage("⚠️ Çok hızlı deneme yaptınız. Lütfen biraz sonra tekrar deneyin.");
@@ -177,7 +173,7 @@ export default function SignupPage() {
             disabled={formDisabled}
           />
 
-          {/* Paket seçimi (sadece kurucular için görünür) */}
+          {/* Paket seçimi */}
           {companyName && (
             <select
               value={plan}
@@ -191,7 +187,7 @@ export default function SignupPage() {
             </select>
           )}
 
-          {/* Şirkete katılma (davet) */}
+          {/* Davet kodu */}
           <input
             type="text"
             placeholder="Davet Kodu (Katılıyorsan)"
@@ -214,9 +210,7 @@ export default function SignupPage() {
           </button>
         </form>
 
-        {message && (
-          <p className="mt-4 text-center text-sm text-gray-700">{message}</p>
-        )}
+        {message && <p className="mt-4 text-center text-sm text-gray-700">{message}</p>}
 
         <p className="mt-6 text-center text-sm">
           Zaten hesabın var mı?{" "}
