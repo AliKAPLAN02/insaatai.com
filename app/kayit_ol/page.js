@@ -1,12 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 
 export default function SignupPage() {
-  const router = useRouter();
-
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -18,13 +16,23 @@ export default function SignupPage() {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [signedUp, setSignedUp] = useState(false); // ✅ email onayı bekleme flag
+  const [signedUp, setSignedUp] = useState(false); // email onayı bekleniyor mu?
+
+  // Bir alan dolarken diğerini sıfırla: aynı anda kurucu + davet olmasın
+  const onChangeCompany = (v) => {
+    setCompanyName(v);
+    if (v) setInviteCode("");
+  };
+  const onChangeInvite = (v) => {
+    setInviteCode(v);
+    if (v) setCompanyName("");
+  };
 
   const handleSignup = async (e) => {
     e.preventDefault();
     setMessage("");
 
-    // ✅ Eğer kullanıcı zaten signup olduysa tekrar izin verme
+    // Daha önce signup olduysa tekrar izin verme
     if (signedUp) {
       setMessage("⚠️ Lütfen e-postanı kontrol et. Doğrulamadan tekrar kayıt olamazsın.");
       return;
@@ -35,11 +43,6 @@ export default function SignupPage() {
     // === Validation ===
     if (password !== password2) {
       setMessage("⚠️ Şifreler uyuşmuyor!");
-      setLoading(false);
-      return;
-    }
-    if (companyName && inviteCode) {
-      setMessage("⚠️ Aynı anda hem şirket kurucu hem davet kodu kullanılamaz!");
       setLoading(false);
       return;
     }
@@ -54,31 +57,60 @@ export default function SignupPage() {
       return;
     }
 
-    // === Kullanıcı oluştur ===
-    const { data, error } = await supabase.auth.signUp({
-      email,
+    // Redirect URL'i belirle (ENV varsa onu kullan; yoksa /auth/callback'a gönder)
+    const baseEnv =
+      process.env.NEXT_PUBLIC_AUTH_REDIRECT_URL || process.env.NEXT_PUBLIC_BASE_URL;
+    const redirectTo = baseEnv
+      ? `${baseEnv.replace(/\/$/, "")}/auth/callback`
+      : `${window.location.origin}/auth/callback`;
+
+    // Email normalize
+    const normalizedEmail = email.trim().toLowerCase();
+
+    // === Supabase SignUp ===
+    const { error } = await supabase.auth.signUp({
+      email: normalizedEmail,
       password,
       options: {
         data: { full_name: fullName, phone, companyName, inviteCode, plan },
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`,
+        emailRedirectTo: redirectTo,
       },
     });
 
     if (error) {
-      setMessage("❌ Hata: " + error.message);
+      const msg = (error.message || "").toLowerCase();
+      if (
+        msg.includes("already") &&
+        (msg.includes("registered") || msg.includes("exists"))
+      ) {
+        setMessage("⚠️ Bu e-posta zaten kayıtlı. Lütfen giriş yapın.");
+      } else if (msg.includes("rate limit")) {
+        setMessage("⚠️ Çok hızlı deneme yaptınız. Lütfen biraz sonra tekrar deneyin.");
+      } else {
+        setMessage("❌ Hata: " + error.message);
+      }
       setLoading(false);
       return;
     }
 
-    setSignedUp(true); // ✅ Tekrar signup engelle
+    // Başarılı → tekrar kayıt olmayı kilitle
+    setSignedUp(true);
+    setPassword("");
+    setPassword2("");
+    try {
+      localStorage.setItem("signup_pending_email", normalizedEmail);
+    } catch {}
+
     setMessage(
-      "✅ Kayıt başarılı! Lütfen e-postandaki doğrulama linkine tıkla. Doğruladıktan sonra otomatik dashboard’a yönlendirileceksin."
+      "✅ Kayıt başarılı! E-postana doğrulama linki gönderildi. Onayladıktan sonra otomatik olarak devam edeceksin."
     );
     setLoading(false);
   };
 
+  const formDisabled = loading || signedUp;
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="bg-white p-6 rounded-2xl shadow-md w-full max-w-sm">
         <h1 className="text-xl font-bold mb-4 text-center">Kayıt Ol</h1>
 
@@ -90,6 +122,7 @@ export default function SignupPage() {
             onChange={(e) => setFullName(e.target.value)}
             className="w-full px-3 py-2 border rounded-lg"
             required
+            disabled={formDisabled}
           />
 
           <input
@@ -99,6 +132,7 @@ export default function SignupPage() {
             onChange={(e) => setPhone(e.target.value)}
             className="w-full px-3 py-2 border rounded-lg"
             required
+            disabled={formDisabled}
           />
 
           <input
@@ -108,6 +142,7 @@ export default function SignupPage() {
             onChange={(e) => setEmail(e.target.value)}
             className="w-full px-3 py-2 border rounded-lg"
             required
+            disabled={formDisabled}
           />
 
           <input
@@ -117,6 +152,8 @@ export default function SignupPage() {
             onChange={(e) => setPassword(e.target.value)}
             className="w-full px-3 py-2 border rounded-lg"
             required
+            disabled={formDisabled}
+            autoComplete="new-password"
           />
 
           <input
@@ -126,6 +163,8 @@ export default function SignupPage() {
             onChange={(e) => setPassword2(e.target.value)}
             className="w-full px-3 py-2 border rounded-lg"
             required
+            disabled={formDisabled}
+            autoComplete="new-password"
           />
 
           {/* Şirket oluşturma */}
@@ -133,16 +172,18 @@ export default function SignupPage() {
             type="text"
             placeholder="Şirket Adı (Kurucuysan)"
             value={companyName}
-            onChange={(e) => setCompanyName(e.target.value)}
+            onChange={(e) => onChangeCompany(e.target.value)}
             className="w-full px-3 py-2 border rounded-lg"
+            disabled={formDisabled}
           />
 
-          {/* Paket seçimi (sadece kurucular için) */}
+          {/* Paket seçimi (sadece kurucular için görünür) */}
           {companyName && (
             <select
               value={plan}
               onChange={(e) => setPlan(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg"
+              disabled={formDisabled}
             >
               <option value="free">Ücretsiz</option>
               <option value="pro">Pro</option>
@@ -150,25 +191,39 @@ export default function SignupPage() {
             </select>
           )}
 
-          {/* Şirkete katılma */}
+          {/* Şirkete katılma (davet) */}
           <input
             type="text"
             placeholder="Davet Kodu (Katılıyorsan)"
             value={inviteCode}
-            onChange={(e) => setInviteCode(e.target.value)}
+            onChange={(e) => onChangeInvite(e.target.value)}
             className="w-full px-3 py-2 border rounded-lg"
+            disabled={formDisabled}
           />
 
           <button
             type="submit"
-            disabled={loading || signedUp} // ✅ İkinci kez signup engeli
-            className="w-full bg-slate-900 text-white py-2 rounded-lg hover:opacity-90 disabled:opacity-50"
+            disabled={formDisabled}
+            className={`w-full py-2 rounded-lg text-white ${
+              formDisabled
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-slate-900 hover:opacity-90"
+            }`}
           >
             {loading ? "Kaydediliyor..." : signedUp ? "Onay Bekleniyor" : "Kayıt Ol"}
           </button>
         </form>
 
-        {message && <p className="mt-4 text-center text-sm">{message}</p>}
+        {message && (
+          <p className="mt-4 text-center text-sm text-gray-700">{message}</p>
+        )}
+
+        <p className="mt-6 text-center text-sm">
+          Zaten hesabın var mı?{" "}
+          <Link href="/giris" className="text-blue-600 hover:underline">
+            Giriş Yap
+          </Link>
+        </p>
       </div>
     </div>
   );
