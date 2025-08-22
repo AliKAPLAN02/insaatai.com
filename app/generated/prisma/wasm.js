@@ -332,9 +332,9 @@ exports.Prisma.CompanyScalarFieldEnum = {
   id: 'id',
   name: 'name',
   owner: 'owner',
-  created_at: 'created_at',
   initial_budget: 'initial_budget',
-  currency: 'currency'
+  currency: 'currency',
+  created_at: 'created_at'
 };
 
 exports.Prisma.Company_memberScalarFieldEnum = {
@@ -409,9 +409,9 @@ exports.Prisma.ProjectsScalarFieldEnum = {
   floor_count: 'floor_count',
   start_date: 'start_date',
   end_date: 'end_date',
+  currency: 'currency',
   created_by: 'created_by',
-  created_at: 'created_at',
-  currency: 'currency'
+  created_at: 'created_at'
 };
 
 exports.Prisma.SortOrder = {

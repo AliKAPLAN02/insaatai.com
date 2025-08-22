@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 
-
 export default function SignupPage() {
   const router = useRouter();
 
@@ -19,10 +18,18 @@ export default function SignupPage() {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [signedUp, setSignedUp] = useState(false); // ✅ email onayı bekleme flag
 
   const handleSignup = async (e) => {
     e.preventDefault();
     setMessage("");
+
+    // ✅ Eğer kullanıcı zaten signup olduysa tekrar izin verme
+    if (signedUp) {
+      setMessage("⚠️ Lütfen e-postanı kontrol et. Doğrulamadan tekrar kayıt olamazsın.");
+      return;
+    }
+
     setLoading(true);
 
     // === Validation ===
@@ -53,7 +60,7 @@ export default function SignupPage() {
       password,
       options: {
         data: { full_name: fullName, phone, companyName, inviteCode, plan },
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`, // doğrulama sonrası yönlendirme
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`,
       },
     });
 
@@ -63,8 +70,9 @@ export default function SignupPage() {
       return;
     }
 
+    setSignedUp(true); // ✅ Tekrar signup engelle
     setMessage(
-      "✅ Kayıt başarılı! Lütfen e-postandaki doğrulama linkine tıklayın. Doğruladıktan sonra otomatik dashboard’a yönlendirileceksiniz."
+      "✅ Kayıt başarılı! Lütfen e-postandaki doğrulama linkine tıkla. Doğruladıktan sonra otomatik dashboard’a yönlendirileceksin."
     );
     setLoading(false);
   };
@@ -153,10 +161,10 @@ export default function SignupPage() {
 
           <button
             type="submit"
-            disabled={loading}
-            className="w-full bg-slate-900 text-white py-2 rounded-lg hover:opacity-90"
+            disabled={loading || signedUp} // ✅ İkinci kez signup engeli
+            className="w-full bg-slate-900 text-white py-2 rounded-lg hover:opacity-90 disabled:opacity-50"
           >
-            {loading ? "Kaydediliyor..." : "Kayıt Ol"}
+            {loading ? "Kaydediliyor..." : signedUp ? "Onay Bekleniyor" : "Kayıt Ol"}
           </button>
         </form>
 

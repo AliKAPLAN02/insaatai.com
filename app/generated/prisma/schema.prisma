@@ -372,9 +372,9 @@ model company {
   id                   String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name                 String
   owner                String                 @db.Uuid
-  created_at           DateTime?              @default(now()) @db.Timestamptz(6)
   initial_budget       Decimal                @default(0) @db.Decimal
   currency             String                 @default("TRY")
+  created_at           DateTime?              @default(now()) @db.Timestamptz(6)
   borclar              borclar[]
   users                users                  @relation(fields: [owner], references: [id], onDelete: NoAction, onUpdate: NoAction)
   company_member       company_member[]
@@ -434,6 +434,7 @@ model firmalar {
 
   @@unique([company_id, firma_id])
   @@index([company_id], map: "idx_firmalar_company")
+  @@index([created_by], map: "idx_firmalar_created_by")
   @@schema("public")
 }
 
@@ -508,9 +509,6 @@ model project_members {
   users      users    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@id([project_id, user_id])
-  @@unique([project_id, user_id], map: "ux_project_members")
-  @@index([company_id], map: "ix_project_members_comp")
-  @@index([user_id], map: "ix_project_members_user")
   @@schema("public")
 }
 
@@ -525,9 +523,9 @@ model projects {
   floor_count          Int?
   start_date           DateTime?              @db.Date
   end_date             DateTime?              @db.Date
+  currency             String                 @default("TRY")
   created_by           String?                @db.Uuid
   created_at           DateTime?              @default(now()) @db.Timestamptz(6)
-  currency             String                 @default("TRY")
   borclar              borclar[]
   islemler             islemler[]
   project_budget_share project_budget_share[]
@@ -536,7 +534,6 @@ model projects {
   users                users?                 @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@unique([company_id, id])
-  @@index([company_id], map: "ix_projects_company")
   @@schema("public")
 }
 
