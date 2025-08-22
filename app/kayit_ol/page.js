@@ -18,7 +18,7 @@ export default function SignupPage() {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [signedUp, setSignedUp] = useState(false);
+  const [signedUp, setSignedUp] = useState(false); // ✅ email onayı bekleniyor mu?
 
   // Aynı anda hem kurucu hem davet olmasın
   const onChangeCompany = (v) => {
@@ -123,13 +123,20 @@ export default function SignupPage() {
             disabled={formDisabled}
           />
 
-          {/* Profesyonel Telefon Inputu */}
+          {/* Telefon numarası */}
           <PhoneInput
             country={"tr"}
             value={phone}
             onChange={(val) => setPhone("+" + val)}
             inputClass="!w-full !h-10 !px-3 !py-2 !rounded-lg !border"
-            placeholder="Telefon numaran"
+            placeholder="Telefon (+90...)"
+            inputProps={{
+              name: "phone",
+              required: true,
+            }}
+            disableDropdown={true}        // ✅ ülke seçim dropdown’u kapalı
+            countryCodeEditable={false}   // ✅ kullanıcı +90 kısmını değiştiremez
+            buttonClass="!hidden"         // ✅ bayrağı gizle
             disabled={formDisabled}
           />
 
@@ -175,6 +182,7 @@ export default function SignupPage() {
             disabled={formDisabled}
           />
 
+          {/* Paket seçimi */}
           {companyName && (
             <select
               value={plan}
@@ -188,6 +196,7 @@ export default function SignupPage() {
             </select>
           )}
 
+          {/* Davet kodu */}
           <input
             type="text"
             placeholder="Davet Kodu (Katılıyorsan)"
