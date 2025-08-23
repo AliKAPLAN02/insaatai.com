@@ -99,7 +99,7 @@ export default function Page() {
                       icon: <MessageSquare className="h-6 w-6" />,
                       title: "WhatsApp’tan Yönet",
                       lines: [
-                        "Sadece WhatsApp ile sahadan ya da ofisten tüm verilerinizi kolayca yönetin.",
+                        " sahadan ya da ofisten tüm verilerinizi kolayca yönetin.",
                       ],
                       href: "/#ozellik-whatsapp",
                     },
