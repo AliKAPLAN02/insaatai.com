@@ -21,8 +21,9 @@ export default function Page() {
     if (
       matchMedia("(pointer: coarse)").matches ||
       matchMedia("(prefers-reduced-motion: reduce)").matches
-    )
+    ) {
       return;
+    }
 
     const el = tiltRef.current;
     if (!el) return;
@@ -42,9 +43,9 @@ export default function Page() {
 
   const onLeave = () => {
     const el = tiltRef.current;
-    if (el)
-      el.style.transform =
-        "rotateX(0deg) rotateY(0deg) translateZ(0) scale(1.01)";
+    if (el) {
+      el.style.transform = "rotateX(0deg) rotateY(0deg) translateZ(0) scale(1)";
+    }
   };
 
   return (
@@ -98,9 +99,7 @@ export default function Page() {
                     {
                       icon: <MessageSquare className="h-6 w-6" />,
                       title: "Telefonundan Yönet",
-                      lines: [
-                        " sahadan ya da ofisten tüm verilerinizi kolayca yönetin.",
-                      ],
+                      lines: ["Sahadan ya da ofisten tüm verilerinizi kolayca yönetin."],
                       href: "/#ozellik-whatsapp",
                     },
                     {
@@ -119,9 +118,9 @@ export default function Page() {
                       ],
                       href: "/#ozellik-insaat",
                     },
-                  ].map((c, i) => (
+                  ].map((c) => (
                     <Link
-                      key={i}
+                      key={c.title}
                       href={c.href}
                       className="rounded-3xl bg-white border border-slate-200 p-6 shadow-sm hover:shadow transition group"
                     >
@@ -157,7 +156,7 @@ export default function Page() {
               <div
                 ref={tiltRef}
                 className="absolute inset-0 will-change-transform"
-                style={{ transformStyle: "preserve-3d", transform: "scale(1.01)" }}
+                style={{ transformStyle: "preserve-3d", transform: "scale(1)" }}
               >
                 <Spline scene={SCENE_PATH} />
               </div>
@@ -168,9 +167,7 @@ export default function Page() {
 
       {/* Footer */}
       <footer className="text-xs text-slate-500 px-6 lg:px-10 pb-5">
-        <div className="w-full text-right">
-          © {new Date().getFullYear()} İnşaat AI
-        </div>
+        <div className="w-full text-right">© {new Date().getFullYear()} İnşaat AI</div>
       </footer>
     </main>
   );
