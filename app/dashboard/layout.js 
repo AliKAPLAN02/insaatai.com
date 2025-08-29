@@ -1,139 +1,71 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import {
-  Menu,
-  X,
-  ChevronLeft,
-  ChevronRight,
-  ChartLine,
-  Wallet,
-  WalletCards,
-  HandCoins,
-  Building2,
-  FolderKanban,
-  Users2,
-  FileBarChart,
-  Settings,
-} from "lucide-react";
-
-<div className="text-xs text-red-600">LAYOUT OK</div>
-
+import { Menu, X, ChevronLeft, ChevronRight, ChartLine } from "lucide-react";
 
 export default function DashboardLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
-  const mainColClass = collapsed ? "lg:col-span-11" : "lg:col-span-10";
+
+  // görünür test işareti
+  useEffect(() => {
+    console.log("🚀 DashboardLayout mounted");
+  }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Üst Bar */}
+    <div data-testid="ia-layout" className="min-h-screen bg-slate-50">
+      {/* TEST BARI: KIRMIZI ŞERİT */}
+      <div className="bg-red-600 text-white text-xs px-3 py-1">LAYOUT OK</div>
+
+      {/* Topbar */}
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-200">
         <div className="mx-auto max-w-7xl px-3 sm:px-4 py-3 flex items-center gap-3">
-          <button
-            className="lg:hidden p-2 rounded-xl hover:bg-slate-100 text-slate-700"
-            onClick={() => setSidebarOpen(true)}
-          >
+          <button className="lg:hidden p-2 rounded-xl hover:bg-slate-100" onClick={() => setSidebarOpen(true)}>
             <Menu className="h-5 w-5" />
           </button>
-          <div className="flex items-center gap-2 text-slate-800 font-semibold">
+          <div className="flex items-center gap-2 font-semibold text-slate-800">
             <div className="h-9 w-9 rounded-2xl bg-slate-900 text-white grid place-items-center">IA</div>
             <span>İnşaat AI</span>
           </div>
         </div>
       </header>
 
-      {/* Mobile Drawer */}
-      <MobileSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-
       <div className="mx-auto max-w-7xl px-3 sm:px-4 py-4 grid grid-cols-12 gap-4">
-        {/* Sidebar */}
+        {/* Desktop sidebar (sade) */}
         <aside className={`hidden lg:block ${collapsed ? "lg:col-span-1" : "lg:col-span-2"}`}>
           <div className="sticky top-20">
             <button
               onClick={() => setCollapsed(!collapsed)}
-              className="mb-2 w-full flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-600 hover:bg-slate-50"
+              className="mb-2 w-full flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs"
             >
-              <span className={`${collapsed ? "hidden" : ""}`}>Menü</span>
+              <span className={collapsed ? "hidden" : ""}>Menü</span>
               {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
             </button>
-
             <nav className="space-y-1">
-              <SidebarLink href="/dashboard" icon={<ChartLine className="h-4 w-4" />} label="Özet" collapsed={collapsed} />
-              <SidebarLink href="/dashboard/treasury" icon={<Wallet className="h-4 w-4" />} label="Hazine" collapsed={collapsed} />
-              <SidebarLink href="/dashboard/transactions" icon={<WalletCards className="h-4 w-4" />} label="İşlemler" collapsed={collapsed} />
-              <SidebarLink href="/dashboard/debts" icon={<HandCoins className="h-4 w-4" />} label="Borçlar" collapsed={collapsed} />
-              <SidebarLink href="/dashboard/companies" icon={<Building2 className="h-4 w-4" />} label="Firmalar" collapsed={collapsed} />
-              <SidebarLink href="/dashboard/projects" icon={<FolderKanban className="h-4 w-4" />} label="Projeler" collapsed={collapsed} />
-              <SidebarLink href="/dashboard/team" icon={<Users2 className="h-4 w-4" />} label="Ekip" collapsed={collapsed} />
-              <SidebarLink href="/dashboard/reports" icon={<FileBarChart className="h-4 w-4" />} label="Raporlar & AI" collapsed={collapsed} />
-              <SidebarLink href="/dashboard/settings" icon={<Settings className="h-4 w-4" />} label="Ayarlar" collapsed={collapsed} />
+              <Link href="/dashboard" className="block rounded-xl px-3 py-2 text-sm hover:bg-slate-100">
+                <span className="inline-flex items-center gap-2"><ChartLine className="h-4 w-4" />Özet</span>
+              </Link>
             </nav>
           </div>
         </aside>
 
-        {/* Main Content */}
-        <main className={`col-span-12 ${mainColClass}`}>
-          {children}
-        </main>
+        {/* Sayfa içeriği */}
+        <main className={`col-span-12 ${collapsed ? "lg:col-span-11" : "lg:col-span-10"}`}>{children}</main>
       </div>
 
-      {/* Mobile bottom tabbar */}
-      <MobileTabbar />
+      {/* Mobile drawer (sade) */}
+      {sidebarOpen && (
+        <>
+          <div className="fixed inset-0 z-50 bg-black/40 lg:hidden" onClick={() => setSidebarOpen(false)} />
+          <aside className="fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-xl p-4 lg:hidden">
+            <button className="p-2 rounded-xl hover:bg-slate-100 mb-2" onClick={() => setSidebarOpen(false)}>
+              <X className="h-5 w-5" />
+            </button>
+            <Link href="/dashboard" className="block rounded-xl px-3 py-2 text-sm hover:bg-slate-100">Özet</Link>
+          </aside>
+        </>
+      )}
     </div>
-  );
-}
-
-function SidebarLink({ href, icon, label, collapsed }) {
-  return (
-    <Link
-      href={href}
-      className={`w-full flex items-center ${collapsed ? "justify-center" : ""} gap-2 rounded-xl px-3 py-2 text-sm transition-colors text-slate-700 hover:bg-slate-100`}
-    >
-      <span>{icon}</span>
-      {!collapsed && <span>{label}</span>}
-    </Link>
-  );
-}
-
-function MobileSidebar({ open, onClose }) {
-  return (
-    <>
-      {open && <div className="fixed inset-0 z-50 bg-black/40 lg:hidden" onClick={onClose} />}
-      <aside className={`fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-xl p-4 lg:hidden transform ${open ? "translate-x-0" : "-translate-x-full"}`}>
-        <button onClick={onClose} className="mb-4 p-2 rounded-xl hover:bg-slate-100">
-          <X className="h-5 w-5" />
-        </button>
-        <nav className="space-y-1">
-          <SidebarLink href="/dashboard" icon={<ChartLine className="h-4 w-4" />} label="Özet" />
-          <SidebarLink href="/dashboard/treasury" icon={<Wallet className="h-4 w-4" />} label="Hazine" />
-          <SidebarLink href="/dashboard/transactions" icon={<WalletCards className="h-4 w-4" />} label="İşlemler" />
-          <SidebarLink href="/dashboard/debts" icon={<HandCoins className="h-4 w-4" />} label="Borçlar" />
-          <SidebarLink href="/dashboard/projects" icon={<FolderKanban className="h-4 w-4" />} label="Projeler" />
-          <SidebarLink href="/dashboard/settings" icon={<Settings className="h-4 w-4" />} label="Ayarlar" />
-        </nav>
-      </aside>
-    </>
-  );
-}
-
-function MobileTabbar() {
-  const items = [
-    { label: "Özet", href: "/dashboard", icon: <ChartLine className="h-5 w-5" /> },
-    { label: "İşlemler", href: "/dashboard/transactions", icon: <WalletCards className="h-5 w-5" /> },
-    { label: "Borçlar", href: "/dashboard/debts", icon: <HandCoins className="h-5 w-5" /> },
-    { label: "Projeler", href: "/dashboard/projects", icon: <FolderKanban className="h-5 w-5" /> },
-    { label: "Ayarlar", href: "/dashboard/settings", icon: <Settings className="h-5 w-5" /> },
-  ];
-  return (
-    <nav className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-slate-200 grid grid-cols-5">
-      {items.map((it) => (
-        <Link key={it.label} href={it.href} className="flex flex-col items-center py-2 text-xs text-slate-600">
-          {it.icon}
-          <span className="mt-1">{it.label}</span>
-        </Link>
-      ))}
-    </nav>
   );
 }
