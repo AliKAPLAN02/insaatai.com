@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { supabase } from "@/lib/supabaseClient"; // ✅ kendi supabase client dosyan
+
 import {
   Menu, X, ChevronLeft, ChevronRight,
   ChartLine, Wallet, WalletCards, HandCoins,
@@ -9,9 +11,39 @@ import {
 } from "lucide-react";
 
 export default function DashboardShell({ children, active = "overview" }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);   // mobile drawer
-  const [collapsed, setCollapsed] = useState(false);       // desktop collapse
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+  const [companyName, setCompanyName] = useState("Yükleniyor...");
+  const [userName, setUserName] = useState("Yükleniyor...");
+
   const mainColClass = collapsed ? "lg:col-span-11" : "lg:col-span-10";
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setUserName(user.user_metadata?.full_name || user.email);
+
+        // company_id çek
+        const { data: member } = await supabase
+          .from("company_member")
+          .select("company_id")
+          .eq("user_id", user.id)
+          .maybeSingle();
+
+        if (member?.company_id) {
+          const { data: company } = await supabase
+            .from("company")
+            .select("name")
+            .eq("id", member.company_id)
+            .maybeSingle();
+
+          if (company) setCompanyName(company.name);
+        }
+      }
+    };
+    fetchData();
+  }, []);
 
   const Nav = [
     { key: "overview", href: "/dashboard", label: "Özet", icon: <ChartLine className="h-4 w-4" /> },
@@ -21,7 +53,7 @@ export default function DashboardShell({ children, active = "overview" }) {
     { key: "companies", href: "/dashboard/companies", label: "Firmalar", icon: <Building2 className="h-4 w-4" /> },
     { key: "projects", href: "/dashboard/projects", label: "Projeler", icon: <FolderKanban className="h-4 w-4" /> },
     { key: "team", href: "/dashboard/team", label: "Ekip", icon: <Users2 className="h-4 w-4" /> },
-    { key: "reports", href: "/dashboard/ai-reports", label: "Raporlar & AI", icon: <FileBarChart className="h-4 w-4" /> }, // ✅ düzeltildi
+    { key: "reports", href: "/dashboard/ai-reports", label: "Raporlar & AI", icon: <FileBarChart className="h-4 w-4" /> },
     { key: "settings", href: "/dashboard/settings", label: "Ayarlar", icon: <Settings className="h-4 w-4" /> },
   ];
 
@@ -29,19 +61,22 @@ export default function DashboardShell({ children, active = "overview" }) {
     <div className="min-h-screen bg-slate-50">
       {/* Topbar */}
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-200">
-        <div className="mx-auto max-w-7xl px-3 sm:px-4 py-3 flex items-center gap-3">
-          <button
-            className="lg:hidden p-2 rounded-xl hover:bg-slate-100"
-            aria-label="Menüyü aç"
-            onClick={() => setSidebarOpen(true)}
-          >
-            <Menu className="h-5 w-5" />
-          </button>
-
+        <div className="mx-auto max-w-7xl px-3 sm:px-4 py-3 flex items-center justify-between">
+          {/* Sol kısım */}
           <div className="flex items-center gap-2 font-semibold text-slate-800">
+            <button
+              className="lg:hidden p-2 rounded-xl hover:bg-slate-100"
+              aria-label="Menüyü aç"
+              onClick={() => setSidebarOpen(true)}
+            >
+              <Menu className="h-5 w-5" />
+            </button>
             <div className="h-9 w-9 rounded-2xl bg-slate-900 text-white grid place-items-center">IA</div>
-            <span>İnşaat AI</span>
+            <span>{companyName}</span>
           </div>
+
+          {/* Sağ kısım */}
+          <div className="text-sm text-slate-600">{userName}</div>
         </div>
       </header>
 
@@ -89,7 +124,7 @@ export default function DashboardShell({ children, active = "overview" }) {
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2 font-semibold text-slate-800">
                 <div className="h-9 w-9 rounded-2xl bg-slate-900 text-white grid place-items-center">IA</div>
-                <span>İnşaat AI</span>
+                <span>{companyName}</span>
               </div>
               <button className="p-2 rounded-xl hover:bg-slate-100" onClick={() => setSidebarOpen(false)}>
                 <X className="h-5 w-5" />
