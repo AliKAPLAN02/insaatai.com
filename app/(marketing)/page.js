@@ -97,7 +97,7 @@ export default function Page() {
                   {[
                     {
                       icon: <MessageSquare className="h-6 w-6" />,
-                      title: "WhatsApp’tan Yönet",
+                      title: "Telefonundan Yönet",
                       lines: [
                         " sahadan ya da ofisten tüm verilerinizi kolayca yönetin.",
                       ],
