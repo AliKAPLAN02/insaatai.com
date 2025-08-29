@@ -18,6 +18,9 @@ import {
   Settings,
 } from "lucide-react";
 
+<div className="text-xs text-red-600">LAYOUT OK</div>
+
+
 export default function DashboardLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
