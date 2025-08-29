@@ -21,7 +21,7 @@ export default function DashboardShell({ children, active = "overview" }) {
     { key: "companies", href: "/dashboard/companies", label: "Firmalar", icon: <Building2 className="h-4 w-4" /> },
     { key: "projects", href: "/dashboard/projects", label: "Projeler", icon: <FolderKanban className="h-4 w-4" /> },
     { key: "team", href: "/dashboard/team", label: "Ekip", icon: <Users2 className="h-4 w-4" /> },
-    { key: "reports", href: "/dashboard/reports", label: "Raporlar & AI", icon: <FileBarChart className="h-4 w-4" /> },
+    { key: "reports", href: "/dashboard/ai-reports", label: "Raporlar & AI", icon: <FileBarChart className="h-4 w-4" /> }, // ✅ düzeltildi
     { key: "settings", href: "/dashboard/settings", label: "Ayarlar", icon: <Settings className="h-4 w-4" /> },
   ];
 
@@ -111,7 +111,7 @@ export default function DashboardShell({ children, active = "overview" }) {
         </>
       )}
 
-      {/* Mobile bottom tabbar (isteğe bağlı) */}
+      {/* Mobile bottom tabbar */}
       <nav
         className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-slate-200 grid grid-cols-5"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
