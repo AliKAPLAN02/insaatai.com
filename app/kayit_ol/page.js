@@ -14,11 +14,11 @@ export default function SignupPage() {
   const [password2, setPassword2] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [inviteCode, setInviteCode] = useState("");
-  const [plan, setPlan] = useState("free");
+  const [plan, setPlan] = useState("trial"); // ✅ ENUM ile uyumlu default değer
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [signedUp, setSignedUp] = useState(false); // ✅ email onayı bekleniyor mu?
+  const [signedUp, setSignedUp] = useState(false);
 
   // Aynı anda hem kurucu hem davet olmasın
   const onChangeCompany = (v) => {
@@ -134,9 +134,9 @@ export default function SignupPage() {
               name: "phone",
               required: true,
             }}
-            disableDropdown={true}        // ✅ ülke seçim dropdown’u kapalı
-            countryCodeEditable={false}   // ✅ kullanıcı +90 kısmını değiştiremez
-            buttonClass="!hidden"         // ✅ bayrağı gizle
+            disableDropdown={true}
+            countryCodeEditable={false}
+            buttonClass="!hidden"
             disabled={formDisabled}
           />
 
@@ -190,9 +190,10 @@ export default function SignupPage() {
               className="w-full px-3 py-2 border rounded-lg"
               disabled={formDisabled}
             >
-              <option value="free">Ücretsiz</option>
+              <option value="trial">Deneme</option>
+              <option value="starter">Başlangıç</option>
               <option value="pro">Pro</option>
-              <option value="enterprise">Enterprise</option>
+              <option value="enterprise">Kurumsal</option>
             </select>
           )}
 
