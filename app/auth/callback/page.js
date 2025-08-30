@@ -1,5 +1,6 @@
 // app/auth/callback/page.js
 "use client";
+console.log("[CALLBACK FILE ÇALIŞIYOR]");
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
