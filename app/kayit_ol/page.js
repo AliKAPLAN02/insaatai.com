@@ -1,3 +1,4 @@
+// app/kayit_ol/page.jsx (veya ilgili dosyan)
 "use client";
 
 import { useState } from "react";
@@ -6,31 +7,39 @@ import { supabase } from "@/lib/supabaseClient";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
-const ALLOWED_PLANS = ["trial", "starter", "pro", "enterprise"]; // DB enum'ları
+const PLAN_OPTIONS = [
+  { value: "trial",       label: "Deneme Sürümü" },
+  { value: "starter",     label: "Başlangıç" },
+  { value: "pro",         label: "Profesyonel" },
+  { value: "enterprise",  label: "Kurumsal" },
+];
 
 export default function SignupPage() {
-  const [fullName, setFullName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
+  const [fullName, setFullName]         = useState("");
+  const [phone, setPhone]               = useState("");
+  const [email, setEmail]               = useState("");
+  const [password, setPassword]         = useState("");
+  const [password2, setPassword2]       = useState("");
 
-  const [companyName, setCompanyName] = useState("");
-  const [inviteCode, setInviteCode] = useState("");
-  const [plan, setPlan] = useState("trial"); // ✅ enum'dan biri (free DEĞİL)
+  const [companyName, setCompanyName]   = useState("");
+  const [inviteCode, setInviteCode]     = useState("");
+  const [plan, setPlan]                 = useState("trial"); // ✅ default artık 'trial'
 
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-  const [signedUp, setSignedUp] = useState(false); // e-posta onayı bekleniyor mu?
+  const [loading, setLoading]           = useState(false);
+  const [message, setMessage]           = useState("");
+  const [signedUp, setSignedUp]         = useState(false);
 
-  // XOR: Kurucuysa companyName, katılımcıysa inviteCode
+  // Kurucu ↔ Davet alanlarını karşılıklı temizle
   const onChangeCompany = (v) => {
     setCompanyName(v);
     if (v) setInviteCode("");
   };
   const onChangeInvite = (v) => {
     setInviteCode(v);
-    if (v) setCompanyName("");
+    if (v) {
+      setCompanyName("");
+      // Davetle katılıyorsa plan kullanıcıya ait değildir; seçili olsa da metadata’ya göndermeyeceğiz.
+    }
   };
 
   const handleSignup = async (e) => {
@@ -41,50 +50,48 @@ export default function SignupPage() {
       setMessage("⚠️ Lütfen e-postanı kontrol et. Doğrulamadan tekrar kayıt olamazsın.");
       return;
     }
-
-    // === Validation ===
     if (password !== password2) {
       setMessage("⚠️ Şifreler uyuşmuyor!");
       return;
     }
-    if (!companyName && !inviteCode) {
+    // En az bir yol seçilmeli
+    if (!companyName.trim() && !inviteCode.trim()) {
       setMessage("⚠️ Lütfen ya şirket adı girin ya da davet kodu girin.");
-      return;
-    }
-    if (companyName && !ALLOWED_PLANS.includes(plan)) {
-      setMessage("⚠️ Geçerli bir paket seçmelisiniz.");
       return;
     }
 
     setLoading(true);
 
-    // Redirect URL (production ya da local)
+    // Redirect URL (prod veya env’den)
     const baseEnv =
       process.env.NEXT_PUBLIC_AUTH_REDIRECT_URL || process.env.NEXT_PUBLIC_BASE_URL;
     const redirectTo = baseEnv
       ? `${baseEnv.replace(/\/$/, "")}/auth/callback`
       : `${window.location.origin}/auth/callback`;
 
-    // Email normalize
     const normalizedEmail = email.trim().toLowerCase();
 
-    // Plan'ı güvene al (yanlış değer gelirse trial'a düş)
-    const safePlan = ALLOWED_PLANS.includes((plan || "").toLowerCase())
-      ? (plan || "").toLowerCase()
-      : "trial";
+    // Plan doğrulama (enum koruması). Kurucuysa geçerli değilse trial’e düş.
+    const allowedPlans = PLAN_OPTIONS.map(p => p.value);
+    const safePlan =
+      companyName.trim()
+        ? (allowedPlans.includes(plan) ? plan : "trial")
+        : null; // davetli ise plan göndermiyoruz
 
-    // === Supabase SignUp ===
+    // Metadata: kurucuysa companyName + plan; davetliyse inviteCode
+    const metadata = {
+      full_name:  fullName.trim(),
+      phone,
+      companyName: companyName.trim() || null,
+      inviteCode: inviteCode.trim() || null,
+      plan: safePlan,
+    };
+
     const { error } = await supabase.auth.signUp({
       email: normalizedEmail,
       password,
       options: {
-        data: {
-          full_name: fullName,
-          phone,
-          companyName: companyName || null, // biri dolu diğeri boş kalsın
-          inviteCode: inviteCode || null,
-          plan: safePlan,
-        },
+        data: metadata,
         emailRedirectTo: redirectTo,
       },
     });
@@ -102,7 +109,6 @@ export default function SignupPage() {
       return;
     }
 
-    // Başarılı → tekrar kayıt olmayı kilitle
     setSignedUp(true);
     setPassword("");
     setPassword2("");
@@ -132,7 +138,6 @@ export default function SignupPage() {
             className="w-full px-3 py-2 border rounded-lg"
             required
             disabled={formDisabled}
-            autoComplete="name"
           />
 
           {/* Telefon */}
@@ -157,7 +162,6 @@ export default function SignupPage() {
             className="w-full px-3 py-2 border rounded-lg"
             required
             disabled={formDisabled}
-            autoComplete="email"
           />
 
           <input
@@ -182,7 +186,7 @@ export default function SignupPage() {
             autoComplete="new-password"
           />
 
-          {/* Şirket oluşturma */}
+          {/* Şirket oluşturma (Kurucu) */}
           <input
             type="text"
             placeholder="Şirket Adı (Kurucuysan)"
@@ -192,22 +196,23 @@ export default function SignupPage() {
             disabled={formDisabled}
           />
 
-          {/* Paket seçimi (sadece kurucuysa gösterelim) */}
-          {companyName && (
+          {/* Paket seçimi — sadece kurucuysa göster */}
+          {companyName.trim() && (
             <select
               value={plan}
               onChange={(e) => setPlan(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg"
               disabled={formDisabled}
             >
-              <option value="trial">Deneme (trial)</option>
-              <option value="starter">Başlangıç (starter)</option>
-              <option value="pro">Pro (pro)</option>
-              <option value="enterprise">Kurumsal (enterprise)</option>
+              {PLAN_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
             </select>
           )}
 
-          {/* Davet kodu (katılımcıysa) */}
+          {/* Davet kodu (Katılımcı) */}
           <input
             type="text"
             placeholder="Davet Kodu (Katılıyorsan)"

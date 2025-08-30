@@ -1,133 +1,150 @@
-// app/auth/callback/page.js
+// app/auth/callback/page.jsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
+
+/**
+ * Bu sayfa, Supabase e-posta doğrulama linkinden gelindiğinde:
+ * - Session kurar (PKCE ?code=... ya da hash flow #access_token=...)
+ * - Kullanıcı metadata’sına göre (companyName / inviteCode / plan) veritabanını bootstrap eder
+ * - Sonra kullanıcıyı /dashboard sayfasına taşır (recovery ise /reset-password)
+ *
+ * EXPECTED METADATA (signup’tan gelir):
+ *  Kurucu: { companyName: "Kaplan İnşaat", plan: "trial|starter|pro|enterprise" }
+ *  Davetli: { inviteCode: "<company_uuid>" }
+ */
 
 export default function AuthCallback() {
   const router = useRouter();
   const [msg, setMsg] = useState("Giriş yapılıyor...");
+  const ranRef = useRef(false); // aynı effect'in iki kez çalışmasını engelle
 
-  /**
-   * Kullanıcı doğrulandıktan sonra veritabanını hazırlayan yardımcı.
-   * - Şirket kur (patron)
-   * - Davetle şirkete katıl (çalışan)
-   * - Metadata'yı temizle
-   */
+  // --- Yardımcı: Kullanıcıya göre DB bootstrap ---
   const bootstrapDbFor = async (user) => {
     if (!user) return;
 
     const meta = user.user_metadata || {};
     const companyName = (meta.companyName || "").trim();
     const inviteCode  = (meta.inviteCode  || "").trim();
-    const planRaw     = (meta.plan || "trial").trim(); // billing_plan enum
-    const plan        = planRaw || "trial";
+    const rawPlan     = (meta.plan        || "").trim();
+
+    // enum koruması: plan_config’te olan kodlar
+    const allowedPlans = ["trial", "starter", "pro", "enterprise"];
+    const safePlan = allowedPlans.includes(rawPlan) ? rawPlan : "trial";
 
     try {
-      // ----------- PATRON AKIŞI: Şirket kur -----------
+      // [A] Kurucu akışı: RPC ile şirket + owner üyeliği oluştur
       if (companyName) {
-        // Aynı isim + aynı patron için şirket zaten var mı?
-        const { data: existing } = await supabase
-          .from("company")
-          .select("id")
-          .eq("patron", user.id)
-          .eq("name", companyName)
-          .maybeSingle();
+        // RPC argümanlarını eksiksiz gönder (enum/value sorunlarını azaltır)
+        const { data: companyId, error: rpcErr } = await supabase.rpc(
+          "create_company_with_owner",
+          {
+            p_user_id: user.id,           // owner
+            p_name: companyName,          // şirket adı
+            p_plan: safePlan,             // enum: trial|starter|pro|enterprise
+            p_currency: "TRY",            // default para birimi
+            p_initial_budget: 0           // default başlangıç bütçesi
+          }
+        );
 
-        if (!existing) {
-          // 1) Önce RPC dene (varsa).
-          const { data: rpcData, error: rpcErr } = await supabase.rpc(
-            "create_company_with_owner",
-            {
-              p_user_id: user.id,
-              p_name: companyName,
-              p_plan: plan, // enum: trial/free/pro/enterprise
-              // RPC'in imzasında varsa sorun çıkmaz; yoksa Supabase "unexpected named argument"
-              // hatası verirse aşağıdaki fallback devreye girecek.
-              // p_currency: "TRY",
-              // p_initial_budget: 0,
-            }
-          );
+        if (rpcErr) {
+          // RPC başarısız ise doğrudan insert’e düş (fallback)
+          console.error("[CB] RPC create_company_with_owner hata:", rpcErr);
 
-          if (rpcErr) {
-            // 2) Fallback: doğrudan insert (kolon adları şema ile birebir!)
-            const { data: inserted, error: insErr } = await supabase
-              .from("company")
-              .insert([{
+          // 1) company
+          const { data: created, error: cErr } = await supabase
+            .from("company")
+            .insert([
+              {
                 name: companyName,
-                patron: user.id,     // owner değil, PATRON kolonu
-                plan,                // billing_plan enum
-                currency: "TRY",     // NOT NULL ise zorunlu
-                initial_budget: 0    // NOT NULL ise zorunlu
-              }])
-              .select("id")
-              .single();
+                patron: user.id,
+                plan: safePlan,
+                currency: "TRY",
+                initial_budget: 0
+              },
+            ])
+            .select("id")
+            .single();
+          if (cErr) throw cErr;
 
-            if (insErr) {
-              console.error("[CB] company insert error:", insErr);
-              setMsg("❌ Şirket oluşturulamadı: " + (insErr.message || "bilinmeyen hata"));
-            } else if (inserted?.id) {
-              // Owner üyeliğini garantile.
-              await supabase
-                .from("company_member")
-                .insert([{ company_id: inserted.id, user_id: user.id, role: "owner" }])
-                .select("company_id")
-                .maybeSingle();
-            }
-          } else if (rpcData) {
-            // RPC genelde hem company hem membership'i halleder.
-            // Yine de idempotentlik için ekstra iş yapmaya gerek yok.
+          const companyId2 = created.id;
+
+          // 2) owner üyeliği (idempotent kontrol)
+          const { data: alreadyOwner } = await supabase
+            .from("company_member")
+            .select("user_id")
+            .eq("company_id", companyId2)
+            .eq("user_id", user.id)
+            .maybeSingle();
+
+          if (!alreadyOwner) {
+            const { error: mErr } = await supabase
+              .from("company_member")
+              .insert([{ company_id: companyId2, user_id: user.id, role: "patron" }]);
+            if (mErr) throw mErr;
           }
         }
       }
 
-      // ----------- ÇALIŞAN AKIŞI: Davetle katıl -----------
+      // [B] Davetli akışı: company_member’a ekle
       if (inviteCode && !companyName) {
-        // Zaten üye mi?
-        const { data: exists } = await supabase
+        // zaten üye mi?
+        const { data: exists, error: chkErr } = await supabase
           .from("company_member")
           .select("user_id")
           .eq("company_id", inviteCode)
           .eq("user_id", user.id)
           .maybeSingle();
+        if (chkErr) throw chkErr;
 
         if (!exists) {
           const { error: joinErr } = await supabase
             .from("company_member")
             .insert([{ company_id: inviteCode, user_id: user.id, role: "calisan" }]);
-
-          if (joinErr) {
-            console.error("[CB] company_member insert error:", joinErr);
-            setMsg("❌ Şirkete ekleme başarısız: " + (joinErr.message || "bilinmeyen hata"));
-          }
+          if (joinErr) throw joinErr;
         }
       }
 
-      // ----------- Metadata'yı temizle -----------
-      if (companyName || inviteCode) {
+      // [C] Metadata temizle → tekrar tetiklenmesin
+      if (companyName || inviteCode || rawPlan) {
         await supabase.auth.updateUser({
           data: { companyName: null, inviteCode: null, plan: null },
         });
       }
     } catch (err) {
-      console.error("[CB] bootstrap fatal error:", err);
-      setMsg("❌ Kurulum hatası: " + (err?.message || "bilinmeyen hata"));
+      // Buradaki bir hata kullanıcıyı tamamen bloklamasın; logla ve devam et
+      console.error("[CB] bootstrapDbFor fatal:", err);
+      // UI mesajı bilgi amaçlı; yönlendirmeyi yine de yapacağız
+      setMsg("⚠️ Kurulum sırasında sorun oluştu, ancak giriş tamamlandı.");
     }
   };
 
+  // --- Callback akışı: PKCE (?code=...) veya hash flow (#access_token=...) ---
   useEffect(() => {
+    if (ranRef.current) return;
+    ranRef.current = true;
+
     (async () => {
       try {
         const url = new URL(window.location.href);
+        const errDesc = url.searchParams.get("error_description");
+        if (errDesc) {
+          setMsg("❌ " + errDesc);
+          return;
+        }
 
-        // 1) PKCE akışı (?code=...)
         const code = url.searchParams.get("code");
-        const type = url.searchParams.get("type"); // recovery vs.
+        const type = url.searchParams.get("type"); // recovery vs
+
+        // PKCE
         if (code) {
-          const { error } = await supabase.auth.exchangeCodeForSession(window.location.href);
+          const { error } = await supabase.auth.exchangeCodeForSession(
+            window.location.href
+          );
           if (error) {
-            console.error("[CB] exchangeCodeForSession error:", error);
+            console.error("[CB] exchangeCodeForSession:", error);
             setMsg("❌ Oturum açılamadı: " + (error.message || "bilinmeyen hata"));
             return;
           }
@@ -139,21 +156,24 @@ export default function AuthCallback() {
           return;
         }
 
-        // 2) Eski hash akışı (#access_token=...)
+        // Hash flow
         if (url.hash.includes("access_token")) {
           const params = new URLSearchParams(url.hash.substring(1));
-          const access_token = params.get("access_token");
+          const access_token  = params.get("access_token");
           const refresh_token = params.get("refresh_token");
-          const hType = params.get("type");
+          const hType         = params.get("type");
 
           if (!access_token || !refresh_token) {
             setMsg("❌ Token bulunamadı.");
             return;
           }
 
-          const { error } = await supabase.auth.setSession({ access_token, refresh_token });
+          const { error } = await supabase.auth.setSession({
+            access_token,
+            refresh_token,
+          });
           if (error) {
-            console.error("[CB] setSession error:", error);
+            console.error("[CB] setSession:", error);
             setMsg("❌ Oturum başlatılamadı: " + (error.message || "bilinmeyen hata"));
             return;
           }
@@ -165,10 +185,10 @@ export default function AuthCallback() {
           return;
         }
 
-        // 3) Hiçbiri değil → geçersiz URL
+        // Geçersiz
         setMsg("❌ Geçersiz dönüş URL'si.");
       } catch (err) {
-        console.error("[CB] callback outer error:", err);
+        console.error("[CB] outer error:", err);
         setMsg("❌ Beklenmedik hata.");
       }
     })();
