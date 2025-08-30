@@ -62,10 +62,11 @@ export default function SignupPage() {
       setLoading(false);
       return;
     }
-    // Davet kodu verildiyse UUID olsun (değilse metadata'ya koyma)
+
+    // Davet kodu verildiyse UUID olsun
     const safeInvite = inviteCode ? (isUUID(inviteCode) ? inviteCode : "") : "";
 
-    // Redirect URL (Supabase Auth → URL’lerde tanımlı olmalı)
+    // Redirect URL
     const baseEnv =
       process.env.NEXT_PUBLIC_AUTH_REDIRECT_URL || process.env.NEXT_PUBLIC_BASE_URL;
     const redirectTo = baseEnv
@@ -75,17 +76,24 @@ export default function SignupPage() {
     const normalizedEmail = (email || "").trim().toLowerCase();
 
     try {
+      // Metadata sadece dolu alanlardan oluşturuluyor
+      const meta = {
+        full_name: fullName?.trim() || "",
+        phone: phone || "",
+      };
+      if (companyName.trim()) {
+        meta.companyName = companyName.trim();
+        meta.plan = plan;
+      } else if (safeInvite) {
+        meta.inviteCode = safeInvite;
+      }
+
+      // Supabase sign up
       const { error } = await supabase.auth.signUp({
         email: normalizedEmail,
         password,
         options: {
-          data: {
-            full_name: fullName?.trim() || "",
-            phone: phone || "",
-            companyName: companyName?.trim() || "",
-            inviteCode: safeInvite, // invalid ise boş gider
-            plan,
-          },
+          data: meta,
           emailRedirectTo: redirectTo,
         },
       });
