@@ -8,18 +8,11 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
 // Veritabanındaki billing_plan ENUM değerleriyle birebir aynı OLMALI
-const PLAN_OPTIONS = [
-  "Deneme Sürümü",
-  "Başlangıç",
-  "Profesyonel",
-  "Kurumsal",
-];
+const PLAN_OPTIONS = ["Deneme Sürümü", "Başlangıç", "Profesyonel", "Kurumsal"];
 
 // UUID (v4) kaba kontrolü
 const isUUIDv4 = (v) =>
-  /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
-    v || ""
-  );
+  /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v || "");
 
 export default function SignupPage() {
   const [fullName, setFullName] = useState("");
@@ -32,7 +25,7 @@ export default function SignupPage() {
   const [companyName, setCompanyName] = useState("");
   const [inviteCode, setInviteCode] = useState("");
 
-  // 🔹 Varsayılan plan artık Türkçe enum: "Deneme Sürümü"
+  // 🔹 Varsayılan plan: enum ile birebir
   const [plan, setPlan] = useState("Deneme Sürümü");
 
   const [loading, setLoading] = useState(false);
@@ -75,8 +68,7 @@ export default function SignupPage() {
 
     // Doğrulama linki için redirect
     const baseEnv =
-      process.env.NEXT_PUBLIC_AUTH_REDIRECT_URL ||
-      process.env.NEXT_PUBLIC_BASE_URL;
+      process.env.NEXT_PUBLIC_AUTH_REDIRECT_URL || process.env.NEXT_PUBLIC_BASE_URL;
     const redirectTo = baseEnv
       ? `${baseEnv.replace(/\/$/, "")}/auth/callback`
       : `${window.location.origin}/auth/callback`;
@@ -90,7 +82,7 @@ export default function SignupPage() {
         : "Deneme Sürümü"
       : null; // davet akışında plan KULLANILMAZ
 
-    // Metadata’yi minimal ve doğru gönder
+    // Metadata (callback şirket/üyelik kurulumunda kullanılacak)
     const metadata = {
       full_name: (fullName || "").trim(),
       phone: phone || "",
@@ -129,9 +121,7 @@ export default function SignupPage() {
       try {
         localStorage.setItem("signup_pending_email", normalizedEmail);
       } catch {}
-      setMessage(
-        "✅ Kayıt başarılı! E-postana doğrulama linki gönderildi. Onayladıktan sonra otomatik olarak devam edeceksin."
-      );
+      setMessage("✅ Kayıt başarılı! E-postana doğrulama linki gönderildi.");
     } catch (err) {
       setMessage("❌ Beklenmedik hata: " + (err?.message || String(err)));
     } finally {
@@ -242,18 +232,14 @@ export default function SignupPage() {
             type="submit"
             disabled={formDisabled}
             className={`w-full py-2 rounded-lg text-white ${
-              formDisabled
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-slate-900 hover:opacity-90"
+              formDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-slate-900 hover:opacity-90"
             }`}
           >
             {loading ? "Kaydediliyor..." : signedUp ? "Onay Bekleniyor" : "Kayıt Ol"}
           </button>
         </form>
 
-        {message && (
-          <p className="mt-4 text-center text-sm text-gray-700">{message}</p>
-        )}
+        {message && <p className="mt-4 text-center text-sm text-gray-700">{message}</p>}
 
         <p className="mt-6 text-center text-sm">
           Zaten hesabın var mı?{" "}
