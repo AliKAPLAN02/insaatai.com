@@ -182,3 +182,13 @@ export default function AuthCallback() {
 }
 const { data: session, error: sessErr } = await supabase.auth.getSession();
 console.log("Aktif session:", session, "Hata:", sessErr);
+if (rpcErr) {
+  console.error("RPC Hatası:", rpcErr);
+  // Fallback: direkt insert denemesi
+  const { data: direct, error: dirErr } = await supabase
+    .from("company")
+    .insert([{ name: companyName, patron: user.id, plan }])
+    .select("id")
+    .single();
+  console.log("Direct insert denemesi:", { direct, dirErr });
+}
