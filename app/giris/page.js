@@ -13,6 +13,70 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
+  // --- Giriş sonrası metadata işlemleri ---
+  const processMetadata = async (user) => {
+    if (!user) return;
+
+    const meta = user.user_metadata || {};
+    const companyName = (meta.companyName || "").trim();
+    const inviteCode  = (meta.inviteCode || "").trim();
+    const plan        = (meta.plan || "").trim();
+
+    try {
+      // --- [A] Şirket kurucu akışı ---
+      if (companyName) {
+        const { data: company, error: cErr } = await supabase
+          .from("company")
+          .insert([
+            {
+              name: companyName,
+              patron: user.id,
+              plan,
+              currency: "TRY",
+              initial_budget: 0,
+            },
+          ])
+          .select("id")
+          .single();
+
+        if (cErr) throw cErr;
+        const companyId = company.id;
+
+        // Patronu company_member tablosuna ekle
+        const { error: mErr } = await supabase
+          .from("company_member")
+          .insert([{ company_id: companyId, user_id: user.id, role: "patron" }]);
+        if (mErr) throw mErr;
+      }
+
+      // --- [B] Davet koduyla katılım akışı ---
+      if (inviteCode && !companyName) {
+        const { data: exists } = await supabase
+          .from("company_member")
+          .select("user_id")
+          .eq("company_id", inviteCode)
+          .eq("user_id", user.id)
+          .maybeSingle();
+
+        if (!exists) {
+          const { error: joinErr } = await supabase
+            .from("company_member")
+            .insert([{ company_id: inviteCode, user_id: user.id, role: "calisan" }]);
+          if (joinErr) throw joinErr;
+        }
+      }
+
+      // --- [C] Metadata temizle ---
+      if (companyName || inviteCode || plan) {
+        await supabase.auth.updateUser({
+          data: { companyName: null, inviteCode: null, plan: null },
+        });
+      }
+    } catch (err) {
+      console.error("[Login] metadata işlenirken hata:", err);
+    }
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -28,6 +92,11 @@ export default function LoginPage() {
       setLoading(false);
       return;
     }
+
+    const user = data.user;
+
+    // 📌 Metadata’yı işle
+    await processMetadata(user);
 
     setMessage("✅ Giriş başarılı! Yönlendiriliyorsunuz...");
     router.push("/dashboard");
@@ -66,7 +135,9 @@ export default function LoginPage() {
           </button>
         </form>
 
-        {message && <p className="mt-4 text-center text-sm text-gray-700">{message}</p>}
+        {message && (
+          <p className="mt-4 text-center text-sm text-gray-700">{message}</p>
+        )}
 
         <p className="mt-6 text-center text-sm">
           Hesabınız yok mu?{" "}
