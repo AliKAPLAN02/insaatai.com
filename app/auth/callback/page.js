@@ -1,27 +1,23 @@
-// app/auth/callback/page.jsx
 "use client";
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 
-/**
- * Bu sayfa, Supabase e-posta doğrulama linkinden gelindiğinde:
- * - Session kurar (PKCE ?code=... ya da hash flow #access_token=...)
- * - Kullanıcı metadata’sına göre (companyName / inviteCode / plan) veritabanını bootstrap eder
- * - Sonra kullanıcıyı /dashboard sayfasına taşır (recovery ise /reset-password)
- *
- * EXPECTED METADATA (signup’tan gelir):
- *  Kurucu: { companyName: "Kaplan İnşaat", plan: "trial|starter|pro|enterprise" }
- *  Davetli: { inviteCode: "<company_uuid>" }
- */
-
 export default function AuthCallback() {
   const router = useRouter();
   const [msg, setMsg] = useState("Giriş yapılıyor...");
-  const ranRef = useRef(false); // aynı effect'in iki kez çalışmasını engelle
+  const ranRef = useRef(false);
 
-  // --- Yardımcı: Kullanıcıya göre DB bootstrap ---
+  // --- Plan mapping (EN → TR) ---
+  const planMap = {
+    free: "Deneme Sürümü",
+    trial: "Deneme Sürümü",
+    starter: "Başlangıç",
+    pro: "Profesyonel",
+    enterprise: "Kurumsal",
+  };
+
   const bootstrapDbFor = async (user) => {
     if (!user) return;
 
@@ -30,39 +26,36 @@ export default function AuthCallback() {
     const inviteCode  = (meta.inviteCode  || "").trim();
     const rawPlan     = (meta.plan        || "").trim();
 
-    // enum koruması: plan_config’te olan kodlar
-    const allowedPlans = ["trial", "starter", "pro", "enterprise"];
-    const safePlan = allowedPlans.includes(rawPlan) ? rawPlan : "trial";
+    // mapping uygula
+    const dbPlan = planMap[rawPlan] || "Deneme Sürümü";
 
     try {
-      // [A] Kurucu akışı: RPC ile şirket + owner üyeliği oluştur
+      // --- [A] Kurucu akışı ---
       if (companyName) {
-        // RPC argümanlarını eksiksiz gönder (enum/value sorunlarını azaltır)
         const { data: companyId, error: rpcErr } = await supabase.rpc(
           "create_company_with_owner",
           {
-            p_user_id: user.id,           // owner
-            p_name: companyName,          // şirket adı
-            p_plan: safePlan,             // enum: trial|starter|pro|enterprise
-            p_currency: "TRY",            // default para birimi
-            p_initial_budget: 0           // default başlangıç bütçesi
+            p_user_id: user.id,
+            p_name: companyName,
+            p_plan: dbPlan,       // 👈 artık TR değer gidiyor
+            p_currency: "TRY",
+            p_initial_budget: 0,
           }
         );
 
         if (rpcErr) {
-          // RPC başarısız ise doğrudan insert’e düş (fallback)
-          console.error("[CB] RPC create_company_with_owner hata:", rpcErr);
+          console.error("[CB] RPC hata:", rpcErr);
 
-          // 1) company
+          // fallback insert
           const { data: created, error: cErr } = await supabase
             .from("company")
             .insert([
               {
                 name: companyName,
                 patron: user.id,
-                plan: safePlan,
+                plan: dbPlan,      // 👈 yine TR değer
                 currency: "TRY",
-                initial_budget: 0
+                initial_budget: 0,
               },
             ])
             .select("id")
@@ -71,7 +64,7 @@ export default function AuthCallback() {
 
           const companyId2 = created.id;
 
-          // 2) owner üyeliği (idempotent kontrol)
+          // owner üyeliği kontrol + ekle
           const { data: alreadyOwner } = await supabase
             .from("company_member")
             .select("user_id")
@@ -88,9 +81,8 @@ export default function AuthCallback() {
         }
       }
 
-      // [B] Davetli akışı: company_member’a ekle
+      // --- [B] Davetli akışı ---
       if (inviteCode && !companyName) {
-        // zaten üye mi?
         const { data: exists, error: chkErr } = await supabase
           .from("company_member")
           .select("user_id")
@@ -107,21 +99,18 @@ export default function AuthCallback() {
         }
       }
 
-      // [C] Metadata temizle → tekrar tetiklenmesin
+      // --- [C] Metadata temizle ---
       if (companyName || inviteCode || rawPlan) {
         await supabase.auth.updateUser({
           data: { companyName: null, inviteCode: null, plan: null },
         });
       }
     } catch (err) {
-      // Buradaki bir hata kullanıcıyı tamamen bloklamasın; logla ve devam et
       console.error("[CB] bootstrapDbFor fatal:", err);
-      // UI mesajı bilgi amaçlı; yönlendirmeyi yine de yapacağız
       setMsg("⚠️ Kurulum sırasında sorun oluştu, ancak giriş tamamlandı.");
     }
   };
 
-  // --- Callback akışı: PKCE (?code=...) veya hash flow (#access_token=...) ---
   useEffect(() => {
     if (ranRef.current) return;
     ranRef.current = true;
@@ -136,13 +125,10 @@ export default function AuthCallback() {
         }
 
         const code = url.searchParams.get("code");
-        const type = url.searchParams.get("type"); // recovery vs
+        const type = url.searchParams.get("type");
 
-        // PKCE
         if (code) {
-          const { error } = await supabase.auth.exchangeCodeForSession(
-            window.location.href
-          );
+          const { error } = await supabase.auth.exchangeCodeForSession(window.location.href);
           if (error) {
             console.error("[CB] exchangeCodeForSession:", error);
             setMsg("❌ Oturum açılamadı: " + (error.message || "bilinmeyen hata"));
@@ -156,7 +142,6 @@ export default function AuthCallback() {
           return;
         }
 
-        // Hash flow
         if (url.hash.includes("access_token")) {
           const params = new URLSearchParams(url.hash.substring(1));
           const access_token  = params.get("access_token");
@@ -168,10 +153,7 @@ export default function AuthCallback() {
             return;
           }
 
-          const { error } = await supabase.auth.setSession({
-            access_token,
-            refresh_token,
-          });
+          const { error } = await supabase.auth.setSession({ access_token, refresh_token });
           if (error) {
             console.error("[CB] setSession:", error);
             setMsg("❌ Oturum başlatılamadı: " + (error.message || "bilinmeyen hata"));
@@ -185,7 +167,6 @@ export default function AuthCallback() {
           return;
         }
 
-        // Geçersiz
         setMsg("❌ Geçersiz dönüş URL'si.");
       } catch (err) {
         console.error("[CB] outer error:", err);
