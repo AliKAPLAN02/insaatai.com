@@ -180,3 +180,5 @@ export default function AuthCallback() {
     </div>
   );
 }
+const { data: session, error: sessErr } = await supabase.auth.getSession();
+console.log("Aktif session:", session, "Hata:", sessErr);
