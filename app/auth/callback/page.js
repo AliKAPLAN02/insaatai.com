@@ -192,3 +192,11 @@ if (rpcErr) {
     .single();
   console.log("Direct insert denemesi:", { direct, dirErr });
 }
+const { data, error } = await supabase.rpc("create_company_with_owner", {
+  p_user_id: user.id,
+  p_name: companyName,
+  p_plan: plan,
+});
+
+console.log("RPC data:", data);
+if (error) console.error("RPC error:", error);
