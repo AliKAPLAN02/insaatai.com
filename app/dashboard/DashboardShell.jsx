@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient"; // ✅ kendi supabase client dosyan
+import { supabase } from "@/lib/supabaseClient"; // # Supabase client importu
 
+// # Menü ikonları
 import {
   Menu, X, ChevronLeft, ChevronRight,
   ChartLine, Wallet, WalletCards, HandCoins,
@@ -11,13 +12,15 @@ import {
 } from "lucide-react";
 
 export default function DashboardShell({ children, active = "overview" }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
-  const [companyName, setCompanyName] = useState("Yükleniyor...");
-  const [userName, setUserName] = useState("Yükleniyor...");
+  // # State tanımları
+  const [sidebarOpen, setSidebarOpen] = useState(false);   // mobil drawer
+  const [collapsed, setCollapsed] = useState(false);       // desktop sidebar collapse
+  const [companyName, setCompanyName] = useState("Yükleniyor..."); // üst bar şirket adı
+  const [userName, setUserName] = useState("Yükleniyor...");       // üst bar kullanıcı adı
 
-  const mainColClass = collapsed ? "lg:col-span-11" : "lg:col-span-10";
+  const mainColClass = collapsed ? "lg:col-span-11" : "lg:col-span-10"; // # içerik kolon genişliği
 
+  // # Kullanıcı ve şirket bilgisini çek
   useEffect(() => {
     const fetchData = async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -45,9 +48,10 @@ export default function DashboardShell({ children, active = "overview" }) {
     fetchData();
   }, []);
 
+  // # Menü tanımları
   const Nav = [
     { key: "overview", href: "/dashboard", label: "Özet", icon: <ChartLine className="h-4 w-4" /> },
-    { key: "treasury", href: "/dashboard/treasury", label: "Hazine", icon: <Wallet className="h-4 w-4" /> },
+    { key: "treasury", href: "/dashboard/treasury", label: "Şirket & Hazine", icon: <Wallet className="h-4 w-4" /> }, // ✅ güncellendi
     { key: "transactions", href: "/dashboard/transactions", label: "İşlemler", icon: <WalletCards className="h-4 w-4" /> },
     { key: "debts", href: "/dashboard/debts", label: "Borçlar", icon: <HandCoins className="h-4 w-4" /> },
     { key: "companies", href: "/dashboard/companies", label: "Firmalar", icon: <Building2 className="h-4 w-4" /> },
@@ -59,10 +63,10 @@ export default function DashboardShell({ children, active = "overview" }) {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Topbar */}
+      {/* --- TOPBAR -------------------------------------------------------- */}
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-200">
         <div className="mx-auto max-w-7xl px-3 sm:px-4 py-3 flex items-center justify-between">
-          {/* Sol kısım */}
+          {/* Sol kısım: Menü butonu + logo + şirket adı */}
           <div className="flex items-center gap-2 font-semibold text-slate-800">
             <button
               className="lg:hidden p-2 rounded-xl hover:bg-slate-100"
@@ -75,16 +79,18 @@ export default function DashboardShell({ children, active = "overview" }) {
             <span>{companyName}</span>
           </div>
 
-          {/* Sağ kısım */}
+          {/* Sağ kısım: Kullanıcı adı */}
           <div className="text-sm text-slate-600">{userName}</div>
         </div>
       </header>
 
-      {/* İç ızgara */}
+      {/* --- ANA GRID ------------------------------------------------------ */}
       <div className="mx-auto max-w-7xl px-3 sm:px-4 py-4 grid grid-cols-12 gap-4">
-        {/* Desktop sidebar */}
+        
+        {/* --- DESKTOP SIDEBAR --------------------------------------------- */}
         <aside className={`hidden lg:block ${collapsed ? "lg:col-span-1" : "lg:col-span-2"}`}>
           <div className="sticky top-20">
+            {/* Sidebar daralt/aç butonu */}
             <button
               onClick={() => setCollapsed(!collapsed)}
               aria-expanded={!collapsed}
@@ -94,6 +100,7 @@ export default function DashboardShell({ children, active = "overview" }) {
               {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
             </button>
 
+            {/* Sidebar menü linkleri */}
             <nav className="space-y-1">
               {Nav.map((item) => (
                 <Link
@@ -112,15 +119,16 @@ export default function DashboardShell({ children, active = "overview" }) {
           </div>
         </aside>
 
-        {/* Sayfa içeriği */}
+        {/* İçerik */}
         <main className={`col-span-12 ${mainColClass}`}>{children}</main>
       </div>
 
-      {/* Mobile drawer */}
+      {/* --- MOBİL DRAWER ------------------------------------------------- */}
       {sidebarOpen && (
         <>
           <div className="fixed inset-0 z-50 bg-black/40 lg:hidden" onClick={() => setSidebarOpen(false)} />
           <aside className="fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-xl p-4 lg:hidden">
+            {/* Drawer üst bar */}
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2 font-semibold text-slate-800">
                 <div className="h-9 w-9 rounded-2xl bg-slate-900 text-white grid place-items-center">IA</div>
@@ -130,6 +138,7 @@ export default function DashboardShell({ children, active = "overview" }) {
                 <X className="h-5 w-5" />
               </button>
             </div>
+            {/* Drawer menü linkleri */}
             <nav className="space-y-1">
               {Nav.map((item) => (
                 <Link
@@ -146,7 +155,7 @@ export default function DashboardShell({ children, active = "overview" }) {
         </>
       )}
 
-      {/* Mobile bottom tabbar */}
+      {/* --- MOBİL ALT TABBAR -------------------------------------------- */}
       <nav
         className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-slate-200 grid grid-cols-5"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
@@ -158,7 +167,11 @@ export default function DashboardShell({ children, active = "overview" }) {
           { key: "projects", href: "/dashboard/projects", icon: <FolderKanban className="h-5 w-5" />, label: "Projeler" },
           { key: "settings", href: "/dashboard/settings", icon: <Settings className="h-5 w-5" />, label: "Ayarlar" },
         ].map((it) => (
-          <Link key={it.key} href={it.href} className={`flex flex-col items-center py-2 text-xs ${active === it.key ? "text-slate-900" : "text-slate-600"}`}>
+          <Link
+            key={it.key}
+            href={it.href}
+            className={`flex flex-col items-center py-2 text-xs ${active === it.key ? "text-slate-900" : "text-slate-600"}`}
+          >
             {it.icon}
             <span className="mt-1">{it.label}</span>
           </Link>
