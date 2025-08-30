@@ -6,8 +6,7 @@ import { supabase } from "@/lib/supabaseClient";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
-const isUUID = (v) =>
-  /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v);
+const ALLOWED_PLANS = ["trial", "starter", "pro", "enterprise"]; // DB enum'ları
 
 export default function SignupPage() {
   const [fullName, setFullName] = useState("");
@@ -15,115 +14,106 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
+
   const [companyName, setCompanyName] = useState("");
   const [inviteCode, setInviteCode] = useState("");
-  const [plan, setPlan] = useState("free");
+  const [plan, setPlan] = useState("trial"); // ✅ enum'dan biri (free DEĞİL)
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [signedUp, setSignedUp] = useState(false);
+  const [signedUp, setSignedUp] = useState(false); // e-posta onayı bekleniyor mu?
 
+  // XOR: Kurucuysa companyName, katılımcıysa inviteCode
   const onChangeCompany = (v) => {
-    const val = v?.trimStart() ?? "";
-    setCompanyName(val);
-    if (val) setInviteCode("");
+    setCompanyName(v);
+    if (v) setInviteCode("");
   };
   const onChangeInvite = (v) => {
-    const val = v?.trim() ?? "";
-    setInviteCode(val);
-    if (val) setCompanyName("");
+    setInviteCode(v);
+    if (v) setCompanyName("");
   };
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    if (signedUp || loading) return;
-
     setMessage("");
-    setLoading(true);
 
-    // Basit doğrulamalar
-    if (password !== password2) {
-      setMessage("⚠️ Şifreler uyuşmuyor!");
-      setLoading(false);
+    if (signedUp) {
+      setMessage("⚠️ Lütfen e-postanı kontrol et. Doğrulamadan tekrar kayıt olamazsın.");
       return;
     }
-    if (password.length < 8) {
-      setMessage("⚠️ Şifre en az 8 karakter olmalı.");
-      setLoading(false);
+
+    // === Validation ===
+    if (password !== password2) {
+      setMessage("⚠️ Şifreler uyuşmuyor!");
       return;
     }
     if (!companyName && !inviteCode) {
       setMessage("⚠️ Lütfen ya şirket adı girin ya da davet kodu girin.");
-      setLoading(false);
       return;
     }
-    if (companyName && !plan) {
-      setMessage("⚠️ Şirket kuruyorsanız bir paket seçmelisiniz.");
-      setLoading(false);
+    if (companyName && !ALLOWED_PLANS.includes(plan)) {
+      setMessage("⚠️ Geçerli bir paket seçmelisiniz.");
       return;
     }
 
-    // Davet kodu verildiyse UUID olsun
-    const safeInvite = inviteCode ? (isUUID(inviteCode) ? inviteCode : "") : "";
+    setLoading(true);
 
-    // Redirect URL
+    // Redirect URL (production ya da local)
     const baseEnv =
       process.env.NEXT_PUBLIC_AUTH_REDIRECT_URL || process.env.NEXT_PUBLIC_BASE_URL;
     const redirectTo = baseEnv
       ? `${baseEnv.replace(/\/$/, "")}/auth/callback`
       : `${window.location.origin}/auth/callback`;
 
-    const normalizedEmail = (email || "").trim().toLowerCase();
+    // Email normalize
+    const normalizedEmail = email.trim().toLowerCase();
 
-    try {
-      // Metadata sadece dolu alanlardan oluşturuluyor
-      const meta = {
-        full_name: fullName?.trim() || "",
-        phone: phone || "",
-      };
-      if (companyName.trim()) {
-        meta.companyName = companyName.trim();
-        meta.plan = plan;
-      } else if (safeInvite) {
-        meta.inviteCode = safeInvite;
-      }
+    // Plan'ı güvene al (yanlış değer gelirse trial'a düş)
+    const safePlan = ALLOWED_PLANS.includes((plan || "").toLowerCase())
+      ? (plan || "").toLowerCase()
+      : "trial";
 
-      // Supabase sign up
-      const { error } = await supabase.auth.signUp({
-        email: normalizedEmail,
-        password,
-        options: {
-          data: meta,
-          emailRedirectTo: redirectTo,
+    // === Supabase SignUp ===
+    const { error } = await supabase.auth.signUp({
+      email: normalizedEmail,
+      password,
+      options: {
+        data: {
+          full_name: fullName,
+          phone,
+          companyName: companyName || null, // biri dolu diğeri boş kalsın
+          inviteCode: inviteCode || null,
+          plan: safePlan,
         },
-      });
+        emailRedirectTo: redirectTo,
+      },
+    });
 
-      if (error) {
-        const msg = (error.message || "").toLowerCase();
-        if (msg.includes("already") && (msg.includes("registered") || msg.includes("exists"))) {
-          setMessage("⚠️ Bu e-posta zaten kayıtlı. Lütfen giriş yapın.");
-        } else if (msg.includes("rate limit")) {
-          setMessage("⚠️ Çok hızlı deneme yaptınız. Lütfen biraz sonra tekrar deneyin.");
-        } else {
-          setMessage("❌ Hata: " + error.message);
-        }
-        setLoading(false);
-        return;
+    if (error) {
+      const msg = (error.message || "").toLowerCase();
+      if (msg.includes("already") && (msg.includes("registered") || msg.includes("exists"))) {
+        setMessage("⚠️ Bu e-posta zaten kayıtlı. Lütfen giriş yapın.");
+      } else if (msg.includes("rate limit")) {
+        setMessage("⚠️ Çok hızlı deneme yaptınız. Lütfen biraz sonra tekrar deneyin.");
+      } else {
+        setMessage("❌ Hata: " + error.message);
       }
-
-      // Başarılı
-      setSignedUp(true);
-      setPassword("");
-      setPassword2("");
-      try {
-        localStorage.setItem("signup_pending_email", normalizedEmail);
-      } catch {}
-      setMessage("✅ Kayıt başarılı! E-postana doğrulama linki gönderildi.");
-    } catch (err) {
-      setMessage("❌ Beklenmedik hata: " + (err?.message || String(err)));
-    } finally {
       setLoading(false);
+      return;
     }
+
+    // Başarılı → tekrar kayıt olmayı kilitle
+    setSignedUp(true);
+    setPassword("");
+    setPassword2("");
+    try {
+      localStorage.setItem("signup_pending_email", normalizedEmail);
+    } catch {}
+
+    setMessage(
+      "✅ Kayıt başarılı! E-postana doğrulama linki gönderildi. Onayladıktan sonra otomatik olarak devam edeceksin."
+    );
+    setLoading(false);
   };
 
   const formDisabled = loading || signedUp;
@@ -142,8 +132,10 @@ export default function SignupPage() {
             className="w-full px-3 py-2 border rounded-lg"
             required
             disabled={formDisabled}
+            autoComplete="name"
           />
 
+          {/* Telefon */}
           <PhoneInput
             country={"tr"}
             value={phone}
@@ -151,7 +143,7 @@ export default function SignupPage() {
             inputClass="!w-full !h-10 !px-3 !py-2 !rounded-lg !border"
             placeholder="Telefon (+90...)"
             inputProps={{ name: "phone", required: true }}
-            disableDropdown
+            disableDropdown={true}
             countryCodeEditable={false}
             buttonClass="!hidden"
             disabled={formDisabled}
@@ -165,6 +157,7 @@ export default function SignupPage() {
             className="w-full px-3 py-2 border rounded-lg"
             required
             disabled={formDisabled}
+            autoComplete="email"
           />
 
           <input
@@ -189,6 +182,7 @@ export default function SignupPage() {
             autoComplete="new-password"
           />
 
+          {/* Şirket oluşturma */}
           <input
             type="text"
             placeholder="Şirket Adı (Kurucuysan)"
@@ -198,6 +192,7 @@ export default function SignupPage() {
             disabled={formDisabled}
           />
 
+          {/* Paket seçimi (sadece kurucuysa gösterelim) */}
           {companyName && (
             <select
               value={plan}
@@ -205,12 +200,14 @@ export default function SignupPage() {
               className="w-full px-3 py-2 border rounded-lg"
               disabled={formDisabled}
             >
-              <option value="free">Ücretsiz</option>
-              <option value="pro">Pro</option>
-              <option value="enterprise">Enterprise</option>
+              <option value="trial">Deneme (trial)</option>
+              <option value="starter">Başlangıç (starter)</option>
+              <option value="pro">Pro (pro)</option>
+              <option value="enterprise">Kurumsal (enterprise)</option>
             </select>
           )}
 
+          {/* Davet kodu (katılımcıysa) */}
           <input
             type="text"
             placeholder="Davet Kodu (Katılıyorsan)"
