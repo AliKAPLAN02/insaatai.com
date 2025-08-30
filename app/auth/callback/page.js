@@ -13,7 +13,7 @@ export default function AuthCallback() {
   // ------------------------------------------------------------
   // Kullanıcının metadata'sına göre veritabanını bootstrap et
   // - companyName varsa: create_company_with_owner RPC (patron akışı)
-  // - inviteCode (company_id) varsa: join_company_as_worker RPC (çalışan akışı)
+  // - inviteCode (company_id) varsa: company_member'a 'calisan' insert
   // - işlem sonrası metadata sıfırlanır (tekrar tetiklenmesin)
   // ------------------------------------------------------------
   const bootstrapDbFor = async (user) => {
@@ -29,6 +29,10 @@ export default function AuthCallback() {
     try {
       // ------------------------------------------------------------
       // [A] Patron akışı → create_company_with_owner RPC
+      //   SQL tarafındaki fonksiyon:
+      //   * company oluşturur (patron = p_user_id)
+      //   * patronu company_member'a 'patron' olarak ekler
+      //   * company_id (uuid) döner
       // ------------------------------------------------------------
       if (companyName) {
         const { data: companyId, error: rpcErr } = await supabase.rpc("create_company_with_owner", {
@@ -47,21 +51,39 @@ export default function AuthCallback() {
       }
 
       // ------------------------------------------------------------
-      // [B] Çalışan akışı → join_company_as_worker RPC
+      // [B] Çalışan akışı → company_member insert (davet kodu = company_id)
+      //   RLS: cm_insert_self (user_id = auth.uid() AND role='calisan')
       // ------------------------------------------------------------
       if (inviteCode && !companyName) {
-        const { error: joinErr } = await supabase.rpc("join_company_as_worker", {
-          p_user_id: user.id,
-          p_company_id: inviteCode,
-        });
+        // Zaten üye mi? (409'u önlemek için kontrol)
+        const { data: exists, error: chkErr } = await supabase
+          .from("company_member")
+          .select("user_id")
+          .eq("company_id", inviteCode)
+          .eq("user_id", user.id)
+          .maybeSingle();
 
-        if (joinErr) {
-          console.error("[CB] join_company_as_worker error:", joinErr);
-          setMsg("❌ join_company_as_worker: " + (joinErr.message || "bilinmeyen hata"));
+        if (chkErr) {
+          console.error("[CB] member check error:", chkErr);
+          setMsg("❌ Üyelik kontrolü: " + (chkErr.message || "bilinmeyen hata"));
           return;
         }
 
-        console.log("[CB] joined as calisan into:", inviteCode);
+        if (!exists) {
+          const { error: joinErr } = await supabase
+            .from("company_member")
+            .insert([{ company_id: inviteCode, user_id: user.id, role: "calisan" }]);
+
+          if (joinErr) {
+            console.error("[CB] company_member insert error:", joinErr);
+            setMsg("❌ company_member: " + (joinErr.message || "bilinmeyen hata"));
+            return;
+          }
+
+          console.log("[CB] joined as calisan into:", inviteCode);
+        } else {
+          console.log("[CB] already member, skipping insert");
+        }
       }
 
       // ------------------------------------------------------------
