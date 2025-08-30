@@ -9,42 +9,41 @@ export default function AuthCallback() {
   const router = useRouter();
   const [msg, setMsg] = useState("Giriş yapılıyor...");
 
-  // Kullanıcı için şirket/üyelik bootstrap (idempotent)
+  // Kullanıcının metadata'sına göre DB bootstrap
   const bootstrapDbFor = async (user) => {
     if (!user) return;
-
     const meta = user.user_metadata || {};
-    const companyName = meta.companyName || "";
-    const inviteCode  = meta.inviteCode  || "";
-    const plan        = meta.plan        || "free";
+    const companyName = meta.companyName?.trim() || "";
+    const inviteCode  = meta.inviteCode?.trim() || "";
+    const plan        = meta.plan || "trial";
 
     try {
-      // 1) Şirket kur (owner)
+      // 🔹 1) Patron ise şirket kur
       if (companyName) {
-        // Aynı owner + aynı isimli şirket var mı?
-        const { data: existingCompany, error: exErr } = await supabase
+        // Şirket var mı kontrol et
+        let { data: existing, error: exErr } = await supabase
           .from("company")
           .select("id")
-          .eq("owner", user.id)
+          .eq("patron", user.id)
           .eq("name", companyName)
           .maybeSingle();
         if (exErr) throw exErr;
 
-        let companyId = existingCompany?.id;
+        let companyId = existing?.id;
 
-        // Yoksa oluştur
+        // Yoksa yeni şirket oluştur
         if (!companyId) {
           const { data: created, error: cErr } = await supabase
             .from("company")
-            .insert([{ name: companyName, owner: user.id, plan }])
+            .insert([{ name: companyName, patron: user.id, plan }])
             .select("id")
             .single();
           if (cErr) throw cErr;
           companyId = created.id;
         }
 
-        // Owner üyeliği var mı?
-        const { data: existingOwner, error: memErr } = await supabase
+        // Patron üyeliği yoksa ekle
+        const { data: member, error: memErr } = await supabase
           .from("company_member")
           .select("user_id")
           .eq("company_id", companyId)
@@ -52,50 +51,47 @@ export default function AuthCallback() {
           .maybeSingle();
         if (memErr) throw memErr;
 
-        if (!existingOwner) {
-          const { error: insErr } = await supabase
-            .from("company_member")
-            .insert([{ company_id: companyId, user_id: user.id, role: "owner" }]);
-          if (insErr) throw insErr;
+        if (!member) {
+          await supabase.from("company_member").insert([
+            { company_id: companyId, user_id: user.id, role: "patron" },
+          ]);
         }
       }
 
-      // 2) Davet koduyla katılım (worker)
+      // 🔹 2) Çalışan ise davet koduyla şirkete katıl
       if (inviteCode && !companyName) {
-        const { data: targetCompany, error: tErr } = await supabase
+        const { data: company, error: tErr } = await supabase
           .from("company")
           .select("id")
           .eq("id", inviteCode)
           .maybeSingle();
         if (tErr) throw tErr;
 
-        if (targetCompany?.id) {
-          const { data: alreadyMember, error: eErr } = await supabase
+        if (company?.id) {
+          const { data: member, error: memErr } = await supabase
             .from("company_member")
             .select("user_id")
-            .eq("company_id", inviteCode)
+            .eq("company_id", company.id)
             .eq("user_id", user.id)
             .maybeSingle();
-          if (eErr) throw eErr;
+          if (memErr) throw memErr;
 
-          if (!alreadyMember) {
-            const { error: joinErr } = await supabase
-              .from("company_member")
-              .insert([{ company_id: inviteCode, user_id: user.id, role: "worker" }]);
-            if (joinErr) throw joinErr;
+          if (!member) {
+            await supabase.from("company_member").insert([
+              { company_id: company.id, user_id: user.id, role: "calisan" },
+            ]);
           }
         }
       }
 
-      // 3) Metadata'yı temizle (bir sonraki girişte tekrar tetiklenmesin)
+      // 🔹 3) Metadata’yı sıfırla
       if (companyName || inviteCode) {
         await supabase.auth.updateUser({
-          data: { companyName: null, inviteCode: null },
+          data: { companyName: null, inviteCode: null, plan: null },
         });
       }
     } catch (err) {
       console.error("bootstrapDbFor hata:", err);
-      // DB politikaları/izinleri yüzünden hata olabilir; kullanıcıyı yine de dashboard'a alalım.
     }
   };
 
@@ -103,39 +99,25 @@ export default function AuthCallback() {
     (async () => {
       try {
         const url = new URL(window.location.href);
-
-        // Hata parametresi
-        const errDesc = url.searchParams.get("error_description");
-        if (errDesc) {
-          setMsg("❌ " + errDesc);
-          return;
-        }
-
-        // Yeni PKCE akışı (?code=...)
         const code = url.searchParams.get("code");
-        const qType = url.searchParams.get("type"); // signup, recovery, invite, vb.
+        const type = url.searchParams.get("type");
 
         if (code) {
+          // PKCE akışı
           const { error } = await supabase.auth.exchangeCodeForSession(
             window.location.href
           );
-          if (error) {
-            console.error("exchangeCodeForSession hatası:", error.message);
-            setMsg("❌ Oturum açılamadı.");
-            return;
-          }
+          if (error) throw error;
 
-          // Session kuruldu → kullanıcıyı al
           const { data: ures } = await supabase.auth.getUser();
           await bootstrapDbFor(ures?.user);
 
-          // recovery ise şifre reset sayfasına, değilse dashboard'a
-          router.replace(qType === "recovery" ? "/reset-password" : "/dashboard");
+          router.replace(type === "recovery" ? "/reset-password" : "/dashboard");
           return;
         }
 
-        // Eski hash akışı (#access_token=...)
         if (url.hash.includes("access_token")) {
+          // Hash akışı
           const params = new URLSearchParams(url.hash.substring(1));
           const access_token = params.get("access_token");
           const refresh_token = params.get("refresh_token");
@@ -150,13 +132,8 @@ export default function AuthCallback() {
             access_token,
             refresh_token,
           });
-          if (error) {
-            console.error("setSession hatası:", error.message);
-            setMsg("❌ Oturum başlatılamadı.");
-            return;
-          }
+          if (error) throw error;
 
-          // Session kuruldu → kullanıcıyı al
           const { data: ures } = await supabase.auth.getUser();
           await bootstrapDbFor(ures?.user);
 
@@ -164,10 +141,9 @@ export default function AuthCallback() {
           return;
         }
 
-        // Hiçbir akış denk gelmediyse
         setMsg("❌ Geçersiz dönüş URL'si.");
-      } catch (e) {
-        console.error("Callback sayfası hatası:", e);
+      } catch (err) {
+        console.error("Callback hatası:", err);
         setMsg("❌ Beklenmedik hata.");
       }
     })();
