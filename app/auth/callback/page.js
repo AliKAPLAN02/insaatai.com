@@ -11,57 +11,76 @@ export default function AuthCallback() {
 
   // ------------------------------------------------------------
   // Kullanıcının metadata'sına göre veritabanını bootstrap et
-  // - companyName varsa: create_company RPC çağrısı (patron)
+  // - companyName varsa: create_company RPC (patron akışı)
   // - inviteCode (company_id) varsa: company_member'a 'calisan' insert
   // - işlem sonrası metadata sıfırlanır (tekrar tetiklenmesin)
   // ------------------------------------------------------------
   const bootstrapDbFor = async (user) => {
     if (!user) return;
 
-    // -- Metadata okuma
     const meta = user.user_metadata || {};
     const companyName = meta.companyName?.trim() || "";
     const inviteCode  = meta.inviteCode?.trim() || "";
-    const plan        = meta.plan || "trial";
+    const plan        = (meta.plan || "trial").trim();
+
+    console.log("[CB] meta:", { companyName, inviteCode, plan, uid: user.id });
 
     try {
       // ------------------------------------------------------------
       // [A] Patron akışı → create_company RPC (tek fonksiyon)
-      //  - SQL tarafında create_company(p_name,p_plan) fonksiyonu:
-      //    * company oluşturur (patron = auth.uid())
-      //    * patronu company_member'a 'patron' olarak ekler
-      //    * company_id (uuid) döner
+      //   SQL tarafındaki create_company:
+      //   * company oluşturur (patron = auth.uid())
+      //   * patronu company_member'a 'patron' olarak ekler
+      //   * company_id (uuid) döner
       // ------------------------------------------------------------
       if (companyName) {
         const { data: companyId, error: rpcErr } = await supabase.rpc("create_company", {
           p_name: companyName,
-          p_plan: plan,
+          p_plan: plan, // Fonksiyon text bekliyorsa da çalışır; içeride enum'a cast ediliyor.
         });
-        if (rpcErr) throw rpcErr;
-        // (İsteğe bağlı) companyId ile yönlendirme/işlem yapılabilir
-        // console.log("Şirket kuruldu:", companyId);
+
+        if (rpcErr) {
+          console.error("[CB] create_company error:", rpcErr);
+          setMsg("❌ create_company: " + (rpcErr.message || "bilinmeyen hata"));
+          return;
+        }
+
+        console.log("[CB] company created:", companyId);
       }
 
       // ------------------------------------------------------------
       // [B] Çalışan akışı → company_member insert (davet kodu = company_id)
-      //  - RLS policy: cm_insert_self (user_id = auth.uid() AND role='calisan')
-      //  - Tabloda UNIQUE(company_id,user_id) varsa tekrar eklemeyi engeller
+      //   RLS: cm_insert_self (user_id = auth.uid() AND role='calisan')
       // ------------------------------------------------------------
       if (inviteCode && !companyName) {
-        // (Opsiyonel) Zaten üye mi? Önden kontrol edelim ki 409 hatası olmasın
-        const { data: exists, error: checkErr } = await supabase
+        // Zaten üye mi? (409'u önlemek için)
+        const { data: exists, error: chkErr } = await supabase
           .from("company_member")
           .select("user_id")
           .eq("company_id", inviteCode)
           .eq("user_id", user.id)
           .maybeSingle();
-        if (checkErr) throw checkErr;
+
+        if (chkErr) {
+          console.error("[CB] member check error:", chkErr);
+          setMsg("❌ Üyelik kontrolü: " + (chkErr.message || "bilinmeyen hata"));
+          return;
+        }
 
         if (!exists) {
           const { error: joinErr } = await supabase
             .from("company_member")
             .insert([{ company_id: inviteCode, user_id: user.id, role: "calisan" }]);
-          if (joinErr) throw joinErr;
+
+          if (joinErr) {
+            console.error("[CB] company_member insert error:", joinErr);
+            setMsg("❌ company_member: " + (joinErr.message || "bilinmeyen hata"));
+            return;
+          }
+
+          console.log("[CB] joined as calisan into:", inviteCode);
+        } else {
+          console.log("[CB] already member, skipping insert");
         }
       }
 
@@ -72,19 +91,18 @@ export default function AuthCallback() {
         await supabase.auth.updateUser({
           data: { companyName: null, inviteCode: null, plan: null },
         });
+        console.log("[CB] metadata cleared");
       }
     } catch (err) {
-      console.error("[callback bootstrap] hata:", err);
-      // Not: Burada hataya rağmen kullanıcıyı yine de dashboard’a alabiliriz
+      console.error("[CB] bootstrap fatal error:", err);
+      setMsg("❌ Bootstrap hatası: " + (err?.message || "bilinmeyen hata"));
+      return;
     }
   };
 
   useEffect(() => {
     (async () => {
       try {
-        // ------------------------------------------------------------
-        // Supabase dönüş URL'sini incele: PKCE (code=...) veya hash akışı
-        // ------------------------------------------------------------
         const url = new URL(window.location.href);
         const code = url.searchParams.get("code");
         const type = url.searchParams.get("type"); // signup, recovery vb.
@@ -93,16 +111,19 @@ export default function AuthCallback() {
         // PKCE akışı (?code=...)
         // ------------------------------------------------------------
         if (code) {
+          console.log("[CB] PKCE flow detected");
           const { error } = await supabase.auth.exchangeCodeForSession(
             window.location.href
           );
-          if (error) throw error;
+          if (error) {
+            console.error("[CB] exchangeCodeForSession error:", error);
+            setMsg("❌ Oturum açılamadı: " + (error.message || "bilinmeyen hata"));
+            return;
+          }
 
-          // -- Oturum kuruldu: kullanıcıyı al ve bootstrap et
           const { data: ures } = await supabase.auth.getUser();
           await bootstrapDbFor(ures?.user);
 
-          // -- recovery ise reset sayfasına, değilse dashboard'a yönlendir
           router.replace(type === "recovery" ? "/reset-password" : "/dashboard");
           return;
         }
@@ -111,6 +132,7 @@ export default function AuthCallback() {
         // Eski hash akışı (#access_token=...)
         // ------------------------------------------------------------
         if (url.hash.includes("access_token")) {
+          console.log("[CB] Hash flow detected");
           const params = new URLSearchParams(url.hash.substring(1));
           const access_token = params.get("access_token");
           const refresh_token = params.get("refresh_token");
@@ -125,9 +147,12 @@ export default function AuthCallback() {
             access_token,
             refresh_token,
           });
-          if (error) throw error;
+          if (error) {
+            console.error("[CB] setSession error:", error);
+            setMsg("❌ Oturum başlatılamadı: " + (error.message || "bilinmeyen hata"));
+            return;
+          }
 
-          // -- Oturum kuruldu: kullanıcıyı al ve bootstrap et
           const { data: ures } = await supabase.auth.getUser();
           await bootstrapDbFor(ures?.user);
 
@@ -138,9 +163,10 @@ export default function AuthCallback() {
         // ------------------------------------------------------------
         // Ne PKCE ne de hash → geçersiz dönüş
         // ------------------------------------------------------------
+        console.warn("[CB] Invalid callback URL");
         setMsg("❌ Geçersiz dönüş URL'si.");
       } catch (err) {
-        console.error("Callback hatası:", err);
+        console.error("[CB] callback outer error:", err);
         setMsg("❌ Beklenmedik hata.");
       }
     })();
