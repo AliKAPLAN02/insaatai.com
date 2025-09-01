@@ -7,260 +7,249 @@ import { supabase } from "@/lib/supabaseClient";
 export default function NewProjectPage() {
   const router = useRouter();
 
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [msg, setMsg] = useState("");
-
-  // form
+  // form fields
   const [companyId, setCompanyId] = useState("");
+  const [companyName, setCompanyName] = useState("");
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [m2, setM2] = useState("");
   const [location, setLocation] = useState("");
+  const [m2, setM2] = useState("");
   const [floorCount, setFloorCount] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [description, setDescription] = useState("");
 
-  // kullanıcı & şirketleri
-  const [user, setUser] = useState(null);
-  const [companies, setCompanies] = useState([]); // {id, name, role}
+  // ui state
+  const [companies, setCompanies] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [msg, setMsg] = useState("");
+  const [loadErr, setLoadErr] = useState("");
 
+  // Şirketleri otomatik getir (RLS sadece kendi şirketlerini döndürür)
   useEffect(() => {
     (async () => {
-      setLoading(true);
-      setMsg("");
+      setLoadErr("");
+      const { data, error } = await supabase
+        .from("company")
+        .select("id,name")
+        .order("created_at", { ascending: false });
 
-      // 1) user
-      const { data: ures, error: uerr } = await supabase.auth.getUser();
-      if (uerr || !ures?.user) {
-        setMsg("Oturum bulunamadı. Lütfen giriş yapın.");
-        setLoading(false);
-        return;
-      }
-      setUser(ures.user);
-
-      // 2) kullanıcının şirketleri + rolü
-      // RLS: company_member.select -> self; company.select -> is_member/owner
-      const { data: cms, error: cmErr } = await supabase
-        .from("company_member")
-        .select(
-          `
-          company_id,
-          role,
-          company:company_id ( id, name )
-        `
-        )
-        .eq("user_id", ures.user.id);
-
-      if (cmErr) {
-        setMsg("Şirketler yüklenemedi.");
-        setLoading(false);
+      if (error) {
+        setLoadErr("Şirketler yüklenemedi.");
         return;
       }
 
-      const mapped =
-        cms?.map((r) => ({
-          id: r.company?.id,
-          name: r.company?.name,
-          role: r.role, // patron | yonetici | calisan
-        })) ?? [];
+      const rows = data || [];
+      setCompanies(rows);
 
-      setCompanies(mapped);
-
-      // hiç şirket yoksa onboarding'e yönlendir
-      if (mapped.length === 0) {
-        router.replace("/onboarding"); // burada şirket oluşturma/davet akışın var
-        return;
+      if (rows.length === 1) {
+        setCompanyId(rows[0].id);
+        setCompanyName(rows[0].name);
+      } else if (rows.length > 1) {
+        // Son seçilen şirketi hatırla (opsiyonel)
+        const last = typeof window !== "undefined"
+          ? localStorage.getItem("last_company_id")
+          : null;
+        const found = rows.find((r) => r.id === last);
+        if (found) {
+          setCompanyId(found.id);
+          setCompanyName(found.name);
+        }
       }
-
-      // tek şirket varsa otomatik seç
-      if (mapped.length === 1 && mapped[0]?.id) {
-        setCompanyId(mapped[0].id);
-      }
-
-      setLoading(false);
     })();
-  }, [router]);
+  }, []);
 
-  const myRoleOnSelectedCompany = useMemo(() => {
-    return companies.find((c) => c.id === companyId)?.role || null;
-  }, [companies, companyId]);
+  // dropdown’da seçim değişirse adı da güncelle ve LS’ye yaz
+  useEffect(() => {
+    if (!companyId) return;
+    const found = companies.find((c) => c.id === companyId);
+    if (found) {
+      setCompanyName(found.name);
+      try { localStorage.setItem("last_company_id", found.id); } catch {}
+    }
+  }, [companyId, companies]);
 
-  const canCreate =
-    myRoleOnSelectedCompany === "patron" || myRoleOnSelectedCompany === "yonetici";
+  const disabled = useMemo(
+    () => loading || !companyId || !name.trim(),
+    [loading, companyId, name]
+  );
 
-  const handleSubmit = async (e) => {
+  const handleCreate = async (e) => {
     e.preventDefault();
+    if (disabled) return;
     setMsg("");
+    setLoading(true);
 
-    if (!companyId) {
-      setMsg("Lütfen şirket seçin.");
-      return;
-    }
-    if (!canCreate) {
-      setMsg("Bu şirkette proje oluşturma yetkiniz yok (patron/ yönetici olmalısınız).");
-      return;
-    }
-    if (!name.trim()) {
-      setMsg("Proje adı zorunludur.");
-      return;
-    }
-
-    setSaving(true);
     try {
-      // 1) Proje oluştur
-      const payload = {
-        company_id: companyId,
-        name: name.trim(),
-        description: description || null,
-        m2: m2 ? Number(m2) : null,
-        location: location || null,
-        floor_count: floorCount ? Number(floorCount) : null,
-        start_date: startDate || null,
-        end_date: endDate || null,
-        created_by: user.id,
-        // currency kolonu DB'de TRY default ise göndermeye gerek yok
-      };
+      const m2Num =
+        m2.trim() === "" ? null : Number(m2.replace(",", "."));
+      const floorNum =
+        floorCount.trim() === "" ? null : parseInt(floorCount, 10);
 
-      const { data: created, error: cErr } = await supabase
+      // 1) Proje
+      const { data: created, error: insErr } = await supabase
         .from("projects")
-        .insert([payload])
+        .insert([
+          {
+            company_id: companyId,
+            name: name.trim(),
+            description: description.trim() || null,
+            m2: Number.isFinite(m2Num) ? m2Num : null,
+            location: location.trim() || null,
+            floor_count: Number.isInteger(floorNum) ? floorNum : null,
+            // start_date DB default: today, end_date gönderme
+          },
+        ])
         .select("id")
         .single();
 
-      if (cErr) throw cErr;
+      if (insErr) {
+        setMsg("❌ Proje oluşturulamadı: " + insErr.message);
+        return;
+      }
 
-      const projectId = created.id;
+      // 2) Kurucuyu projeye üye ekle (idempotent)
+      const { data: ures } = await supabase.auth.getUser();
+      const uid = ures?.user?.id;
+      if (uid && created?.id) {
+        await supabase
+          .from("project_members")
+          .insert([{ project_id: created.id, user_id: uid, role: "yonetici" }])
+          .then(() => {})
+          .catch(() => {}); // varsa geç
+      }
 
-      // 2) Proje üyeliği (rol, şirket rolünle aynı)
-      const { error: pmErr } = await supabase.from("project_members").insert([
-        {
-          project_id: projectId,
-          company_id: companyId, // trigger da dolduruyor ama açık göndermek OK
-          user_id: user.id,
-          role: myRoleOnSelectedCompany, // patron / yonetici / calisan
-        },
-      ]);
-      if (pmErr) throw pmErr;
-
-      setMsg("✅ Proje oluşturuldu, yönlendiriliyorsunuz...");
-      router.replace(`/projects/${projectId}`); // kendi proje detay sayfan
-    } catch (err) {
-      console.error(err);
-      setMsg("❌ Proje oluşturulamadı: " + (err?.message || "Bilinmeyen hata"));
+      setMsg("✅ Proje oluşturuldu.");
+      router.replace("/dashboard");
     } finally {
-      setSaving(false);
+      setLoading(false);
     }
   };
 
-  if (loading) {
+  // Şirket alanı (tek şirketse readonly göster, çoksa selector)
+  const CompanyField = () => {
+    if (companies.length === 0) {
+      return (
+        <div>
+          <label className="block text-sm font-medium mb-1">Şirket</label>
+          <input
+            className="w-full rounded-lg border px-3 py-2 bg-gray-100"
+            value="Şirket bulunamadı — önce şirket oluşturun."
+            readOnly
+          />
+        </div>
+      );
+    }
+
+    if (companies.length === 1) {
+      return (
+        <div>
+          <label className="block text-sm font-medium mb-1">Şirket</label>
+          <input
+            className="w-full rounded-lg border px-3 py-2 bg-gray-50"
+            value={companyName || ""}
+            readOnly
+          />
+        </div>
+      );
+    }
+
     return (
-      <div className="min-h-screen grid place-items-center">
-        <p>Yükleniyor…</p>
+      <div>
+        <label className="block text-sm font-medium mb-1">Şirket</label>
+        <select
+          value={companyId}
+          onChange={(e) => setCompanyId(e.target.value)}
+          className="w-full rounded-lg border px-3 py-2"
+          required
+        >
+          <option value="">Seçin...</option>
+          {companies.map((c) => (
+            <option key={c.id} value={c.id}>{c.name}</option>
+          ))}
+        </select>
       </div>
     );
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="bg-white p-6 rounded-2xl shadow w-full max-w-lg">
-        <h1 className="text-2xl font-bold mb-6 text-center">Yeni Proje</h1>
+      <div className="w-full max-w-xl rounded-2xl bg-white p-8 shadow">
+        <h1 className="text-3xl font-bold text-center mb-8">Yeni Proje</h1>
 
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          {/* Şirket seçimi */}
+        {loadErr && (
+          <p className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-700">
+            {loadErr}
+          </p>
+        )}
+
+        <form onSubmit={handleCreate} className="space-y-4">
+          <CompanyField />
+
           <div>
-            <label className="block text-sm mb-1">Şirket</label>
-            <select
-              value={companyId}
-              onChange={(e) => setCompanyId(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg"
+            <label className="block text-sm font-medium mb-1">Proje adı *</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full rounded-lg border px-3 py-2"
+              placeholder="Örn: A Blok Kentsel Dönüşüm"
               required
-            >
-              <option value="">Seçin…</option>
-              {companies.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name} {c.role ? `• (${c.role})` : ""}
-                </option>
-              ))}
-            </select>
-            {!canCreate && companyId && (
-              <p className="text-xs text-amber-600 mt-1">
-                Bu şirkette proje oluşturma yetkiniz yok (patron/ yönetici olmalısınız).
-              </p>
-            )}
-          </div>
-
-          <input
-            type="text"
-            placeholder="Proje adı *"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg"
-            required
-          />
-
-          <input
-            type="text"
-            placeholder="Konum"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg"
-          />
-
-          <div className="grid grid-cols-2 gap-3">
-            <input
-              type="number"
-              placeholder="m²"
-              value={m2}
-              onChange={(e) => setM2(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg"
-              min="0"
-            />
-            <input
-              type="number"
-              placeholder="Kat sayısı"
-              value={floorCount}
-              onChange={(e) => setFloorCount(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg"
-              min="0"
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-sm font-medium mb-1">Konum</label>
             <input
-              type="date"
-              placeholder="Başlangıç"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg"
-            />
-            <input
-              type="date"
-              placeholder="Bitiş"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg"
+              type="text"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              className="w-full rounded-lg border px-3 py-2"
+              placeholder="İl / İlçe / Mahalle"
             />
           </div>
 
-          <textarea
-            placeholder="Açıklama"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg"
-            rows={3}
-          />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-1">m²</label>
+              <input
+                inputMode="decimal"
+                value={m2}
+                onChange={(e) => setM2(e.target.value)}
+                className="w-full rounded-lg border px-3 py-2"
+                placeholder="Örn: 1200"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Kat sayısı</label>
+              <input
+                inputMode="numeric"
+                value={floorCount}
+                onChange={(e) => setFloorCount(e.target.value)}
+                className="w-full rounded-lg border px-3 py-2"
+                placeholder="Örn: 6"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">Açıklama</label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full rounded-lg border px-3 py-2"
+              placeholder="İsteğe bağlı not"
+              rows={4}
+            />
+          </div>
 
           <button
             type="submit"
-            disabled={saving || !companyId || !name || !canCreate}
-            className={`w-full py-2 rounded-lg text-white ${
-              saving || !companyId || !name || !canCreate
+            disabled={disabled || companies.length === 0}
+            className={`w-full rounded-lg px-4 py-2 text-white ${
+              disabled || companies.length === 0
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-slate-900 hover:opacity-90"
             }`}
           >
-            {saving ? "Kaydediliyor..." : "Proje Oluştur"}
+            {loading ? "Oluşturuluyor..." : "Proje Oluştur"}
           </button>
         </form>
 
