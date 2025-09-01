@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import DashboardShell from "../DashboardShell";
 import { supabase } from "@/lib/supabaseClient";
-import { Building2 } from "lucide-react";
+import { Building2, FolderKanban } from "lucide-react";
 
 const PLAN_OPTIONS = [
   { value: "trial",      label: "Deneme Sürümü" },
@@ -16,16 +16,10 @@ export default function CompanyPage() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Company state (yeni şemaya uygun)
-  const [company, setCompany] = useState(null); // {id, name, plan, patron, created_at}
-
-  // Create form
-  const [cName, setCName] = useState("");
-  const [cPlan, setCPlan] = useState("trial");
-  const [creating, setCreating] = useState(false);
+  // Şirket bilgisi + projeler
+  const [companyProfile, setCompanyProfile] = useState(null); // {company_id, company_name, company_role, plan, projects: [...]}
   const [toast, setToast] = useState("");
 
-  // Kullanıcının şirketini çek (önce üyelikten join)
   useEffect(() => {
     (async () => {
       try {
@@ -36,32 +30,36 @@ export default function CompanyPage() {
         }
         setUser(ures.user);
 
-        // 1) Üyelik tablosu üzerinden şirketi çek (en güvenlisi)
-        // company_member.user_id = user.id -> company_member.company_id -> company
-        const { data: viaMembership, error: mErr } = await supabase
-          .from("company_member")
-          .select("company:company_id(id, name, plan, patron, created_at)")
-          .eq("user_id", ures.user.id)
-          .maybeSingle();
+        // v_user_context view üzerinden tüm satırları al
+        const { data, error } = await supabase
+          .from("v_user_context") // bu view'i oluşturmuştuk
+          .select("*")
+          .eq("user_id", ures.user.id);
 
-        if (mErr) throw mErr;
+        if (error) throw error;
 
-        if (viaMembership?.company) {
-          setCompany(viaMembership.company);
-          setLoading(false);
-          return;
+        if (data && data.length > 0) {
+          // Aynı şirket için birden fazla satır olabilir (her proje için)
+          const { company_id, company_name, company_role, plan } = data[0];
+
+          const projects = data
+            .filter(r => r.project_id) // sadece proje olan satırlar
+            .map(r => ({
+              id: r.project_id,
+              name: r.project_name,
+              role: r.project_role,
+            }));
+
+          setCompanyProfile({
+            id: company_id,
+            name: company_name,
+            plan,
+            role: company_role,
+            projects,
+          });
+        } else {
+          setCompanyProfile(null);
         }
-
-        // 2) Yedek: patron olduğu şirket (her ihtimale karşı)
-        const { data: owned, error: oErr } = await supabase
-          .from("company")
-          .select("id, name, plan, patron, created_at")
-          .eq("patron", ures.user.id)
-          .maybeSingle();
-
-        if (oErr) throw oErr;
-
-        if (owned) setCompany(owned);
       } catch (err) {
         console.error("[CompanyPage] fetch error:", err);
         setToast("❌ Şirket bilgisi alınamadı.");
@@ -70,58 +68,6 @@ export default function CompanyPage() {
       }
     })();
   }, []);
-
-  const createCompany = async (e) => {
-    e.preventDefault();
-    if (!user) return;
-    if (!cName.trim()) {
-      setToast("⚠️ Şirket adı zorunlu.");
-      return;
-    }
-
-    setCreating(true);
-    setToast("");
-
-    // Enum koruması
-    const allowed = PLAN_OPTIONS.map(p => p.value);
-    const safePlan = allowed.includes(cPlan) ? cPlan : "trial";
-
-    // Önce RPC (patronu company_member'a da ekler)
-    const { data: newCompanyId, error: rpcErr } = await supabase.rpc(
-      "create_company_with_owner",
-      {
-        p_user_id: user.id,
-        p_name: cName.trim(),
-        p_plan: safePlan,
-      }
-    );
-
-    if (rpcErr) {
-      console.error("[CompanyPage] RPC error:", rpcErr);
-      setToast("❌ Şirket oluşturulamadı: " + (rpcErr.message || "bilinmeyen hata"));
-      setCreating(false);
-      return;
-    }
-
-    // Oluşan şirketi getir
-    const { data: cmp, error: cErr } = await supabase
-      .from("company")
-      .select("id, name, plan, patron, created_at")
-      .eq("id", newCompanyId)
-      .single();
-
-    if (cErr) {
-      console.error("[CompanyPage] fetch new company error:", cErr);
-      setToast("⚠️ Şirket oluşturuldu ama okunamadı.");
-    } else {
-      setCompany(cmp);
-      setToast("✅ Şirket oluşturuldu.");
-      setCName("");
-      setCPlan("trial");
-    }
-
-    setCreating(false);
-  };
 
   if (loading) {
     return (
@@ -136,61 +82,46 @@ export default function CompanyPage() {
   return (
     <DashboardShell active="treasury">
       <div className="grid grid-cols-12 gap-4">
-        {/* SAĞ: Şirket Oluşturma / Bilgi */}
         <section className="col-span-12 lg:col-span-6 lg:col-start-4">
           <div className="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/60 p-6">
             <header className="mb-4 flex items-center gap-2">
               <Building2 className="h-5 w-5" />
-              <h2 className="text-xl font-semibold">Şirket</h2>
+              <h2 className="text-xl font-semibold">Şirket Profili</h2>
             </header>
 
-            {company ? (
+            {companyProfile ? (
               <div className="space-y-2 text-sm text-slate-700">
                 <div>
-                  <span className="font-medium">Ad:</span> {company.name}
+                  <span className="font-medium">Ad:</span> {companyProfile.name}
                 </div>
                 <div>
                   <span className="font-medium">Plan:</span>{" "}
-                  {PLAN_OPTIONS.find(p => p.value === company.plan)?.label ?? company.plan}
+                  {PLAN_OPTIONS.find(p => p.value === companyProfile.plan)?.label ?? companyProfile.plan}
                 </div>
                 <div>
-                  <span className="font-medium">Kuruluş:</span>{" "}
-                  {company.created_at ? new Date(company.created_at).toLocaleString("tr-TR") : "—"}
+                  <span className="font-medium">Rolünüz:</span> {companyProfile.role}
                 </div>
-                <p className="mt-2 text-slate-500">
-                  Proje bazlı hazineye geçildi. Bütçe ve para birimi artık projelerden hesaplanır.
-                </p>
+
+                <div className="mt-4">
+                  <h3 className="font-medium flex items-center gap-1">
+                    <FolderKanban className="h-4 w-4" />
+                    Projeler
+                  </h3>
+                  {companyProfile.projects.length > 0 ? (
+                    <ul className="mt-2 list-disc list-inside text-slate-600">
+                      {companyProfile.projects.map(pr => (
+                        <li key={pr.id}>
+                          {pr.name} <span className="text-slate-500">({pr.role})</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="mt-2 text-slate-500">Bu şirkette henüz projeye üye değilsiniz.</p>
+                  )}
+                </div>
               </div>
             ) : (
-              <form onSubmit={createCompany} className="space-y-3">
-                <input
-                  type="text"
-                  placeholder="Şirket Adı"
-                  value={cName}
-                  onChange={(e) => setCName(e.target.value)}
-                  className="w-full px-3 py-2 border rounded-xl"
-                />
-                <select
-                  value={cPlan}
-                  onChange={(e) => setCPlan(e.target.value)}
-                  className="w-full px-3 py-2 border rounded-xl"
-                >
-                  {PLAN_OPTIONS.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-                <button
-                  type="submit"
-                  disabled={creating}
-                  className={`w-full rounded-xl px-4 py-2 text-white ${
-                    creating ? "bg-gray-400" : "bg-slate-900 hover:opacity-90"
-                  }`}
-                >
-                  {creating ? "Oluşturuluyor..." : "Şirket Oluştur"}
-                </button>
-              </form>
+              <div className="text-slate-500">Henüz bir şirkete üye değilsiniz.</div>
             )}
 
             {toast && <div className="mt-4 text-sm text-slate-700">{toast}</div>}
