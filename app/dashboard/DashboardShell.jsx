@@ -28,9 +28,9 @@ export default function DashboardShell({ children, active = "overview" }) {
   const [companyId, setCompanyId] = useState(undefined);
   const [companyName, setCompanyName] = useState("Yükleniyor...");
   const [companyRole, setCompanyRole] = useState(undefined);
-  const [projectId, setProjectId] = useState(null);
-  const [projectName, setProjectName] = useState(null);
-  const [projectRole, setProjectRole] = useState(null);
+
+  const [projects, setProjects] = useState([]);
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
 
   const mainColClass = collapsed ? "lg:col-span-11" : "lg:col-span-10";
 
@@ -49,22 +49,35 @@ export default function DashboardShell({ children, active = "overview" }) {
         const { data: rows, error } = await supabase
           .from("v_user_context")
           .select("company_id, company_name, company_role, project_id, project_name, project_role")
-          .eq("user_id", user.id)
-          .limit(1);
+          .eq("user_id", user.id);
 
         if (error) throw error;
 
-        const ctx = rows?.[0];
-        if (ctx) {
-          setCompanyId(ctx.company_id);
-          setCompanyName(ctx.company_name ?? "Şirket");
-          setCompanyRole(ctx.company_role ?? undefined);
-          setProjectId(ctx.project_id ?? null);
-          setProjectName(ctx.project_name ?? null);
-          setProjectRole(ctx.project_role ?? null);
+        if (rows && rows.length > 0) {
+          // Şirket bilgisi (ilk satırdan)
+          setCompanyId(rows[0].company_id);
+          setCompanyName(rows[0].company_name ?? "Şirket");
+          setCompanyRole(rows[0].company_role ?? undefined);
+
+          // Projeleri array olarak topla
+          const prjList = rows
+            .filter(r => r.project_id)
+            .map(r => ({
+              id: r.project_id,
+              name: r.project_name,
+              role: r.project_role,
+            }));
+
+          setProjects(prjList);
+
+          // Varsayılan proje (ilk proje)
+          if (prjList.length > 0) {
+            setSelectedProjectId(prjList[0].id);
+          }
         } else {
           setCompanyName("Şirket bulunamadı");
-          setProjectName(null);
+          setProjects([]);
+          setSelectedProjectId(null);
         }
       } catch (e) {
         console.error("v_user_context fetch error:", e);
@@ -93,9 +106,9 @@ export default function DashboardShell({ children, active = "overview" }) {
     company_id: companyId,
     company_name: companyName,
     company_role: companyRole,
-    project_id: projectId,
-    project_name: projectName,
-    project_role: projectRole,
+    projects,
+    selectedProjectId,
+    setSelectedProjectId,
   };
 
   return (
@@ -115,8 +128,21 @@ export default function DashboardShell({ children, active = "overview" }) {
               <div className="h-9 w-9 rounded-2xl bg-slate-900 text-white grid place-items-center">IA</div>
               <span className="truncate max-w-[50vw] sm:max-w-[30vw]">
                 {companyName}
-                {projectName ? ` · ${projectName}` : ""}
               </span>
+              {projects.length > 1 && (
+                <select
+                  value={selectedProjectId || ""}
+                  onChange={(e) => setSelectedProjectId(e.target.value)}
+                  className="ml-2 border rounded px-2 py-1 text-sm"
+                >
+                  {projects.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name} ({p.role})
+                    </option>
+                  ))}
+                </select>
+              )}
+              {projects.length === 1 && <span>· {projects[0].name}</span>}
             </div>
             <div className="text-sm text-slate-600">{userName}</div>
           </div>
