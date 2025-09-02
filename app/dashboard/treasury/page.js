@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import DashboardShell from "../DashboardShell";
 import { supabase } from "@/lib/supabaseClient";
 import { Building2, FolderKanban } from "lucide-react";
 
@@ -17,7 +16,7 @@ export default function CompanyPage() {
   const [loading, setLoading] = useState(true);
 
   // Şirket bilgisi + projeler
-  const [companyProfile, setCompanyProfile] = useState(null); // {company_id, company_name, company_role, plan, projects: [...]}
+  const [companyProfile, setCompanyProfile] = useState(null); // {id, name, plan, role, projects: [...]}
   const [toast, setToast] = useState("");
 
   useEffect(() => {
@@ -32,18 +31,17 @@ export default function CompanyPage() {
 
         // v_user_context view üzerinden tüm satırları al
         const { data, error } = await supabase
-          .from("v_user_context") // bu view'i oluşturmuştuk
+          .from("v_user_context")
           .select("*")
           .eq("user_id", ures.user.id);
 
         if (error) throw error;
 
         if (data && data.length > 0) {
-          // Aynı şirket için birden fazla satır olabilir (her proje için)
           const { company_id, company_name, company_role, plan } = data[0];
 
           const projects = data
-            .filter(r => r.project_id) // sadece proje olan satırlar
+            .filter(r => r.project_id)
             .map(r => ({
               id: r.project_id,
               name: r.project_name,
@@ -71,63 +69,59 @@ export default function CompanyPage() {
 
   if (loading) {
     return (
-      <DashboardShell active="treasury">
-        <div className="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/60 p-6">
-          Yükleniyor…
-        </div>
-      </DashboardShell>
+      <div className="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/60 p-6">
+        Yükleniyor…
+      </div>
     );
   }
 
   return (
-    <DashboardShell active="treasury">
-      <div className="grid grid-cols-12 gap-4">
-        <section className="col-span-12 lg:col-span-6 lg:col-start-4">
-          <div className="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/60 p-6">
-            <header className="mb-4 flex items-center gap-2">
-              <Building2 className="h-5 w-5" />
-              <h2 className="text-xl font-semibold">Şirket Profili</h2>
-            </header>
+    <div className="grid grid-cols-12 gap-4">
+      <section className="col-span-12 lg:col-span-6 lg:col-start-4">
+        <div className="rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/60 p-6">
+          <header className="mb-4 flex items-center gap-2">
+            <Building2 className="h-5 w-5" />
+            <h2 className="text-xl font-semibold">Şirket Profili</h2>
+          </header>
 
-            {companyProfile ? (
-              <div className="space-y-2 text-sm text-slate-700">
-                <div>
-                  <span className="font-medium">Ad:</span> {companyProfile.name}
-                </div>
-                <div>
-                  <span className="font-medium">Plan:</span>{" "}
-                  {PLAN_OPTIONS.find(p => p.value === companyProfile.plan)?.label ?? companyProfile.plan}
-                </div>
-                <div>
-                  <span className="font-medium">Rolünüz:</span> {companyProfile.role}
-                </div>
-
-                <div className="mt-4">
-                  <h3 className="font-medium flex items-center gap-1">
-                    <FolderKanban className="h-4 w-4" />
-                    Projeler
-                  </h3>
-                  {companyProfile.projects.length > 0 ? (
-                    <ul className="mt-2 list-disc list-inside text-slate-600">
-                      {companyProfile.projects.map(pr => (
-                        <li key={pr.id}>
-                          {pr.name} <span className="text-slate-500">({pr.role})</span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="mt-2 text-slate-500">Bu şirkette henüz projeye üye değilsiniz.</p>
-                  )}
-                </div>
+          {companyProfile ? (
+            <div className="space-y-2 text-sm text-slate-700">
+              <div>
+                <span className="font-medium">Ad:</span> {companyProfile.name}
               </div>
-            ) : (
-              <div className="text-slate-500">Henüz bir şirkete üye değilsiniz.</div>
-            )}
+              <div>
+                <span className="font-medium">Plan:</span>{" "}
+                {PLAN_OPTIONS.find(p => p.value === companyProfile.plan)?.label ?? companyProfile.plan}
+              </div>
+              <div>
+                <span className="font-medium">Rolünüz:</span> {companyProfile.role}
+              </div>
 
-            {toast && <div className="mt-4 text-sm text-slate-700">{toast}</div>}
-          </div>
-        </section>
-      </div>
-    </DashboardShell>
+              <div className="mt-4">
+                <h3 className="font-medium flex items-center gap-1">
+                  <FolderKanban className="h-4 w-4" />
+                  Projeler
+                </h3>
+                {companyProfile.projects.length > 0 ? (
+                  <ul className="mt-2 list-disc list-inside text-slate-600">
+                    {companyProfile.projects.map(pr => (
+                      <li key={pr.id}>
+                        {pr.name} <span className="text-slate-500">({pr.role})</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="mt-2 text-slate-500">Bu şirkette henüz projeye üye değilsiniz.</p>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="text-slate-500">Henüz bir şirkete üye değilsiniz.</div>
+          )}
+
+          {toast && <div className="mt-4 text-sm text-slate-700">{toast}</div>}
+        </div>
+      </section>
+    </div>
   );
 }

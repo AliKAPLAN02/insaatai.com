@@ -7,8 +7,8 @@ export default function ProjectsShell({ children }) {
   const pathname = usePathname();
 
   const tabs = [
-    { href: "/dashboard/projects", label: "Bilgiler" },     // ✅ info yerine projects
-    { href: "/dashboard/projects/partners", label: "Ortaklar" },
+    { href: "/dashboard/projects", label: "Bilgiler" },
+    { href: "/dashboard/projects/partners", label: "Ortaklar ve Bütçe" },
     { href: "/dashboard/projects/create", label: "Yeni Proje" },
   ];
 
@@ -17,7 +17,7 @@ export default function ProjectsShell({ children }) {
       {/* Üst Menü */}
       <div className="flex space-x-6 border-b mb-6">
         {tabs.map((tab) => {
-          const isActive = pathname === tab.href;
+          const isActive = pathname.startsWith(tab.href); // 🔑 daha esnek kontrol
           return (
             <Link
               key={tab.href}
@@ -35,7 +35,7 @@ export default function ProjectsShell({ children }) {
       </div>
 
       {/* İçerik */}
-      <div className="p-4">{children}</div>
+      <div>{children}</div>
     </div>
   );
 }
