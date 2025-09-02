@@ -1,6 +1,8 @@
+// app/dashboard/DashboardShell.jsx
 "use client";
 
 import { useState, useEffect, createContext, useContext } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -18,7 +20,7 @@ export function useUserOrg() {
 }
 /* ----------------------------------------------------------------- */
 
-export default function DashboardShell({ children, active = "overview" }) {
+export default function DashboardShell({ children }) {
   // UI state
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -32,7 +34,23 @@ export default function DashboardShell({ children, active = "overview" }) {
   const [projects, setProjects] = useState([]);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
 
+  const pathname = usePathname();
   const mainColClass = collapsed ? "lg:col-span-11" : "lg:col-span-10";
+
+  // Aktif menü anahtarı (URL'den otomatik)
+  const routeToKey = () => {
+    if (pathname === "/dashboard" || pathname === "/dashboard/") return "overview";
+    if (pathname?.startsWith("/dashboard/treasury")) return "treasury";
+    if (pathname?.startsWith("/dashboard/transactions")) return "transactions";
+    if (pathname?.startsWith("/dashboard/debts")) return "debts";
+    if (pathname?.startsWith("/dashboard/companies")) return "companies";
+    if (pathname?.startsWith("/dashboard/projects")) return "projects";
+    if (pathname?.startsWith("/dashboard/team")) return "team";
+    if (pathname?.startsWith("/dashboard/ai-reports")) return "reports";
+    if (pathname?.startsWith("/dashboard/settings")) return "settings";
+    return "overview";
+  };
+  const activeKey = routeToKey();
 
   // v_user_context'ten global context'i çek
   useEffect(() => {
@@ -73,6 +91,8 @@ export default function DashboardShell({ children, active = "overview" }) {
           // Varsayılan proje (ilk proje)
           if (prjList.length > 0) {
             setSelectedProjectId(prjList[0].id);
+          } else {
+            setSelectedProjectId(null);
           }
         } else {
           setCompanyName("Şirket bulunamadı");
@@ -167,7 +187,7 @@ export default function DashboardShell({ children, active = "overview" }) {
                     href={item.href}
                     title={item.label}
                     className={`w-full flex items-center ${collapsed ? "justify-center" : ""} gap-2 rounded-xl px-3 py-2 text-sm transition-colors ${
-                      active === item.key ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100"
+                      activeKey === item.key ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100"
                     }`}
                   >
                     <span>{item.icon}</span>
@@ -202,7 +222,7 @@ export default function DashboardShell({ children, active = "overview" }) {
                     key={item.key}
                     href={item.href}
                     className={`block rounded-xl px-3 py-2 text-sm ${
-                      active === item.key ? "bg-slate-900 text-white" : "hover:bg-slate-100"
+                      activeKey === item.key ? "bg-slate-900 text-white" : "hover:bg-slate-100"
                     }`}
                     onClick={() => setSidebarOpen(false)}
                   >
@@ -230,7 +250,7 @@ export default function DashboardShell({ children, active = "overview" }) {
               key={it.key}
               href={it.href}
               className={`flex flex-col items-center py-2 text-xs ${
-                active === it.key ? "text-slate-900" : "text-slate-600"
+                activeKey === it.key ? "text-slate-900" : "text-slate-600"
               }`}
             >
               {it.icon}
