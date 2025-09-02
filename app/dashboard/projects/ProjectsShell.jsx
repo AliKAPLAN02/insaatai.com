@@ -1,4 +1,3 @@
-// components/ProjectsShell.jsx
 "use client";
 
 import Link from "next/link";
@@ -8,7 +7,7 @@ export default function ProjectsShell({ children }) {
   const pathname = usePathname();
 
   const tabs = [
-    { href: "/dashboard/projects/info", label: "Bilgiler" },
+    { href: "/dashboard/projects", label: "Bilgiler" },     // ✅ info yerine projects
     { href: "/dashboard/projects/partners", label: "Ortaklar" },
     { href: "/dashboard/projects/create", label: "Yeni Proje" },
   ];

@@ -1,7 +1,8 @@
 // app/dashboard/projects/partners.js
 "use client";
 
-import ProjectsShell from "@/components/ProjectsShell";
+import ProjectsShell from "../ProjectsShell";
+
 
 export default function PartnersPage() {
   return (

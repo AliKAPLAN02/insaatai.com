@@ -1,7 +1,8 @@
 // app/dashboard/projects/create.js
 "use client";
 
-import ProjectsShell from "@/components/ProjectsShell";
+import ProjectsShell from "../ProjectsShell";
+
 
 export default function CreateProjectPage() {
   return (
