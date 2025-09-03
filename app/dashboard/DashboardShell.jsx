@@ -65,7 +65,7 @@ export default function DashboardShell({ children }) {
         setUserName(user.user_metadata?.full_name || user.email || "Kullanıcı");
 
         const { data: rows, error } = await supabase
-          .from("v_user_context")
+          .from("v_user_context_json")
           .select("company_id, company_name, company_role, project_id, project_name, project_role")
           .eq("user_id", user.id);
 
