@@ -2,6 +2,7 @@
 
 import ProjectsShell from "./ProjectsShell";
 
+
 export default function ProjectsInfoPage() {
   return (
     <ProjectsShell>
