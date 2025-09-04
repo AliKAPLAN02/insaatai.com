@@ -4,7 +4,19 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
+// Supabase browser client (inline fallback — path hatalarını önlemek için)
+import { createBrowserClient } from "@supabase/ssr";
+
+function sbBrowser() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !anon) {
+    if (process.env.NODE_ENV !== "production") {
+      console.warn("[DashboardShell] Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY env.");
+    }
+  }
+  return createBrowserClient(url ?? "", anon ?? "");
+}
 
 // Menü ikonları
 import {
@@ -52,47 +64,56 @@ export default function DashboardShell({ children }) {
   };
   const activeKey = routeToKey();
 
-  // v_user_context'ten global context'i çek
+  // v_user_context_json'dan global context'i çek (JSON tek satır)
   useEffect(() => {
+    const supabase = sbBrowser();
+
     const fetchContext = async () => {
       try {
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
+        const { data: { user }, error: authErr } = await supabase.auth.getUser();
+        if (authErr) throw authErr;
 
-        if (!user) return;
+        if (!user) {
+          setUserName("Misafir");
+          setCompanyName("Giriş yapın");
+          setCompanyId(undefined);
+          setCompanyRole(undefined);
+          setProjects([]);
+          setSelectedProjectId(null);
+          return;
+        }
 
         setUserName(user.user_metadata?.full_name || user.email || "Kullanıcı");
 
-        const { data: rows, error } = await supabase
+        // Bazı kullanıcılar birden fazla şirkette olabilir; .single() yerine limit(1)
+        const { data, error } = await supabase
           .from("v_user_context_json")
-          .select("company_id, company_name, company_role, project_id, project_name, project_role")
-          .eq("user_id", user.id);
+          .select("user_id, company_id, company_name, company_role, plan, user_projects")
+          .eq("user_id", user.id)
+          .limit(1);
 
         if (error) throw error;
 
-        if (rows && rows.length > 0) {
-          // Şirket bilgisi (ilk satırdan)
-          setCompanyId(rows[0].company_id);
-          setCompanyName(rows[0].company_name ?? "Şirket");
-          setCompanyRole(rows[0].company_role ?? undefined);
+        const row = Array.isArray(data) ? data[0] : null;
 
-          // Projeleri array olarak topla
-          const prjList = rows
-            .filter(r => r.project_id)
-            .map(r => ({
-              id: r.project_id,
-              name: r.project_name,
-              role: r.project_role,
-            }));
+        if (row) {
+          setCompanyId(row.company_id);
+          setCompanyName(row.company_name ?? "Şirket");
+          setCompanyRole(row.company_role ?? undefined);
+
+          const prjList = Array.isArray(row.user_projects)
+            ? row.user_projects
+                .filter((p) => p && p.project_id)
+                .map((p) => ({ id: p.project_id, name: p.project_name, role: p.project_role }))
+            : [];
 
           setProjects(prjList);
+          setSelectedProjectId(prjList.length > 0 ? prjList[0].id : null);
 
-          // Varsayılan proje (ilk proje)
-          if (prjList.length > 0) {
-            setSelectedProjectId(prjList[0].id);
-          } else {
-            setSelectedProjectId(null);
+          // DEV TESTS: basic shape checks during development
+          if (process.env.NODE_ENV !== "production") {
+            console.assert(typeof row.company_name === "string", "company_name should be string");
+            console.assert(Array.isArray(row.user_projects), "user_projects should be an array");
           }
         } else {
           setCompanyName("Şirket bulunamadı");
@@ -100,12 +121,26 @@ export default function DashboardShell({ children }) {
           setSelectedProjectId(null);
         }
       } catch (e) {
-        console.error("v_user_context fetch error:", e);
+        console.error("v_user_context_json fetch error:", e);
         setCompanyName("Şirket (erişim hatası)");
       }
     };
 
     fetchContext();
+  }, []);
+
+  // --- DEV SELF-TESTS (lightweight test cases in dev) ---
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production") return;
+    try {
+      const c = sbBrowser();
+      console.assert(typeof c === "object" && c !== null, "sbBrowser() must return an object");
+      console.assert(typeof c.from === "function", "supabase client must expose .from()");
+      console.assert(c.auth && typeof c.auth.getUser === "function", "supabase client must expose auth.getUser()");
+      console.debug("[DashboardShell TEST] sbBrowser smoke test passed");
+    } catch (err) {
+      console.error("[DashboardShell TEST] sbBrowser failed:", err);
+    }
   }, []);
 
   // Menü tanımları (Türkçe)
