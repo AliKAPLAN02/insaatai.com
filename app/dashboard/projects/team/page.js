@@ -4,9 +4,8 @@
 import React, { useEffect, useState } from "react";
 import ProjectsShell from "../ProjectsShell";
 import { useUserOrg } from "../../DashboardShell";
-import { sbBrowser } from "@/lib/supabaseBrowserClient"; // ✅ tek standart
+import { sbBrowser } from "@/lib/supabaseBrowserClient";
 
-// UI bileşenleri – alias ile, relative karmaşası yok
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,17 +21,17 @@ export default function TeamAndPartnersPage() {
   const [user, setUser] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
 
-  // Projeler (kullanıcının approved olduğu)
+  // Projeler
   const [projects, setProjects] = useState([]);
   const [projectsLoading, setProjectsLoading] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState("");
 
-  // Kendi şirket çalışanları
+  // Şirket çalışanları
   const [companyMembers, setCompanyMembers] = useState([]);
   const [membersLoading, setMembersLoading] = useState(false);
   const [selectedMemberIds, setSelectedMemberIds] = useState([]);
 
-  // Partner şirketler (kendi şirketin hariç)
+  // Partner şirketler
   const [companies, setCompanies] = useState([]);
   const [companiesLoading, setCompaniesLoading] = useState(false);
   const [selectedCompanyIds, setSelectedCompanyIds] = useState([]);
@@ -57,33 +56,46 @@ export default function TeamAndPartnersPage() {
     return () => { ignore = true; };
   }, [supabase]);
 
-  /* Projeleri yükle (approved) */
+  /* PROJELER: (A) üyesi olduğun approved projeler  +  (B) kendi şirket projelerin */
   const refreshProjects = async () => {
-    if (!user) return;
+    if (!user && !myCompanyId) return;
     setProjectsLoading(true);
     setError(null);
     try {
-      const { data: pmRows, error: pmErr } = await supabase
-        .from("project_members")
-        .select("project_id")
-        .eq("user_id", user.id)
-        .eq("status", "approved");
-      if (pmErr) throw pmErr;
-
-      const ids = Array.from(new Set((pmRows ?? []).map(r => r.project_id))).filter(Boolean);
-      if (!ids.length) {
-        setProjects([]); setSelectedProjectId(""); return;
+      // A) üyelikten gelen proje id'leri
+      let memberProjectIds = [];
+      if (user) {
+        const { data: pmRows, error: pmErr } = await supabase
+          .from("project_members")
+          .select("project_id")
+          .eq("user_id", user.id)
+          .eq("status", "approved");
+        if (pmErr) throw pmErr;
+        memberProjectIds = Array.from(new Set((pmRows ?? []).map(r => r.project_id))).filter(Boolean);
       }
 
-      const { data: prjRows, error: prjErr } = await supabase
+      // Tek shot ile projeleri çek: company_id benim şirketim OLAN veya id IN (üyelik projeleri)
+      let query = supabase
         .from("projects")
-        .select("id, name")
-        .in("id", ids);
+        .select("id, name");
+
+      if (myCompanyId && memberProjectIds.length) {
+        // or filter’i string olarak veriyoruz
+        const inList = memberProjectIds.map(id => `"${id}"`).join(",");
+        query = query.or(`company_id.eq.${myCompanyId},id.in.(${inList})`);
+      } else if (myCompanyId) {
+        query = query.eq("company_id", myCompanyId);
+      } else if (memberProjectIds.length) {
+        query = query.in("id", memberProjectIds);
+      }
+
+      const { data: prjRows, error: prjErr } = await query.order("name", { ascending: true });
       if (prjErr) throw prjErr;
 
       const rows = prjRows ?? [];
       setProjects(rows);
       if (rows.length && !selectedProjectId) setSelectedProjectId(String(rows[0].id));
+      if (!rows.length) setSelectedProjectId("");
     } catch (e) {
       console.error(e);
       setError(`Projeler yüklenemedi: ${e?.message || e}`);
@@ -91,9 +103,9 @@ export default function TeamAndPartnersPage() {
       setProjectsLoading(false);
     }
   };
-  useEffect(() => { refreshProjects(); /* eslint-disable-line react-hooks/exhaustive-deps */ }, [user]);
+  useEffect(() => { refreshProjects(); /* eslint-disable-line react-hooks/exhaustive-deps */ }, [user, myCompanyId]);
 
-  /* Kendi çalışanların */
+  /* ŞİRKET ÇALIŞANLARI: profiles yok → auth.users(email) */
   const refreshMembers = async () => {
     if (!myCompanyId) return;
     setMembersLoading(true);
@@ -101,15 +113,23 @@ export default function TeamAndPartnersPage() {
     try {
       const { data, error } = await supabase
         .from("company_member")
-        .select("user_id, profiles(full_name, email)")
+        .select("user_id, role, auth.users(email)")
         .eq("company_id", myCompanyId);
       if (error) throw error;
 
       const rows = (data || []).map(r => ({
         user_id: r.user_id,
-        full_name: r.profiles?.full_name ?? null,
-        email: r.profiles?.email ?? null,
+        role: r.role ?? null,
+        // auth.users ile nested geldiğinde PostgREST anahtarları şu biçimde olabilir:
+        // r.auth?.users?.email  (çoğunlukla böyle)
+        // bazı kurulumlarda r.users?.email / r.auth_users?.email dönebilir; hepsine tolerans:
+        email: (r.auth && r.auth.users && r.auth.users.email)
+          || (r.users && r.users.email)
+          || (r.auth_users && r.auth_users.email)
+          || null,
       }));
+
+      // Kendini listeden çıkar (kendi kendini eklemeyi gizlemek istersen):
       const filtered = user ? rows.filter(m => m.user_id !== user.id) : rows;
       setCompanyMembers(filtered);
     } catch (e) {
@@ -121,14 +141,14 @@ export default function TeamAndPartnersPage() {
   };
   useEffect(() => { refreshMembers(); /* eslint-disable-line react-hooks/exhaustive-deps */ }, [myCompanyId]);
 
-  /* Partner şirketler */
+  /* PARTNER ŞİRKETLER (kendi şirketin hariç) */
   const refreshCompanies = async () => {
     setCompaniesLoading(true);
     setError(null);
     try {
-      let query = supabase.from("company").select("id, name");
-      if (myCompanyId) query = query.neq("id", myCompanyId);
-      const { data, error } = await query.order("name", { ascending: true });
+      let q = supabase.from("company").select("id, name");
+      if (myCompanyId) q = q.neq("id", myCompanyId);
+      const { data, error } = await q.order("name", { ascending: true });
       if (error) throw error;
       setCompanies(data || []);
     } catch (e) {
@@ -140,7 +160,7 @@ export default function TeamAndPartnersPage() {
   };
   useEffect(() => { refreshCompanies(); /* eslint-disable-line react-hooks/exhaustive-deps */ }, [myCompanyId]);
 
-  /* Çalışan ekle */
+  /* ÇALIŞAN EKLE (bulk) */
   const [addingMembers, setAddingMembers] = useState(false);
   const handleAddMembers = async () => {
     if (!selectedProjectId) return setError("Lütfen bir proje seçin.");
@@ -167,7 +187,7 @@ export default function TeamAndPartnersPage() {
     }
   };
 
-  /* Partner daveti */
+  /* PARTNER DAVETİ (şirket sahiplerine) */
   const [inviting, setInviting] = useState(false);
   const handleInvitePartners = async () => {
     if (!selectedProjectId) return setError("Lütfen bir proje seçin.");
@@ -221,9 +241,13 @@ export default function TeamAndPartnersPage() {
             <div className="space-y-2 md:col-span-2">
               <Label>Proje Seç</Label>
               <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
-                <SelectTrigger><SelectValue placeholder={projectsLoading ? "Yükleniyor…" : "Bir proje seçiniz"} /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue placeholder={projectsLoading ? "Yükleniyor…" : "Bir proje seçiniz"} />
+                </SelectTrigger>
                 <SelectContent>
-                  {projects.map((p) => <SelectItem key={p.id} value={String(p.id)}>{p.name}</SelectItem>)}
+                  {projects.map((p) => (
+                    <SelectItem key={p.id} value={String(p.id)}>{p.name}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -267,8 +291,8 @@ export default function TeamAndPartnersPage() {
                         }}
                       />
                       <div>
-                        <div className="font-medium">{m.full_name || "(İsim yok)"}</div>
-                        <div className="text-xs text-muted-foreground">{m.email}</div>
+                        <div className="font-medium">{m.email || "(email yok)"}</div>
+                        <div className="text-xs text-muted-foreground">{m.role ? `rol: ${m.role}` : ""}</div>
                       </div>
                     </label>
                   );
@@ -277,7 +301,7 @@ export default function TeamAndPartnersPage() {
             )}
 
             <div className="flex gap-2">
-              <Button onClick={handleAddMembers} disabled={addingMembers || selectedMemberIds.length === 0}>
+              <Button onClick={handleAddMembers} disabled={addingMembers || selectedMemberIds.length === 0 || !selectedProjectId}>
                 {addingMembers ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Users2 className="mr-2 h-4 w-4" />}
                 Seçilenleri Ekle
               </Button>
@@ -336,7 +360,7 @@ export default function TeamAndPartnersPage() {
                 />
               </div>
               <div className="flex items-end">
-                <Button onClick={handleInvitePartners} disabled={inviting || selectedCompanyIds.length === 0} className="w-full md:w-auto">
+                <Button onClick={handleInvitePartners} disabled={inviting || selectedCompanyIds.length === 0 || !selectedProjectId} className="w-full md:w-auto">
                   {inviting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
                   Davet Gönder
                 </Button>

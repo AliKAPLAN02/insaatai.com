@@ -167,7 +167,6 @@ export default function DashboardShell({ children }) {
               )}
               {projects.length === 1 && <span>· {projects[0].name}</span>}
             </div>
-            <div className="text-sm text-slate-600">{userName}</div>
           </div>
         </header>
 
