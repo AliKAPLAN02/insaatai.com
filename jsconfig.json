@@ -1,18 +1,10 @@
-// {
-//     "compilerOptions": {
-//       "baseUrl": ".",
-//       "paths": {
-//         "@/*": ["*"]
-//       }
-//     }
-//   }
-
 {
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["app/*"],
-      "@lib/*": ["lib/*"]
+      "@/*": ["*"],             // @ artık proje kökü: lib, app, components hepsi bulunur
+      "@app/*": ["app/*"],      // (opsiyonel) açık isimli alias
+      "@lib/*": ["lib/*"]       // (opsiyonel) istersen kalsın
     }
   }
 }
