@@ -4,21 +4,7 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-// Supabase browser client (inline fallback — path hatalarını önlemek için)
-import { createBrowserClient } from "@supabase/ssr";
-
-function sbBrowser() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !anon) {
-    if (process.env.NODE_ENV !== "production") {
-      console.warn("[DashboardShell] Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY env.");
-    }
-  }
-  return createBrowserClient(url ?? "", anon ?? "");
-}
-
-// Menü ikonları
+import { sbBrowser } from "@/lib/supabaseBrowserClient"; // ✅ tek standart
 import {
   Menu, X, ChevronLeft, ChevronRight,
   ChartLine, Wallet, WalletCards, HandCoins,
@@ -49,7 +35,7 @@ export default function DashboardShell({ children }) {
   const pathname = usePathname();
   const mainColClass = collapsed ? "lg:col-span-11" : "lg:col-span-10";
 
-  // Aktif menü anahtarı (URL'den otomatik)
+  // Menü highlight key
   const routeToKey = () => {
     if (pathname === "/dashboard" || pathname === "/dashboard/") return "overview";
     if (pathname?.startsWith("/dashboard/treasury")) return "treasury";
@@ -64,28 +50,32 @@ export default function DashboardShell({ children }) {
   };
   const activeKey = routeToKey();
 
-  // v_user_context_json'dan global context'i çek (JSON tek satır)
+  // Supabase’den user + şirket context
   useEffect(() => {
     const supabase = sbBrowser();
 
-    const fetchContext = async () => {
+    (async () => {
+      // 1) Kullanıcıyı al
+      const { data: { user }, error: authErr } = await supabase.auth.getUser();
+      if (authErr) {
+        console.error("[DashboardShell] auth.getUser error:", authErr);
+        setUserName("Misafir");
+        setCompanyName("Şirket (erişim hatası)");
+        return;
+      }
+      if (!user) {
+        setUserName("Misafir");
+        setCompanyName("Giriş yapın");
+        setCompanyId(undefined);
+        setCompanyRole(undefined);
+        setProjects([]);
+        setSelectedProjectId(null);
+        return;
+      }
+      setUserName(user.user_metadata?.full_name || user.email || "Kullanıcı");
+
+      // 2) Context view
       try {
-        const { data: { user }, error: authErr } = await supabase.auth.getUser();
-        if (authErr) throw authErr;
-
-        if (!user) {
-          setUserName("Misafir");
-          setCompanyName("Giriş yapın");
-          setCompanyId(undefined);
-          setCompanyRole(undefined);
-          setProjects([]);
-          setSelectedProjectId(null);
-          return;
-        }
-
-        setUserName(user.user_metadata?.full_name || user.email || "Kullanıcı");
-
-        // Bazı kullanıcılar birden fazla şirkette olabilir; .single() yerine limit(1)
         const { data, error } = await supabase
           .from("v_user_context_json")
           .select("user_id, company_id, company_name, company_role, plan, user_projects")
@@ -95,55 +85,33 @@ export default function DashboardShell({ children }) {
         if (error) throw error;
 
         const row = Array.isArray(data) ? data[0] : null;
-
-        if (row) {
-          setCompanyId(row.company_id);
-          setCompanyName(row.company_name ?? "Şirket");
-          setCompanyRole(row.company_role ?? undefined);
-
-          const prjList = Array.isArray(row.user_projects)
-            ? row.user_projects
-                .filter((p) => p && p.project_id)
-                .map((p) => ({ id: p.project_id, name: p.project_name, role: p.project_role }))
-            : [];
-
-          setProjects(prjList);
-          setSelectedProjectId(prjList.length > 0 ? prjList[0].id : null);
-
-          // DEV TESTS: basic shape checks during development
-          if (process.env.NODE_ENV !== "production") {
-            console.assert(typeof row.company_name === "string", "company_name should be string");
-            console.assert(Array.isArray(row.user_projects), "user_projects should be an array");
-          }
-        } else {
+        if (!row) {
           setCompanyName("Şirket bulunamadı");
           setProjects([]);
           setSelectedProjectId(null);
+          return;
         }
+
+        setCompanyId(row.company_id);
+        setCompanyName(row.company_name ?? "Şirket");
+        setCompanyRole(row.company_role ?? undefined);
+
+        const prjList = Array.isArray(row.user_projects)
+          ? row.user_projects
+              .filter(p => p && p.project_id)
+              .map(p => ({ id: p.project_id, name: p.project_name, role: p.project_role }))
+          : [];
+
+        setProjects(prjList);
+        setSelectedProjectId(prjList.length > 0 ? prjList[0].id : null);
       } catch (e) {
-        console.error("v_user_context_json fetch error:", e);
+        console.error("[DashboardShell] v_user_context_json error:", e);
         setCompanyName("Şirket (erişim hatası)");
       }
-    };
-
-    fetchContext();
+    })();
   }, []);
 
-  // --- DEV SELF-TESTS (lightweight test cases in dev) ---
-  useEffect(() => {
-    if (process.env.NODE_ENV === "production") return;
-    try {
-      const c = sbBrowser();
-      console.assert(typeof c === "object" && c !== null, "sbBrowser() must return an object");
-      console.assert(typeof c.from === "function", "supabase client must expose .from()");
-      console.assert(c.auth && typeof c.auth.getUser === "function", "supabase client must expose auth.getUser()");
-      console.debug("[DashboardShell TEST] sbBrowser smoke test passed");
-    } catch (err) {
-      console.error("[DashboardShell TEST] sbBrowser failed:", err);
-    }
-  }, []);
-
-  // Menü tanımları (Türkçe)
+  // Menü listesi
   const Nav = [
     { key: "overview", href: "/dashboard", label: "Özet", icon: <ChartLine className="h-4 w-4" /> },
     { key: "treasury", href: "/dashboard/treasury", label: "Şirket & Hazine", icon: <Wallet className="h-4 w-4" /> },
@@ -169,7 +137,7 @@ export default function DashboardShell({ children }) {
   return (
     <UserOrgContext.Provider value={contextValue}>
       <div className="min-h-screen bg-slate-50">
-        {/* --- TOPBAR ---------------------------------------------------- */}
+        {/* Topbar */}
         <header className="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-200">
           <div className="mx-auto max-w-7xl px-3 sm:px-4 py-3 flex items-center justify-between">
             <div className="flex items-center gap-2 font-semibold text-slate-800">
@@ -203,7 +171,7 @@ export default function DashboardShell({ children }) {
           </div>
         </header>
 
-        {/* --- ANA GRID -------------------------------------------------- */}
+        {/* Main grid */}
         <div className="mx-auto max-w-7xl px-3 sm:px-4 py-4 grid grid-cols-12 gap-4">
           {/* Sidebar */}
           <aside className={`hidden lg:block ${collapsed ? "lg:col-span-1" : "lg:col-span-2"}`}>
@@ -237,7 +205,7 @@ export default function DashboardShell({ children }) {
           <main className={`col-span-12 ${mainColClass}`}>{children}</main>
         </div>
 
-        {/* --- MOBİL DRAWER ---------------------------------------------- */}
+        {/* Mobil sidebar */}
         {sidebarOpen && (
           <>
             <div className="fixed inset-0 z-50 bg-black/40 lg:hidden" onClick={() => setSidebarOpen(false)} />
@@ -269,7 +237,7 @@ export default function DashboardShell({ children }) {
           </>
         )}
 
-        {/* --- MOBİL ALT TABBAR ------------------------------------------ */}
+        {/* Mobil bottom tabbar */}
         <nav
           className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-slate-200 grid grid-cols-5"
           style={{ paddingBottom: "env(safe-area-inset-bottom)" }}

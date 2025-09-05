@@ -4,23 +4,16 @@
 import React, { useEffect, useState } from "react";
 import ProjectsShell from "../ProjectsShell";
 import { useUserOrg } from "../../DashboardShell";
+import { sbBrowser } from "@/lib/supabaseBrowserClient"; // ✅ tek standart
 
-// UI (relative: projene göre kontrol et)
-import { Card, CardContent, CardHeader, CardTitle } from "../../../../components/ui/card";
-import { Button } from "../../../../components/ui/button";
-import { Input } from "../../../../components/ui/input";
-import { Label } from "../../../../components/ui/label";
-import { Checkbox } from "../../../../components/ui/checkbox";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../../components/ui/select";
+// UI bileşenleri – alias ile, relative karmaşası yok
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2, Users2, UserPlus, Send } from "lucide-react";
-
-// Supabase (browser)
-import { createBrowserClient } from "@supabase/ssr";
-function sbBrowser() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  return createBrowserClient(url ?? "", anon ?? "");
-}
 
 export default function TeamAndPartnersPage() {
   const supabase = sbBrowser();
@@ -54,8 +47,9 @@ export default function TeamAndPartnersPage() {
     let ignore = false;
     (async () => {
       setLoadingAuth(true);
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { user }, error } = await supabase.auth.getUser();
       if (!ignore) {
+        if (error) console.error("[team] getUser:", error);
         setUser(user ?? null);
         setLoadingAuth(false);
       }
@@ -78,7 +72,7 @@ export default function TeamAndPartnersPage() {
 
       const ids = Array.from(new Set((pmRows ?? []).map(r => r.project_id))).filter(Boolean);
       if (!ids.length) {
-        setProjects([]); setSelectedProjectId(""); setProjectsLoading(false); return;
+        setProjects([]); setSelectedProjectId(""); return;
       }
 
       const { data: prjRows, error: prjErr } = await supabase
@@ -185,7 +179,7 @@ export default function TeamAndPartnersPage() {
       const { error } = await supabase.rpc("invite_partner_companies_owner", {
         p_project_id: selectedProjectId,
         p_company_ids: selectedCompanyIds,
-        p_expire_days: inviteDays,
+        p_expire_days: Number.isFinite(+inviteDays) ? +inviteDays : 7,
       });
       if (error) throw error;
       setNotice("Partner daveti gönderildi. Patronların e-posta onayı bekleniyor (outbox).");
@@ -334,7 +328,12 @@ export default function TeamAndPartnersPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label>Davet Geçerlilik (gün)</Label>
-                <Input type="number" min={1} value={inviteDays} onChange={(e) => setInviteDays(parseInt(e.target.value || "7", 10))} />
+                <Input
+                  type="number"
+                  min={1}
+                  value={inviteDays}
+                  onChange={(e) => setInviteDays(parseInt(e.target.value || "7", 10))}
+                />
               </div>
               <div className="flex items-end">
                 <Button onClick={handleInvitePartners} disabled={inviting || selectedCompanyIds.length === 0} className="w-full md:w-auto">
