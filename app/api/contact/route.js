@@ -1,13 +1,13 @@
-// app/api/CONTACT_ROUTE/route.js  (kendi klasöründe)
-// Node tabanlı mail kitaplıkları için:
+// app/api/contact/route.js
 export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic"; // cache disable
 export const revalidate = 0;
 
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { sendContactMail } from "../../mail/mail"; // mevcut yapına göre doğruysa bırak
+import { sendContactMail } from "../../mail/mail"; // path doğruysa bırak
 
+// --- Validasyon şeması
 const ContactSchema = z.object({
   name: z.string().min(2).max(100),
   email: z.string().email(),
@@ -18,15 +18,19 @@ const ContactSchema = z.object({
 });
 
 export async function POST(req) {
-  // JSON parse hatasına karşı koruma
   let body;
+
+  // 1) JSON parse
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ ok: false, error: "Geçersiz JSON" }, { status: 400 });
+    return NextResponse.json(
+      { ok: false, error: "Geçersiz JSON formatı" },
+      { status: 400 }
+    );
   }
 
-  // Validasyon (throw etmeyen sürüm)
+  // 2) Validasyon
   const parsed = ContactSchema.safeParse({
     ...body,
     phone: body?.phone || null,
@@ -36,17 +40,21 @@ export async function POST(req) {
 
   if (!parsed.success) {
     return NextResponse.json(
-      { ok: false, error: "Validasyon hatası", issues: parsed.error.flatten() },
+      {
+        ok: false,
+        error: "Validasyon hatası",
+        issues: parsed.error.flatten(),
+      },
       { status: 422 }
     );
   }
 
-  // Honeypot: bot ise sessizce OK
+  // 3) Honeypot (bot kontrolü)
   if (parsed.data.website) {
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true }); // sessizce başarılı dön
   }
 
-  // Mail gönderimi
+  // 4) Mail gönderimi
   try {
     await sendContactMail(parsed.data);
     return NextResponse.json({ ok: true });

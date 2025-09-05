@@ -7,7 +7,7 @@ import Spline from "@splinetool/react-spline";
 
 const SCENE_PATH = "/spline/scene.splinecode";
 
-/* Tüm CTA butonları için ortak sınıf */
+/* Ortak CTA butonu className */
 const CTA_BTN =
   "inline-flex items-center justify-center rounded-xl px-5 py-2.5 bg-slate-900 text-white " +
   "font-medium hover:opacity-90 active:opacity-80 focus:outline-none focus:ring-2 " +
@@ -37,14 +37,14 @@ export default function Page() {
 
     cancelAnimationFrame(rafRef.current);
     rafRef.current = requestAnimationFrame(() => {
-      el.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateZ(0) scale(1.01)`;
+      el.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) scale(1.01)`;
     });
   };
 
   const onLeave = () => {
     const el = tiltRef.current;
     if (el) {
-      el.style.transform = "rotateX(0deg) rotateY(0deg) translateZ(0) scale(1)";
+      el.style.transform = "rotateX(0deg) rotateY(0deg) scale(1)";
     }
   };
 
@@ -64,13 +64,14 @@ export default function Page() {
       <section className="flex-1 w-full px-6 lg:px-10 pb-10">
         <div className="w-full flex flex-col lg:flex-row items-stretch gap-8">
           {/* Sol kolon */}
-          <div className="w-full lg:basis-[640px] lg:shrink-0 lg:grow-0">
+          <div className="w-full lg:basis-[640px]">
             <div className="text-left space-y-6">
               <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
                 Hala <span className="text-blue-600">yapay zeka </span> kullanmıyor musunuz?
               </h1>
               <p className="text-slate-600">
-                Yapay zeka devrimini inşaat projelerinize taşıyın, maliyetlerinizi düşürün ve kârlılığınızı artırın!
+                Yapay zeka devrimini inşaat projelerinize taşıyın, maliyetlerinizi düşürün ve
+                kârlılığınızı artırın!
               </p>
 
               {/* CTA Butonları */}
@@ -142,7 +143,7 @@ export default function Page() {
             </div>
           </div>
 
-          {/* Sağ: Spline kutusu */}
+          {/* Sağ kolon: Spline */}
           <div
             className="relative flex-1 rounded-[28px] border border-slate-200 shadow-lg bg-slate-100/70 min-h-[620px] h-[88vh]"
             style={{ perspective: "1000px" }}
@@ -167,7 +168,9 @@ export default function Page() {
 
       {/* Footer */}
       <footer className="text-xs text-slate-500 px-6 lg:px-10 pb-5">
-        <div className="w-full text-right">© {new Date().getFullYear()} İnşaat AI</div>
+        <div className="w-full text-right">
+          © {new Date().getFullYear()} İnşaat AI
+        </div>
       </footer>
     </main>
   );

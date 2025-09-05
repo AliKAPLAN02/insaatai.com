@@ -1,7 +1,8 @@
+// app/dashboard/treasury/page.js
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { sbBrowser } from "@/lib/supabaseBrowserClient"; // ✅ yeni import
 import { Building2, FolderKanban } from "lucide-react";
 
 const PLAN_OPTIONS = [
@@ -21,6 +22,7 @@ export default function CompanyPage() {
 
   useEffect(() => {
     (async () => {
+      const supabase = sbBrowser();
       try {
         const { data: ures } = await supabase.auth.getUser();
         if (!ures?.user) {
@@ -29,9 +31,9 @@ export default function CompanyPage() {
         }
         setUser(ures.user);
 
-        // v_user_context view üzerinden tüm satırları al
+        // Kullanıcı-context view (v_user_context veya v_user_context_json)
         const { data, error } = await supabase
-          .from("v_user_context")
+          .from("v_user_context") // ✅ gerekirse v_user_context_json olarak değiştir
           .select("*")
           .eq("user_id", ures.user.id);
 

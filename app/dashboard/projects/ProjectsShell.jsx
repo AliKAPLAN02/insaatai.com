@@ -9,6 +9,7 @@ export default function ProjectsShell({ children }) {
   const tabs = [
     { href: "/dashboard/projects", label: "Bilgiler" },
     { href: "/dashboard/projects/partners", label: "Ortaklar ve Bütçe" },
+    { href: "/dashboard/projects/team", label: "Çalışan & Ortak Ekleme" },
     { href: "/dashboard/projects/create", label: "Yeni Proje" },
   ];
 
