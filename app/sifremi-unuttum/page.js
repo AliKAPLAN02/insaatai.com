@@ -1,9 +1,12 @@
+// app/sifremi-unuttum/page.js
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { sbBrowser } from "@/lib/supabaseBrowserClient"; // ✅ yeni client
 
 export default function ForgotPasswordPage() {
+  const supabase = sbBrowser(); // ✅ client burada oluşturuluyor
+
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -13,17 +16,22 @@ export default function ForgotPasswordPage() {
     setLoading(true);
     setMessage("");
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`, 
-    });
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
 
-    if (error) {
-      setMessage("❌ Hata: " + error.message);
-    } else {
-      setMessage("📩 Şifre sıfırlama linki e-posta adresinize gönderildi.");
+      if (error) {
+        setMessage("❌ Hata: " + error.message);
+      } else {
+        setMessage("📩 Şifre sıfırlama linki e-posta adresinize gönderildi.");
+      }
+    } catch (err) {
+      console.error("[ForgotPassword] hata:", err);
+      setMessage("❌ Beklenmedik hata: " + (err.message || String(err)));
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (

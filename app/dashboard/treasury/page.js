@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { sbBrowser } from "../../../lib/supabaseBrowserClient"; // ✅ düzeltilmiş import
+import { sbBrowser } from "@/lib/supabaseBrowserClient"; // ✅ alias ile import
 import { Building2, FolderKanban } from "lucide-react";
 
 const PLAN_OPTIONS = [
@@ -30,7 +30,7 @@ export default function CompanyPage() {
         setUser(ures.user);
 
         const { data, error } = await supabase
-          .from("v_user_context_json") // ✅ burada json versiyonu daha güvenli
+          .from("v_user_context_json") // ✅ json view
           .select("*")
           .eq("user_id", ures.user.id);
 
@@ -85,11 +85,16 @@ export default function CompanyPage() {
 
           {companyProfile ? (
             <div className="space-y-2 text-sm text-slate-700">
-              <div><span className="font-medium">Ad:</span> {companyProfile.name}</div>
-              <div><span className="font-medium">Plan:</span>{" "}
+              <div>
+                <span className="font-medium">Ad:</span> {companyProfile.name}
+              </div>
+              <div>
+                <span className="font-medium">Plan:</span>{" "}
                 {PLAN_OPTIONS.find(p => p.value === companyProfile.plan)?.label ?? companyProfile.plan}
               </div>
-              <div><span className="font-medium">Rolünüz:</span> {companyProfile.role}</div>
+              <div>
+                <span className="font-medium">Rolünüz:</span> {companyProfile.role}
+              </div>
 
               <div className="mt-4">
                 <h3 className="font-medium flex items-center gap-1">
@@ -105,7 +110,9 @@ export default function CompanyPage() {
                     ))}
                   </ul>
                 ) : (
-                  <p className="mt-2 text-slate-500">Bu şirkette henüz projeye üye değilsiniz.</p>
+                  <p className="mt-2 text-slate-500">
+                    Bu şirkette henüz projeye üye değilsiniz.
+                  </p>
                 )}
               </div>
             </div>

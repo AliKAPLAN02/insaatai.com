@@ -3,15 +3,9 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { createBrowserClient } from "@supabase/ssr";
+import { sbBrowser } from "@/lib/supabaseBrowserClient";
 
-// ✅ Supabase browser client (tekil instance)
-function sbBrowser() {
-  return createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  );
-}
+const supabase = sbBrowser(); // ✅ tekil client, üstte oluştur
 
 export default function AuthCallback() {
   const router = useRouter();
@@ -23,7 +17,6 @@ export default function AuthCallback() {
     ranRef.current = true;
 
     (async () => {
-      const supabase = sbBrowser();
       try {
         const url = new URL(window.location.href);
 
