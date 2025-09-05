@@ -1,7 +1,7 @@
 // app/dashboard/projects/team/page.js
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ProjectsShell from "../ProjectsShell";
 import { useUserOrg } from "../../DashboardShell";
 import { sbBrowser } from "@/lib/supabaseBrowserClient";
@@ -14,8 +14,23 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2, Users2, UserPlus, Send } from "lucide-react";
 
+/* ------------------------- Helpers ------------------------- */
+const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+function parseManualIds(text) {
+  return Array.from(
+    new Set(
+      (text || "")
+        .split(/[\s,;]+/)
+        .map((t) => t.trim())
+        .filter((t) => t && UUID_V4.test(t))
+    )
+  );
+}
+/* ----------------------------------------------------------- */
+
 export default function TeamAndPartnersPage() {
-  const supabase = sbBrowser();
+  const supabase = useMemo(() => sbBrowser(), []);
   const { company_id: myCompanyId, company_name: myCompanyName } = useUserOrg();
 
   const [user, setUser] = useState(null);
@@ -31,17 +46,20 @@ export default function TeamAndPartnersPage() {
   const [membersLoading, setMembersLoading] = useState(false);
   const [selectedMemberIds, setSelectedMemberIds] = useState([]);
 
-  // Partner şirketler
+  // Partner şirketler (opsiyonel liste)
   const [companies, setCompanies] = useState([]);
   const [companiesLoading, setCompaniesLoading] = useState(false);
   const [selectedCompanyIds, setSelectedCompanyIds] = useState([]);
-  const [inviteDays, setInviteDays] = useState(7);
 
-  // UI feedback
+  // Manuel company_id girişi
+  const [manualCompanyIds, setManualCompanyIds] = useState("");
+
+  // Diğer UI
+  const [inviteDays, setInviteDays] = useState(7);
   const [notice, setNotice] = useState(null);
   const [error, setError] = useState(null);
 
-  /* AUTH */
+  /* ----------------------------- AUTH ------------------------------ */
   useEffect(() => {
     let ignore = false;
     (async () => {
@@ -56,13 +74,13 @@ export default function TeamAndPartnersPage() {
     return () => { ignore = true; };
   }, [supabase]);
 
-  /* PROJELER: (A) üyesi olduğun approved projeler  +  (B) kendi şirket projelerin */
+  /* ------ PROJELER: (A) approved üyelikler + (B) kendi şirket projelerin ------ */
   const refreshProjects = async () => {
     if (!user && !myCompanyId) return;
     setProjectsLoading(true);
     setError(null);
     try {
-      // A) üyelikten gelen proje id'leri
+      // A) approved üyesi olduğun projelerden id'ler
       let memberProjectIds = [];
       if (user) {
         const { data: pmRows, error: pmErr } = await supabase
@@ -71,28 +89,38 @@ export default function TeamAndPartnersPage() {
           .eq("user_id", user.id)
           .eq("status", "approved");
         if (pmErr) throw pmErr;
-        memberProjectIds = Array.from(new Set((pmRows ?? []).map(r => r.project_id))).filter(Boolean);
+        memberProjectIds = Array.from(new Set((pmRows ?? []).map((r) => r.project_id))).filter(Boolean);
       }
 
-      // Tek shot ile projeleri çek: company_id benim şirketim OLAN veya id IN (üyelik projeleri)
-      let query = supabase
-        .from("projects")
-        .select("id, name");
-
-      if (myCompanyId && memberProjectIds.length) {
-        // or filter’i string olarak veriyoruz
-        const inList = memberProjectIds.map(id => `"${id}"`).join(",");
-        query = query.or(`company_id.eq.${myCompanyId},id.in.(${inList})`);
-      } else if (myCompanyId) {
-        query = query.eq("company_id", myCompanyId);
-      } else if (memberProjectIds.length) {
-        query = query.in("id", memberProjectIds);
+      // B) iki ayrı sorgu → sonra birleştir & tekilleştir
+      const promises = [];
+      if (myCompanyId) {
+        promises.push(
+          supabase.from("projects").select("id, name").eq("company_id", myCompanyId)
+        );
+      }
+      if (memberProjectIds.length) {
+        promises.push(
+          supabase.from("projects").select("id, name").in("id", memberProjectIds)
+        );
       }
 
-      const { data: prjRows, error: prjErr } = await query.order("name", { ascending: true });
-      if (prjErr) throw prjErr;
+      let combined = [];
+      if (promises.length) {
+        const results = await Promise.all(promises);
+        for (const r of results) {
+          if (r.error) throw r.error;
+          combined = combined.concat(r.data || []);
+        }
+      }
 
-      const rows = prjRows ?? [];
+      // tekilleştir (id'ye göre) ve ada göre sırala
+      const map = new Map();
+      for (const row of combined) map.set(row.id, row);
+      const rows = Array.from(map.values()).sort((a, b) =>
+        (a.name || "").localeCompare(b.name || "")
+      );
+
       setProjects(rows);
       if (rows.length && !selectedProjectId) setSelectedProjectId(String(rows[0].id));
       if (!rows.length) setSelectedProjectId("");
@@ -105,32 +133,25 @@ export default function TeamAndPartnersPage() {
   };
   useEffect(() => { refreshProjects(); /* eslint-disable-line react-hooks/exhaustive-deps */ }, [user, myCompanyId]);
 
-  /* ŞİRKET ÇALIŞANLARI: profiles yok → auth.users(email) */
+  /* ----------------------- ŞİRKET ÇALIŞANLARI (RPC) ---------------------- */
   const refreshMembers = async () => {
     if (!myCompanyId) return;
     setMembersLoading(true);
     setError(null);
     try {
-      const { data, error } = await supabase
-        .from("company_member")
-        .select("user_id, role, auth.users(email)")
-        .eq("company_id", myCompanyId);
+      const { data, error } = await supabase.rpc("company_members_list", {
+        p_company_id: myCompanyId,
+      });
       if (error) throw error;
 
-      const rows = (data || []).map(r => ({
+      const rows = (data || []).map((r) => ({
         user_id: r.user_id,
         role: r.role ?? null,
-        // auth.users ile nested geldiğinde PostgREST anahtarları şu biçimde olabilir:
-        // r.auth?.users?.email  (çoğunlukla böyle)
-        // bazı kurulumlarda r.users?.email / r.auth_users?.email dönebilir; hepsine tolerans:
-        email: (r.auth && r.auth.users && r.auth.users.email)
-          || (r.users && r.users.email)
-          || (r.auth_users && r.auth_users.email)
-          || null,
+        email: r.email ?? null,
+        full_name: null, // şu an profiles yok
       }));
 
-      // Kendini listeden çıkar (kendi kendini eklemeyi gizlemek istersen):
-      const filtered = user ? rows.filter(m => m.user_id !== user.id) : rows;
+      const filtered = user ? rows.filter((m) => m.user_id !== user.id) : rows;
       setCompanyMembers(filtered);
     } catch (e) {
       console.error(e);
@@ -141,7 +162,7 @@ export default function TeamAndPartnersPage() {
   };
   useEffect(() => { refreshMembers(); /* eslint-disable-line react-hooks/exhaustive-deps */ }, [myCompanyId]);
 
-  /* PARTNER ŞİRKETLER (kendi şirketin hariç) */
+  /* --------------- PARTNER ŞİRKETLER (opsiyonel liste) -------------- */
   const refreshCompanies = async () => {
     setCompaniesLoading(true);
     setError(null);
@@ -160,7 +181,7 @@ export default function TeamAndPartnersPage() {
   };
   useEffect(() => { refreshCompanies(); /* eslint-disable-line react-hooks/exhaustive-deps */ }, [myCompanyId]);
 
-  /* ÇALIŞAN EKLE (bulk) */
+  /* ----------------------- ÇALIŞAN EKLE (bulk) ---------------------- */
   const [addingMembers, setAddingMembers] = useState(false);
   const handleAddMembers = async () => {
     if (!selectedProjectId) return setError("Lütfen bir proje seçin.");
@@ -187,23 +208,35 @@ export default function TeamAndPartnersPage() {
     }
   };
 
-  /* PARTNER DAVETİ (şirket sahiplerine) */
+  /* ------------- PARTNER DAVETİ (şirket sahiplerine) --------------- */
   const [inviting, setInviting] = useState(false);
   const handleInvitePartners = async () => {
     if (!selectedProjectId) return setError("Lütfen bir proje seçin.");
-    if (!selectedCompanyIds.length) return setError("En az bir partner şirket seçin.");
+
+    // listeden + manuel girilenleri birleştir
+    const manualIds = parseManualIds(manualCompanyIds);
+    let merged = Array.from(new Set([...(selectedCompanyIds || []), ...manualIds]));
+
+    // Kendi şirketini davet etme (güvenlik için filtrele)
+    if (myCompanyId) merged = merged.filter((id) => id !== myCompanyId);
+
+    if (merged.length === 0) {
+      return setError("En az bir geçerli company_id girin veya listeden seçin.");
+    }
 
     setInviting(true);
     setError(null); setNotice(null);
     try {
       const { error } = await supabase.rpc("invite_partner_companies_owner", {
         p_project_id: selectedProjectId,
-        p_company_ids: selectedCompanyIds,
+        p_company_ids: merged,
         p_expire_days: Number.isFinite(+inviteDays) ? +inviteDays : 7,
       });
       if (error) throw error;
-      setNotice("Partner daveti gönderildi. Patronların e-posta onayı bekleniyor (outbox).");
+
+      setNotice(`Partner daveti gönderildi (${merged.length} şirket). Patronların e-posta onayı bekleniyor (outbox).`);
       setSelectedCompanyIds([]);
+      setManualCompanyIds("");
     } catch (e) {
       console.error(e);
       setError(`Davet gönderilemedi: ${e?.message || e}`);
@@ -212,6 +245,11 @@ export default function TeamAndPartnersPage() {
     }
   };
 
+  const inviteDisabled = inviting
+    || !selectedProjectId
+    || (selectedCompanyIds.length === 0 && parseManualIds(manualCompanyIds).length === 0);
+
+  /* ------------------------------ UI -------------------------------- */
   const Header = () => (
     <div className="flex items-center justify-between gap-3 mb-6">
       <div>
@@ -219,9 +257,6 @@ export default function TeamAndPartnersPage() {
         <p className="text-sm text-muted-foreground">
           {myCompanyName ? `Şirket: ${myCompanyName}` : "Şirket bilgisi yükleniyor…"}
         </p>
-      </div>
-      <div className="text-sm text-muted-foreground">
-        {user ? `Kullanıcı: ${user.email}` : (loadingAuth ? "Giriş kontrol ediliyor…" : "Oturum yok")}
       </div>
     </div>
   );
@@ -287,11 +322,11 @@ export default function TeamAndPartnersPage() {
                         checked={checked}
                         onCheckedChange={(v) => {
                           const val = Boolean(v);
-                          setSelectedMemberIds((prev) => val ? [...prev, m.user_id] : prev.filter(x => x !== m.user_id));
+                          setSelectedMemberIds((prev) => (val ? [...prev, m.user_id] : prev.filter((x) => x !== m.user_id)));
                         }}
                       />
                       <div>
-                        <div className="font-medium">{m.email || "(email yok)"}</div>
+                        <div className="font-medium">{m.email || m.full_name || m.user_id}</div>
                         <div className="text-xs text-muted-foreground">{m.role ? `rol: ${m.role}` : ""}</div>
                       </div>
                     </label>
@@ -312,7 +347,7 @@ export default function TeamAndPartnersPage() {
           </CardContent>
         </Card>
 
-        {/* Partner daveti */}
+        {/* Partner daveti — manuel company_id giriş destekli */}
         <Card className="shadow-sm">
           <CardHeader className="flex items-center gap-2">
             <Send className="h-5 w-5" />
@@ -327,9 +362,7 @@ export default function TeamAndPartnersPage() {
               </Button>
             </div>
 
-            {companies.length === 0 ? (
-              <div className="text-sm text-muted-foreground">Davet edebileceğiniz başka şirket bulunamadı.</div>
-            ) : (
+            {companies.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {companies.map((c) => {
                   const checked = selectedCompanyIds.includes(c.id);
@@ -339,7 +372,7 @@ export default function TeamAndPartnersPage() {
                         checked={checked}
                         onCheckedChange={(v) => {
                           const val = Boolean(v);
-                          setSelectedCompanyIds((prev) => val ? [...prev, c.id] : prev.filter(x => x !== c.id));
+                          setSelectedCompanyIds((prev) => (val ? [...prev, c.id] : prev.filter((x) => x !== c.id)));
                         }}
                       />
                       <div className="font-medium">{c.name}</div>
@@ -347,7 +380,27 @@ export default function TeamAndPartnersPage() {
                   );
                 })}
               </div>
+            ) : (
+              <div className="text-sm text-muted-foreground">
+                Liste boş olabilir (RLS). Aşağıdan <strong>company_id</strong> girerek davet gönderebilirsiniz.
+              </div>
             )}
+
+            {/* Manuel ID girişi (çoklu) */}
+            <div className="space-y-2">
+              <Label>Company ID (bir veya birden çok)</Label>
+              <Input
+                placeholder="UUID v4… Örn: 123e4567-e89b-12d3-a456-426614174000, 1b2c… (virgül/boşluk/alt satırla ayırın)"
+                value={manualCompanyIds}
+                onChange={(e) => setManualCompanyIds(e.target.value)}
+              />
+              {manualCompanyIds.trim() && (
+                <div className="text-xs text-muted-foreground">
+                  Geçerli ID sayısı: {parseManualIds(manualCompanyIds).length}
+                  {myCompanyId && parseManualIds(manualCompanyIds).includes(myCompanyId) ? " (kendi şirketiniz filtrelenecek)" : ""}
+                </div>
+              )}
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
@@ -360,13 +413,21 @@ export default function TeamAndPartnersPage() {
                 />
               </div>
               <div className="flex items-end">
-                <Button onClick={handleInvitePartners} disabled={inviting || selectedCompanyIds.length === 0 || !selectedProjectId} className="w-full md:w-auto">
+                <Button onClick={handleInvitePartners} disabled={inviteDisabled} className="w-full md:w-auto">
                   {inviting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
                   Davet Gönder
                 </Button>
               </div>
               <div className="flex items-end">
-                <Button variant="ghost" onClick={() => setSelectedCompanyIds([])} disabled={!selectedCompanyIds.length} className="w-full md:w-auto">
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    setSelectedCompanyIds([]);
+                    setManualCompanyIds("");
+                  }}
+                  disabled={selectedCompanyIds.length === 0 && manualCompanyIds.trim() === ""}
+                  className="w-full md:w-auto"
+                >
                   Seçimi Temizle
                 </Button>
               </div>
