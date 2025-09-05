@@ -1,26 +1,32 @@
+// app/reset-password/page.jsx
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
+import { sbBrowser } from "@/lib/supabaseBrowserClient"; // ✅ yeni client
 
 export default function ResetPasswordPage() {
+  const supabase = sbBrowser();
   const router = useRouter();
+
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    const { error } = await supabase.auth.updateUser({
-      password,
-    });
+    try {
+      const { error } = await supabase.auth.updateUser({ password });
 
-    if (error) {
-      setMessage("❌ Hata: " + error.message);
-    } else {
-      setMessage("✅ Şifre başarıyla güncellendi.");
-      setTimeout(() => router.push("/giris"), 2000);
+      if (error) {
+        setMessage("❌ Hata: " + error.message);
+      } else {
+        setMessage("✅ Şifre başarıyla güncellendi.");
+        setTimeout(() => router.push("/giris"), 2000);
+      }
+    } catch (err) {
+      console.error("[ResetPassword] hata:", err);
+      setMessage("❌ Beklenmedik hata: " + (err.message || String(err)));
     }
   };
 

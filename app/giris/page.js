@@ -1,12 +1,14 @@
+// app/giris/page.js
 "use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
+import { sbBrowser } from "@/lib/supabaseBrowserClient"; // ✅ doğrudan yeni client
 
 export default function LoginPage() {
   const router = useRouter();
+  const supabase = sbBrowser();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -98,8 +100,7 @@ export default function LoginPage() {
     // 📌 Metadata’yı işle
     await processMetadata(user);
 
-    setMessage("✅ Giriş başarılı! Yönlendiriliyorsunuz...");
-    router.push("/dashboard");
+    router.push("/dashboard"); // ✅ Direkt yönlendirme
     setLoading(false);
   };
 

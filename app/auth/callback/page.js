@@ -1,9 +1,17 @@
-// app/auth/callback/page.jsx
+// app/auth/callback/page.js
 "use client";
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
+import { createBrowserClient } from "@supabase/ssr";
+
+// ✅ Supabase browser client (tekil instance)
+function sbBrowser() {
+  return createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  );
+}
 
 export default function AuthCallback() {
   const router = useRouter();
@@ -15,6 +23,7 @@ export default function AuthCallback() {
     ranRef.current = true;
 
     (async () => {
+      const supabase = sbBrowser();
       try {
         const url = new URL(window.location.href);
 
@@ -43,9 +52,9 @@ export default function AuthCallback() {
         // Hash flow
         if (url.hash.includes("access_token")) {
           const params = new URLSearchParams(url.hash.substring(1));
-          const access_token  = params.get("access_token");
+          const access_token = params.get("access_token");
           const refresh_token = params.get("refresh_token");
-          const hType         = params.get("type");
+          const hType = params.get("type");
 
           if (!access_token || !refresh_token) {
             setMsg("❌ Token bulunamadı.");

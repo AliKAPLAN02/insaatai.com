@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
+import { sbBrowser } from "@/lib/supabaseBrowserClient"; // ✅ yeni client
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
@@ -15,6 +15,8 @@ const isUUIDv4 = (v) =>
   /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v || "");
 
 export default function SignupPage() {
+  const supabase = sbBrowser();
+
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");

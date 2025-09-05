@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { sbBrowser } from "@/lib/supabaseBrowserClient"; // ✅ yeni import
+import { sbBrowser } from "../../../lib/supabaseBrowserClient"; // ✅ düzeltilmiş import
 import { Building2, FolderKanban } from "lucide-react";
 
 const PLAN_OPTIONS = [
@@ -15,9 +15,7 @@ const PLAN_OPTIONS = [
 export default function CompanyPage() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  // Şirket bilgisi + projeler
-  const [companyProfile, setCompanyProfile] = useState(null); // {id, name, plan, role, projects: [...]}
+  const [companyProfile, setCompanyProfile] = useState(null);
   const [toast, setToast] = useState("");
 
   useEffect(() => {
@@ -31,9 +29,8 @@ export default function CompanyPage() {
         }
         setUser(ures.user);
 
-        // Kullanıcı-context view (v_user_context veya v_user_context_json)
         const { data, error } = await supabase
-          .from("v_user_context") // ✅ gerekirse v_user_context_json olarak değiştir
+          .from("v_user_context_json") // ✅ burada json versiyonu daha güvenli
           .select("*")
           .eq("user_id", ures.user.id);
 
@@ -88,16 +85,11 @@ export default function CompanyPage() {
 
           {companyProfile ? (
             <div className="space-y-2 text-sm text-slate-700">
-              <div>
-                <span className="font-medium">Ad:</span> {companyProfile.name}
-              </div>
-              <div>
-                <span className="font-medium">Plan:</span>{" "}
+              <div><span className="font-medium">Ad:</span> {companyProfile.name}</div>
+              <div><span className="font-medium">Plan:</span>{" "}
                 {PLAN_OPTIONS.find(p => p.value === companyProfile.plan)?.label ?? companyProfile.plan}
               </div>
-              <div>
-                <span className="font-medium">Rolünüz:</span> {companyProfile.role}
-              </div>
+              <div><span className="font-medium">Rolünüz:</span> {companyProfile.role}</div>
 
               <div className="mt-4">
                 <h3 className="font-medium flex items-center gap-1">
