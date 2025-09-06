@@ -74,20 +74,20 @@ export default function TeamAndPartnersPage() {
     return () => { ignore = true; };
   }, [supabase]);
 
-  /* ------ PROJELER: (A) approved üyelikler + (B) kendi şirket projelerin ------ */
+  /* ------ PROJELER: (A) aktif üyelikler + (B) kendi şirket projelerin ------ */
   const refreshProjects = async () => {
     if (!user && !myCompanyId) return;
     setProjectsLoading(true);
     setError(null);
     try {
-      // A) approved üyesi olduğun projelerden id'ler
+      // A) aktif üyesi olduğun projelerden id'ler
       let memberProjectIds = [];
       if (user) {
         const { data: pmRows, error: pmErr } = await supabase
           .from("project_members")
           .select("project_id")
           .eq("user_id", user.id)
-          .eq("status", "approved");
+          .eq("status", "active"); // \u2714\ufe0f approved -> active
         if (pmErr) throw pmErr;
         memberProjectIds = Array.from(new Set((pmRows ?? []).map((r) => r.project_id))).filter(Boolean);
       }
@@ -139,19 +139,30 @@ export default function TeamAndPartnersPage() {
     setMembersLoading(true);
     setError(null);
     try {
-      const { data, error } = await supabase.rpc("company_members_list", {
-        p_company_id: myCompanyId,
-      });
-      if (error) throw error;
+      // Tercih edilen: RPC (company_members_list). Yoksa tabloyu oku (fallback).
+      let rows = [];
+      const { data, error } = await supabase.rpc("company_members_list", { p_company_id: myCompanyId });
+      if (error && error.message?.toLowerCase().includes("does not exist")) {
+        const fb = await supabase
+          .from("company_member")
+          .select("user_id, role")
+          .eq("company_id", myCompanyId);
+        if (fb.error) throw fb.error;
+        rows = fb.data || [];
+      } else if (error) {
+        throw error;
+      } else {
+        rows = data || [];
+      }
 
-      const rows = (data || []).map((r) => ({
+      const mapped = (rows || []).map((r) => ({
         user_id: r.user_id,
         role: r.role ?? null,
         email: r.email ?? null,
-        full_name: null, // şu an profiles yok
+        full_name: r.full_name ?? null,
       }));
 
-      const filtered = user ? rows.filter((m) => m.user_id !== user.id) : rows;
+      const filtered = user ? mapped.filter((m) => m.user_id !== user.id) : mapped;
       setCompanyMembers(filtered);
     } catch (e) {
       console.error(e);
@@ -195,7 +206,7 @@ export default function TeamAndPartnersPage() {
         p_project_id: selectedProjectId,
         p_company_id: myCompanyId,
         p_user_ids: selectedMemberIds,
-        p_default_role: "member",
+        p_default_role: "çalışan", // \u2714\ufe0f TR rol isimleri
       });
       if (error) throw error;
       setNotice("Çalışan(lar) projeye eklendi.");
