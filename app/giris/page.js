@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { sbBrowser } from "@/lib/supabaseBrowserClient";
-import processInviteMembership from "@/lib/membership"; // metadata.company_id → company_member
+import processInviteMembership from "@/lib/membership"; // company_id → company_member (RPC + temizleme)
 
 export default function LoginPage() {
   const router = useRouter();
@@ -44,12 +44,28 @@ export default function LoginPage() {
       return;
     }
 
-    // Login başarılı → metadata.company_id varsa şirkete ekle (idempotent)
     try {
+      // 1) KURUCU EMNİYET KEMERİ: metadata.companyName varsa şirket oluştur + patron ekle (idempotent)
+      const { data: { user } } = await supabase.auth.getUser();
+      const meta = user?.user_metadata || {};
+      if (meta.companyName) {
+        const { error: createErr } = await supabase.rpc("create_company_and_add_patron", {
+          p_company_name: String(meta.companyName).trim(),
+          p_plan: meta.plan ?? null,
+        });
+        if (createErr) {
+          console.error("[create_company_and_add_patron]", createErr);
+          setMessage("⚠️ Şirket oluşturma sırasında bir uyarı oluştu: " + createErr.message);
+        }
+        // Tek seferlik temizle
+        await supabase.auth.updateUser({ data: { companyName: null, plan: null } });
+      }
+
+      // 2) KATILIMCI: metadata.company_id varsa şirkete ekle (idempotent, RPC içerir)
       await processInviteMembership(supabase);
     } catch (err) {
-      console.error("[processInviteMembership]", err);
-      setMessage("⚠️ Giriş yapıldı fakat üyelik kurulumu hata verdi: " + (err?.message || err));
+      console.error("[login after-signin]", err);
+      setMessage("⚠️ Giriş yapıldı fakat üyelik/kurucu kurulumu hata verdi: " + (err?.message || err));
     } finally {
       setLoading(false);
       router.push("/dashboard");
