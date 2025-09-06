@@ -8,7 +8,7 @@ import processInviteMembership from "@/lib/membership"; // company_id → compan
 
 export default function AuthCallbackPage() {
   const router = useRouter();
-  // ⚠️ memoize: tekrar render’da yeni client oluşup effect’i tetiklemesin
+  // Tekrar render'larda yeni client oluşturup effect'i tetiklememek için memoize
   const supabase = useMemo(() => sbBrowser(), []);
   const [msg, setMsg] = useState("Doğrulama tamamlanıyor…");
 
@@ -26,24 +26,41 @@ export default function AuthCallbackPage() {
           return;
         }
 
-        // 2) company_id metadata varsa → üyelik kur (idempotent, RPC ile)
+        // 2) User + metadata
+        const { data: { user }, error: uErr } = await supabase.auth.getUser();
+        if (uErr || !user) {
+          if (!canceled) setMsg("Kullanıcı okunamadı.");
+          return;
+        }
+        const meta = user.user_metadata || {};
+
+        // 3) KURUCU AKIŞI: Şirket oluştur + kurucuyu patron olarak ekle (idempotent)
+        if (meta.companyName) {
+          const { data: createdCompanyId, error: cErr } = await supabase.rpc(
+            "create_company_and_add_patron",
+            {
+              p_company_name: String(meta.companyName).trim(),
+              p_plan: meta.plan ?? null,
+            }
+          );
+          if (cErr) {
+            console.error("[create_company_and_add_patron]", cErr);
+          } else {
+            // (opsiyonel) createdCompanyId bir UUID dönerse localStorage'a yazabilirsin
+            // try { localStorage.setItem("last_created_company_id", createdCompanyId); } catch {}
+          }
+
+          // Tek seferlik metadata temizliği
+          await supabase.auth.updateUser({ data: { companyName: null, plan: null } });
+        }
+
+        // 4) KATILIMCI AKIŞI: metadata.company_id varsa şirkete ekle (RPC + temizleme)
         try {
           await processInviteMembership(supabase);
         } catch (mErr) {
           console.error("[processInviteMembership]", mErr);
-          // Hata olsa da kullanıcıyı dashboard’a alalım; içeride toast gösterebilirsin
+          // Hata olsa bile kullanıcıyı dashboard'a yönlendireceğiz
         }
-
-        // (Opsiyonel) Kurucu akışı burada işlenmeli:
-        // const { data: { user } } = await supabase.auth.getUser();
-        // const meta = user?.user_metadata || {};
-        // if (meta.companyName) { 
-        //   await supabase.rpc("create_company_and_add_patron", {
-        //     p_company_name: meta.companyName,
-        //     p_plan: meta.plan ?? "Deneme Sürümü",
-        //   });
-        //   // ardından istersen metadata temizliği yap
-        // }
 
         if (!canceled) router.replace("/dashboard");
       } catch (e) {
