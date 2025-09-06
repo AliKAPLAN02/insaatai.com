@@ -1,4 +1,3 @@
-// app/giris/page.js
 "use client";
 
 import { useState } from "react";
@@ -15,63 +14,27 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  // --- Giriş sonrası metadata işlemleri ---
-  const processMetadata = async (user) => {
-    if (!user) return;
+  // Girişten sonra: metadata.company_id → company_member upsert
+  const processInviteMembership = async () => {
+    const { data: ures, error: uerr } = await supabase.auth.getUser();
+    if (uerr || !ures?.user) throw new Error(uerr?.message || "Kullanıcı okunamadı");
+    const user = ures.user;
 
     const meta = user.user_metadata || {};
-    const companyName = (meta.companyName || "").trim();
-    const inviteCode  = (meta.inviteCode || "").trim();
-    const plan        = (meta.plan || "").trim();
+    // company_id birincil; inviteCode/companyId eski uyumluluk
+    const companyIdMeta = String(meta.company_id || meta.inviteCode || meta.companyId || "").trim();
+    if (!companyIdMeta) return; // metadata yoksa iş yok
 
-    try {
-      // --- [A] Şirket kurucu akışı ---
-      if (companyName) {
-        const { data: company, error: cErr } = await supabase
-          .from("company")
-          .insert([{
-            name: companyName,
-            patron: user.id,
-            plan,
-            currency: "TRY",
-            initial_budget: 0,
-          }])
-          .select("id")
-          .single();
+    const { error: upErr } = await supabase
+      .from("company_member")
+      .upsert(
+        [{ company_id: companyIdMeta, user_id: user.id, role: "calisan" }],
+        { onConflict: "company_id,user_id" }
+      );
+    if (upErr) throw new Error("company_member upsert: " + upErr.message);
 
-        if (cErr) throw cErr;
-        const companyId = company.id;
-
-        // Patronu company_member tablosuna ekle (idempotent)
-        const { error: mErr } = await supabase
-          .from("company_member")
-          .upsert(
-            [{ company_id: companyId, user_id: user.id, role: "patron" }],
-            { onConflict: "company_id,user_id" }
-          );
-        if (mErr) throw mErr;
-      }
-
-      // --- [B] Davet koduyla katılım akışı ---
-      if (inviteCode && !companyName) {
-        const { error: joinErr } = await supabase
-          .from("company_member")
-          .upsert(
-            [{ company_id: inviteCode, user_id: user.id, role: "calisan" }],
-            { onConflict: "company_id,user_id" }
-          );
-        if (joinErr) throw joinErr;
-      }
-
-      // --- [C] Metadata temizle ---
-      if (companyName || inviteCode || plan) {
-        await supabase.auth.updateUser({
-          data: { companyName: null, inviteCode: null, plan: null },
-        });
-      }
-    } catch (err) {
-      console.error("[Login] metadata işlenirken hata:", err);
-    }
+    // tek seferlik metadata temizliği
+    await supabase.auth.updateUser({ data: { company_id: null, inviteCode: null } });
   };
 
   const handleLogin = async (e) => {
@@ -79,24 +42,22 @@ export default function LoginPage() {
     setLoading(true);
     setMessage("");
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) {
-      setMessage("❌ Hata: " + error.message);
+      setMessage("❌ Giriş hatası: " + error.message);
       setLoading(false);
       return;
     }
 
-    const user = data.user;
-
-    // 📌 Metadata’yı işle
-    await processMetadata(user);
-
-    router.push("/dashboard");
-    setLoading(false);
+    try {
+      await processInviteMembership();
+    } catch (err) {
+      setMessage("❌ Üyelik kurulumu hatası: " + (err?.message || err));
+      console.error("[processInviteMembership]", err);
+    } finally {
+      setLoading(false);
+      router.push("/dashboard");
+    }
   };
 
   return (
@@ -131,22 +92,11 @@ export default function LoginPage() {
           </button>
         </form>
 
-        {message && (
-          <p className="mt-4 text-center text-sm text-gray-700">{message}</p>
-        )}
+        {message && <p className="mt-4 text-center text-sm text-gray-700">{message}</p>}
 
         <p className="mt-6 text-center text-sm">
           Hesabınız yok mu?{" "}
-          <Link href="/kayit_ol" className="text-blue-600 hover:underline">
-            Kayıt Ol
-          </Link>
-        </p>
-
-        <p className="mt-2 text-center text-sm">
-          Şifrenizi mi unuttunuz?{" "}
-          <Link href="/sifremi-unuttum" className="text-blue-600 hover:underline">
-            Şifremi Unuttum
-          </Link>
+          <Link href="/kayit_ol" className="text-blue-600 hover:underline">Kayıt Ol</Link>
         </p>
       </div>
     </div>

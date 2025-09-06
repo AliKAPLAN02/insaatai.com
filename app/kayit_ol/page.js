@@ -1,4 +1,3 @@
-// app/kayit_ol/page.jsx
 "use client";
 
 import { useState } from "react";
@@ -7,99 +6,59 @@ import { sbBrowser } from "@/lib/supabaseBrowserClient";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
-// Veritabanındaki billing_plan ENUM değerleriyle birebir aynı OLMALI
-const PLAN_OPTIONS = ["Deneme Sürümü", "Başlangıç", "Profesyonel", "Kurumsal"];
-
-// UUID (v4) kaba kontrolü
-const isUUIDv4 = (v) =>
-  /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v || "");
+// UUID (v1–v5/v7) için gevşek ama güvenli kontrol (sadece format)
+const isUUID = (v) =>
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test((v || "").trim());
 
 export default function SignupPage() {
   const supabase = sbBrowser();
 
+  // form
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
+  const [companyId, setCompanyId] = useState(""); // ← doğrudan company_id
 
-  // Akış seçimi (kurucu ↔ davet)
-  const [companyName, setCompanyName] = useState("");
-  const [inviteCode, setInviteCode] = useState("");
-
-  // Kurucu için plan (enum whitelist)
-  const [plan, setPlan] = useState("Deneme Sürümü");
-
+  // ui
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [signedUp, setSignedUp] = useState(false);
 
-  // Kurucu ↔ Davet alanlarını karşılıklı temizle
-  const onChangeCompany = (v) => {
-    const val = (v || "").trimStart();
-    setCompanyName(val);
-    if (val) setInviteCode("");
-  };
-  const onChangeInvite = (v) => {
-    const val = (v || "").trim();
-    setInviteCode(val);
-    if (val) setCompanyName("");
-  };
-
   const handleSignup = async (e) => {
     e.preventDefault();
     if (loading) return;
-
     setMessage("");
 
-    // Basit doğrulamalar
     if (password !== password2) {
-      setMessage("⚠️ Şifreler uyuşmuyor!");
+      setMessage("⚠️ Şifreler uyuşmuyor.");
       return;
     }
-    if (!companyName.trim() && !inviteCode.trim()) {
-      setMessage("⚠️ Lütfen ya şirket adı girin ya da davet kodu girin.");
-      return;
-    }
-    if (inviteCode && !isUUIDv4(inviteCode)) {
-      setMessage("⚠️ Davet kodu (UUID) geçersiz görünüyor.");
+    if (!companyId.trim() || !isUUID(companyId)) {
+      setMessage("⚠️ Geçerli bir Şirket ID (UUID) girin.");
       return;
     }
 
     setLoading(true);
 
-    // Doğrulama linki için redirect (callback SADECE onay yönetecek)
-    const baseEnv =
-      process.env.NEXT_PUBLIC_AUTH_REDIRECT_URL || process.env.NEXT_PUBLIC_BASE_URL;
-    const redirectTo = baseEnv
-      ? `${baseEnv.replace(/\/$/, "")}/auth/callback`
-      : `${window.location.origin}/auth/callback`;
-
+    const base = process.env.NEXT_PUBLIC_AUTH_REDIRECT_URL || process.env.NEXT_PUBLIC_BASE_URL;
+    const redirectTo = (base ? base.replace(/\/$/, "") : window.location.origin) + "/auth/callback";
     const normalizedEmail = (email || "").trim().toLowerCase();
 
-    // Kurucu akışında planı whitelist et; davette plan null
-    const safePlan =
-      companyName.trim()
-        ? (PLAN_OPTIONS.includes(plan) ? plan : "Deneme Sürümü")
-        : null;
-
-    // Metadata —> girişte (giris/page.js) okunup işlenecek
+    // metadata: callback/girişte okunacak
     const metadata = {
       full_name: (fullName || "").trim(),
       phone: phone || "",
-      companyName: companyName.trim() || null, // kurucuysa dolu
-      inviteCode: inviteCode.trim() || null,   // davetle ise dolu
-      plan: safePlan,                          // sadece kurucuysa dolu
+      company_id: companyId.trim(), // ← anahtarımız
+      // inviteCode: companyId.trim(), // (istenirse geçmiş uyumluluk için açık bırakılabilir)
     };
 
     try {
       const { error } = await supabase.auth.signUp({
         email: normalizedEmail,
         password,
-        options: {
-          data: metadata,
-          emailRedirectTo: redirectTo,
-        },
+        options: { data: metadata, emailRedirectTo: redirectTo },
       });
 
       if (error) {
@@ -107,7 +66,7 @@ export default function SignupPage() {
         if (msg.includes("already") && (msg.includes("registered") || msg.includes("exists"))) {
           setMessage("⚠️ Bu e-posta zaten kayıtlı. Lütfen giriş yapın.");
         } else if (msg.includes("rate limit")) {
-          setMessage("⚠️ Çok hızlı deneme yaptınız. Lütfen biraz sonra tekrar deneyin.");
+          setMessage("⚠️ Çok hızlı deneme yaptınız. Biraz sonra tekrar deneyin.");
         } else {
           setMessage("❌ Hata: " + error.message);
         }
@@ -115,10 +74,8 @@ export default function SignupPage() {
         return;
       }
 
-      // Başarılı
       setSignedUp(true);
-      setPassword("");
-      setPassword2("");
+      setPassword(""); setPassword2("");
       try { localStorage.setItem("signup_pending_email", normalizedEmail); } catch {}
       setMessage("✅ Kayıt başarılı! E-postana doğrulama linki gönderildi.");
     } catch (err) {
@@ -128,7 +85,7 @@ export default function SignupPage() {
     }
   };
 
-  const formDisabled = loading || signedUp;
+  const disabled = loading || signedUp;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -143,11 +100,11 @@ export default function SignupPage() {
             onChange={(e) => setFullName(e.target.value)}
             className="w-full px-3 py-2 border rounded-lg"
             required
-            disabled={formDisabled}
+            disabled={disabled}
           />
 
           <PhoneInput
-            country={"tr"}
+            country="tr"
             value={phone}
             onChange={(val) => setPhone("+" + val)}
             inputClass="!w-full !h-10 !px-3 !py-2 !rounded-lg !border"
@@ -156,7 +113,7 @@ export default function SignupPage() {
             disableDropdown
             countryCodeEditable={false}
             buttonClass="!hidden"
-            disabled={formDisabled}
+            disabled={disabled}
           />
 
           <input
@@ -166,7 +123,7 @@ export default function SignupPage() {
             onChange={(e) => setEmail(e.target.value)}
             className="w-full px-3 py-2 border rounded-lg"
             required
-            disabled={formDisabled}
+            disabled={disabled}
           />
 
           <input
@@ -176,7 +133,7 @@ export default function SignupPage() {
             onChange={(e) => setPassword(e.target.value)}
             className="w-full px-3 py-2 border rounded-lg"
             required
-            disabled={formDisabled}
+            disabled={disabled}
             autoComplete="new-password"
           />
 
@@ -187,49 +144,26 @@ export default function SignupPage() {
             onChange={(e) => setPassword2(e.target.value)}
             className="w-full px-3 py-2 border rounded-lg"
             required
-            disabled={formDisabled}
+            disabled={disabled}
             autoComplete="new-password"
           />
 
-          {/* Kurucu alanı */}
+          {/* Doğrudan Şirket ID */}
           <input
             type="text"
-            placeholder="Şirket Adı (Kurucuysan)"
-            value={companyName}
-            onChange={(e) => onChangeCompany(e.target.value)}
+            placeholder="Şirket ID (UUID)"
+            value={companyId}
+            onChange={(e) => setCompanyId(e.target.value)}
             className="w-full px-3 py-2 border rounded-lg"
-            disabled={formDisabled}
-          />
-
-          {/* Paket seçimi — sadece kurucuysa göster */}
-          {companyName.trim() && (
-            <select
-              value={plan}
-              onChange={(e) => setPlan(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg"
-              disabled={formDisabled}
-            >
-              {PLAN_OPTIONS.map((opt) => (
-                <option key={opt} value={opt}>{opt}</option>
-              ))}
-            </select>
-          )}
-
-          {/* Davet alanı */}
-          <input
-            type="text"
-            placeholder="Davet Kodu (UUID — Katılıyorsan)"
-            value={inviteCode}
-            onChange={(e) => onChangeInvite(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg"
-            disabled={formDisabled}
+            required
+            disabled={disabled}
           />
 
           <button
             type="submit"
-            disabled={formDisabled}
+            disabled={disabled}
             className={`w-full py-2 rounded-lg text-white ${
-              formDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-slate-900 hover:opacity-90"
+              disabled ? "bg-gray-400 cursor-not-allowed" : "bg-slate-900 hover:opacity-90"
             }`}
           >
             {loading ? "Kaydediliyor..." : signedUp ? "Onay Bekleniyor" : "Kayıt Ol"}
