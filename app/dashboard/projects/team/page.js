@@ -87,7 +87,7 @@ export default function TeamAndPartnersPage() {
           .from("project_members")
           .select("project_id")
           .eq("user_id", user.id)
-          .eq("status", "active"); // \u2714\ufe0f approved -> active
+          .eq("status", "active");
         if (pmErr) throw pmErr;
         memberProjectIds = Array.from(new Set((pmRows ?? []).map((r) => r.project_id))).filter(Boolean);
       }
@@ -157,12 +157,16 @@ export default function TeamAndPartnersPage() {
 
       const mapped = (rows || []).map((r) => ({
         user_id: r.user_id,
-        role: r.role ?? null,
+        role: r.role ?? null,       // 'patron' | 'yonetici' | 'calisan' (beklenen)
         email: r.email ?? null,
         full_name: r.full_name ?? null,
       }));
 
-      const filtered = user ? mapped.filter((m) => m.user_id !== user.id) : mapped;
+      // 🔒 Patronları VE (önlem olarak) mevcut kullanıcıyı gizle
+      const filtered = (mapped || [])
+        .filter((m) => m.role !== "patron")
+        .filter((m) => (user ? m.user_id !== user.id : true));
+
       setCompanyMembers(filtered);
     } catch (e) {
       console.error(e);
@@ -206,7 +210,7 @@ export default function TeamAndPartnersPage() {
         p_project_id: selectedProjectId,
         p_company_id: myCompanyId,
         p_user_ids: selectedMemberIds,
-        p_default_role: "çalışan", // \u2714\ufe0f TR rol isimleri
+        p_default_role: "calisan", // ✅ TR rolü (ASCII)
       });
       if (error) throw error;
       setNotice("Çalışan(lar) projeye eklendi.");
@@ -314,7 +318,9 @@ export default function TeamAndPartnersPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between gap-2">
-              <div className="text-sm text-muted-foreground">Şirket çalışanları ({companyMembers.length})</div>
+              <div className="text-sm text-muted-foreground">
+                Şirket çalışanları ({companyMembers.length}) <span className="ml-2 opacity-70">(patron listeden gizlendi)</span>
+              </div>
               <Button variant="outline" size="sm" onClick={refreshMembers} disabled={membersLoading}>
                 {membersLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                 Listeyi Yenile
@@ -322,7 +328,7 @@ export default function TeamAndPartnersPage() {
             </div>
 
             {companyMembers.length === 0 ? (
-              <div className="text-sm text-muted-foreground">Şirketinize bağlı çalışan bulunamadı.</div>
+              <div className="text-sm text-muted-foreground">Şirketinize bağlı uygun çalışan bulunamadı.</div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {companyMembers.map((m) => {

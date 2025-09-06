@@ -9,6 +9,7 @@ import {
   Menu, X, ChevronLeft, ChevronRight,
   ChartLine, Wallet, WalletCards, HandCoins,
   Building2, FolderKanban, Users2, FileBarChart, Settings,
+  Copy, Check
 } from "lucide-react";
 
 /* ------------------------- Global Context ------------------------- */
@@ -31,6 +32,9 @@ export default function DashboardShell({ children }) {
 
   const [projects, setProjects] = useState([]);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
+
+  // Copy feedback
+  const [copied, setCopied] = useState(false);
 
   const pathname = usePathname();
   const mainColClass = collapsed ? "lg:col-span-11" : "lg:col-span-10";
@@ -124,6 +128,25 @@ export default function DashboardShell({ children }) {
     { key: "settings", href: "/dashboard/settings", label: "Ayarlar", icon: <Settings className="h-4 w-4" /> },
   ];
 
+  async function copyCompanyId() {
+    if (!companyId) return;
+    try {
+      await navigator.clipboard.writeText(companyId);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // Fallback
+      const el = document.createElement("textarea");
+      el.value = companyId;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    }
+  }
+
   const contextValue = {
     userName,
     company_id: companyId,
@@ -149,9 +172,24 @@ export default function DashboardShell({ children }) {
                 <Menu className="h-5 w-5" />
               </button>
               <div className="h-9 w-9 rounded-2xl bg-slate-900 text-white grid place-items-center">IA</div>
+
+              {/* Şirket adı */}
               <span className="truncate max-w-[50vw] sm:max-w-[30vw]">
                 {companyName}
               </span>
+
+              {/* Şirket ID kopyala butonu */}
+              {companyId && (
+                <button
+                  onClick={copyCompanyId}
+                  className="ml-2 inline-flex items-center gap-1 rounded-md border border-slate-200 px-2 py-1 text-xs font-normal text-slate-600 hover:bg-slate-50 hover:text-slate-900 active:scale-95"
+                  title={`Şirket ID'yi kopyala: ${companyId}`}
+                >
+                  {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                  {copied ? "Kopyalandı" : "ID Kopyala"}
+                </button>
+              )}
+
               {projects.length > 1 && (
                 <select
                   value={selectedProjectId || ""}
