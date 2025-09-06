@@ -150,6 +150,7 @@ export default function SignupPage() {
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             className="w-full px-3 py-2 border rounded-lg"
+            autoComplete="name"
             required
             disabled={disabled}
           />
@@ -173,6 +174,7 @@ export default function SignupPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full px-3 py-2 border rounded-lg"
+            autoComplete="email"
             required
             disabled={disabled}
           />
@@ -183,9 +185,9 @@ export default function SignupPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full px-3 py-2 border rounded-lg"
+            autoComplete="new-password"
             required
             disabled={disabled}
-            autoComplete="new-password"
           />
 
           <input
@@ -194,9 +196,9 @@ export default function SignupPage() {
             value={password2}
             onChange={(e) => setPassword2(e.target.value)}
             className="w-full px-3 py-2 border rounded-lg"
+            autoComplete="new-password"
             required
             disabled={disabled}
-            autoComplete="new-password"
           />
 
           {/* Kurucu alanı */}
