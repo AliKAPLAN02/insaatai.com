@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { sbBrowser } from "@/lib/supabaseBrowserClient"; // ✅ doğrudan yeni client
+import { sbBrowser } from "@/lib/supabaseBrowserClient";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -29,43 +29,38 @@ export default function LoginPage() {
       if (companyName) {
         const { data: company, error: cErr } = await supabase
           .from("company")
-          .insert([
-            {
-              name: companyName,
-              patron: user.id,
-              plan,
-              currency: "TRY",
-              initial_budget: 0,
-            },
-          ])
+          .insert([{
+            name: companyName,
+            patron: user.id,
+            plan,
+            currency: "TRY",
+            initial_budget: 0,
+          }])
           .select("id")
           .single();
 
         if (cErr) throw cErr;
         const companyId = company.id;
 
-        // Patronu company_member tablosuna ekle
+        // Patronu company_member tablosuna ekle (idempotent)
         const { error: mErr } = await supabase
           .from("company_member")
-          .insert([{ company_id: companyId, user_id: user.id, role: "patron" }]);
+          .upsert(
+            [{ company_id: companyId, user_id: user.id, role: "patron" }],
+            { onConflict: "company_id,user_id" }
+          );
         if (mErr) throw mErr;
       }
 
       // --- [B] Davet koduyla katılım akışı ---
       if (inviteCode && !companyName) {
-        const { data: exists } = await supabase
+        const { error: joinErr } = await supabase
           .from("company_member")
-          .select("user_id")
-          .eq("company_id", inviteCode)
-          .eq("user_id", user.id)
-          .maybeSingle();
-
-        if (!exists) {
-          const { error: joinErr } = await supabase
-            .from("company_member")
-            .insert([{ company_id: inviteCode, user_id: user.id, role: "calisan" }]);
-          if (joinErr) throw joinErr;
-        }
+          .upsert(
+            [{ company_id: inviteCode, user_id: user.id, role: "calisan" }],
+            { onConflict: "company_id,user_id" }
+          );
+        if (joinErr) throw joinErr;
       }
 
       // --- [C] Metadata temizle ---
@@ -100,7 +95,7 @@ export default function LoginPage() {
     // 📌 Metadata’yı işle
     await processMetadata(user);
 
-    router.push("/dashboard"); // ✅ Direkt yönlendirme
+    router.push("/dashboard");
     setLoading(false);
   };
 

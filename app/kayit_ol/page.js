@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { sbBrowser } from "@/lib/supabaseBrowserClient"; // ✅ yeni client
+import { sbBrowser } from "@/lib/supabaseBrowserClient";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
@@ -23,11 +23,11 @@ export default function SignupPage() {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
 
-  // Akış seçimi
+  // Akış seçimi (kurucu ↔ davet)
   const [companyName, setCompanyName] = useState("");
   const [inviteCode, setInviteCode] = useState("");
 
-  // 🔹 Varsayılan plan: enum ile birebir
+  // Kurucu için plan (enum whitelist)
   const [plan, setPlan] = useState("Deneme Sürümü");
 
   const [loading, setLoading] = useState(false);
@@ -68,7 +68,7 @@ export default function SignupPage() {
 
     setLoading(true);
 
-    // Doğrulama linki için redirect
+    // Doğrulama linki için redirect (callback SADECE onay yönetecek)
     const baseEnv =
       process.env.NEXT_PUBLIC_AUTH_REDIRECT_URL || process.env.NEXT_PUBLIC_BASE_URL;
     const redirectTo = baseEnv
@@ -77,20 +77,19 @@ export default function SignupPage() {
 
     const normalizedEmail = (email || "").trim().toLowerCase();
 
-    // Kurucu akışında planı whitelist et; geçersizse "Deneme Sürümü"ne düş
-    const safePlan = companyName.trim()
-      ? PLAN_OPTIONS.includes(plan)
-        ? plan
-        : "Deneme Sürümü"
-      : null; // davet akışında plan KULLANILMAZ
+    // Kurucu akışında planı whitelist et; davette plan null
+    const safePlan =
+      companyName.trim()
+        ? (PLAN_OPTIONS.includes(plan) ? plan : "Deneme Sürümü")
+        : null;
 
-    // Metadata (callback şirket/üyelik kurulumunda kullanılacak)
+    // Metadata —> girişte (giris/page.js) okunup işlenecek
     const metadata = {
       full_name: (fullName || "").trim(),
       phone: phone || "",
-      companyName: companyName.trim() || null,
-      inviteCode: inviteCode.trim() || null,
-      plan: safePlan, // sadece kurucuysa dolu
+      companyName: companyName.trim() || null, // kurucuysa dolu
+      inviteCode: inviteCode.trim() || null,   // davetle ise dolu
+      plan: safePlan,                          // sadece kurucuysa dolu
     };
 
     try {
@@ -120,9 +119,7 @@ export default function SignupPage() {
       setSignedUp(true);
       setPassword("");
       setPassword2("");
-      try {
-        localStorage.setItem("signup_pending_email", normalizedEmail);
-      } catch {}
+      try { localStorage.setItem("signup_pending_email", normalizedEmail); } catch {}
       setMessage("✅ Kayıt başarılı! E-postana doğrulama linki gönderildi.");
     } catch (err) {
       setMessage("❌ Beklenmedik hata: " + (err?.message || String(err)));
@@ -213,9 +210,7 @@ export default function SignupPage() {
               disabled={formDisabled}
             >
               {PLAN_OPTIONS.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
+                <option key={opt} value={opt}>{opt}</option>
               ))}
             </select>
           )}
@@ -245,9 +240,7 @@ export default function SignupPage() {
 
         <p className="mt-6 text-center text-sm">
           Zaten hesabın var mı?{" "}
-          <Link href="/giris" className="text-blue-600 hover:underline">
-            Giriş Yap
-          </Link>
+          <Link href="/giris" className="text-blue-600 hover:underline">Giriş Yap</Link>
         </p>
       </div>
     </div>
