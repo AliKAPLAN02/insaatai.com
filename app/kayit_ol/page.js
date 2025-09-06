@@ -1,21 +1,19 @@
 // app/kayit_ol/page.jsx
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { sbBrowser } from "@/lib/supabaseBrowserClient";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
-// Veritabanındaki billing_plan ENUM değerleriyle birebir aynı OLMALI
 const PLAN_OPTIONS = ["Deneme Sürümü", "Başlangıç", "Profesyonel", "Kurumsal"];
 
-// UUID v4 kontrolü (Supabase default)
 const isUUIDv4 = (v) =>
   /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test((v || "").trim());
 
 export default function SignupPage() {
-  const supabase = sbBrowser();
+  const supabase = useMemo(() => sbBrowser(), []);
 
   // Form alanları
   const [fullName, setFullName] = useState("");
@@ -25,10 +23,9 @@ export default function SignupPage() {
   const [password2, setPassword2] = useState("");
 
   // Akış seçimi
-  const [companyName, setCompanyName] = useState(""); // Kurucu akışı → şirket oluştur
-  const [companyId, setCompanyId] = useState("");     // Katılma akışı → mevcut company_id (UUID)
+  const [companyName, setCompanyName] = useState(""); // kurucu akışı
+  const [companyId, setCompanyId] = useState("");     // katılma akışı (UUID)
 
-  // Kurucu için plan (enum whitelist)
   const [plan, setPlan] = useState("Deneme Sürümü");
 
   // UI
@@ -36,16 +33,15 @@ export default function SignupPage() {
   const [message, setMessage] = useState("");
   const [signedUp, setSignedUp] = useState(false);
 
-  // Alanlar birbirini temizlesin (kurucu ↔ katılma)
   const onChangeCompanyName = (v) => {
     const val = (v || "").trimStart();
     setCompanyName(val);
-    if (val) setCompanyId(""); // kurucu seçilince company_id temizlensin
+    if (val) setCompanyId("");
   };
   const onChangeCompanyId = (v) => {
     const val = (v || "").trim();
     setCompanyId(val);
-    if (val) setCompanyName(""); // katılma seçilince şirket adı temizlensin
+    if (val) setCompanyName("");
   };
 
   const handleSignup = async (e) => {
@@ -54,14 +50,13 @@ export default function SignupPage() {
 
     setMessage("");
 
-    // Basit doğrulamalar
     if (password !== password2) {
       setMessage("⚠️ Şifreler uyuşmuyor.");
       return;
     }
 
     const isFounder = !!companyName.trim();
-    const isJoiner  = !!companyId.trim();
+    const isJoiner = !!companyId.trim();
 
     if (!isFounder && !isJoiner) {
       setMessage("⚠️ Lütfen ya şirket adı girin (kurucu) ya da Şirket ID (UUID) girin (katılımcı).");
@@ -78,26 +73,24 @@ export default function SignupPage() {
 
     setLoading(true);
 
-    // Doğrulama linki için redirect (callback SADECE onayı yönetsin)
     const base = process.env.NEXT_PUBLIC_AUTH_REDIRECT_URL || process.env.NEXT_PUBLIC_BASE_URL;
     const redirectTo = (base ? base.replace(/\/$/, "") : window.location.origin) + "/auth/callback";
 
     const normalizedEmail = (email || "").trim().toLowerCase();
 
-    // Kurucu akışında plan'ı whitelist et; katılma akışında null
     const safePlan = isFounder
       ? (PLAN_OPTIONS.includes(plan) ? plan : "Deneme Sürümü")
       : null;
 
-    // Metadata — giriş/callback’te işlenecek
-    // (compat için company_id ile birlikte inviteCode da yazılıyor)
+    // Küçük debug/izleme kolaylığı için flow bayrağı da ekledim (opsiyonel)
     const metadata = {
       full_name: (fullName || "").trim(),
       phone: phone || "",
-      companyName: isFounder ? companyName.trim() : null, // kurucu ise
-      company_id: isJoiner ? companyId.trim() : null,     // katılımcı ise
-      inviteCode: isJoiner ? companyId.trim() : null,     // backward compatibility
-      plan: safePlan,                                     // sadece kurucu
+      companyName: isFounder ? companyName.trim() : null,
+      company_id: isJoiner ? companyId.trim() : null,
+      inviteCode: isJoiner ? companyId.trim() : null,
+      plan: safePlan,
+      flow: isFounder ? "founder" : "joiner",
     };
 
     try {
@@ -123,7 +116,6 @@ export default function SignupPage() {
         return;
       }
 
-      // Başarılı
       setSignedUp(true);
       setPassword("");
       setPassword2("");
@@ -158,7 +150,7 @@ export default function SignupPage() {
           <PhoneInput
             country="tr"
             value={phone}
-            onChange={(val) => setPhone("+" + val)}
+            onChange={(val) => setPhone(val ? "+" + val : "")}
             inputClass="!w-full !h-10 !px-3 !py-2 !rounded-lg !border"
             placeholder="Telefon (+90...)"
             inputProps={{ name: "phone", required: true }}
@@ -234,6 +226,8 @@ export default function SignupPage() {
             value={companyId}
             onChange={(e) => onChangeCompanyId(e.target.value)}
             className="w-full px-3 py-2 border rounded-lg"
+            pattern="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}"
+            title="UUID v4 formatında olmalı"
             disabled={disabled}
           />
 

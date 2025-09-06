@@ -1,7 +1,7 @@
 // app/giris/page.jsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { sbBrowser } from "@/lib/supabaseBrowserClient";
@@ -9,7 +9,8 @@ import processInviteMembership from "@/lib/membership"; // company_id → compan
 
 export default function LoginPage() {
   const router = useRouter();
-  const supabase = sbBrowser();
+  // Supabase client'ı memoize et
+  const supabase = useMemo(() => sbBrowser(), []);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,21 +34,33 @@ export default function LoginPage() {
 
     const normalizedEmail = (email || "").trim().toLowerCase();
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email: normalizedEmail,
-      password,
-    });
-
-    if (error) {
-      setMessage("❌ Giriş hatası: " + error.message);
-      setLoading(false);
-      return;
-    }
-
     try {
-      // 1) KURUCU EMNİYET KEMERİ: metadata.companyName varsa şirket oluştur + patron ekle (idempotent)
-      const { data: { user } } = await supabase.auth.getUser();
-      const meta = user?.user_metadata || {};
+      // 1) Giriş
+      const { error } = await supabase.auth.signInWithPassword({
+        email: normalizedEmail,
+        password,
+      });
+      if (error) {
+        const msg = (error.message || "").toLowerCase();
+        if (msg.includes("email") && msg.includes("not") && msg.includes("confirmed")) {
+          setMessage("⚠️ E-posta adresin doğrulanmamış. Lütfen e-postanı doğrula.");
+        } else {
+          setMessage("❌ Giriş hatası: " + error.message);
+        }
+        setLoading(false);
+        return;
+      }
+
+      // 2) Kullanıcı + metadata
+      const { data: { user }, error: uErr } = await supabase.auth.getUser();
+      if (uErr || !user) {
+        setMessage("❌ Oturum bilgisi alınamadı.");
+        setLoading(false);
+        return;
+      }
+      const meta = user.user_metadata || {};
+
+      // 3) KURUCU EMNİYET KEMERİ: companyName varsa şirket oluştur + patron ekle (idempotent)
       if (meta.companyName) {
         const { error: createErr } = await supabase.rpc("create_company_and_add_patron", {
           p_company_name: String(meta.companyName).trim(),
@@ -55,20 +68,33 @@ export default function LoginPage() {
         });
         if (createErr) {
           console.error("[create_company_and_add_patron]", createErr);
-          setMessage("⚠️ Şirket oluşturma sırasında bir uyarı oluştu: " + createErr.message);
+          // Kullanıcıyı bloklamıyoruz; dashboard içinde tekrar deneme/uyarı gösterebilirsin
+          setMessage("⚠️ Şirket oluşturma sırasında bir uyarı oluştu.");
         }
         // Tek seferlik temizle
         await supabase.auth.updateUser({ data: { companyName: null, plan: null } });
       }
 
-      // 2) KATILIMCI: metadata.company_id varsa şirkete ekle (idempotent, RPC içerir)
-      await processInviteMembership(supabase);
+      // 4) KATILIMCI: metadata.company_id varsa şirkete ekle (idempotent, RPC içerir)
+      try {
+        await processInviteMembership(supabase);
+      } catch (mErr) {
+        console.error("[processInviteMembership]", mErr);
+        // Burada da kullanıcıyı bloklamıyoruz
+        setMessage((prev) =>
+          prev
+            ? prev + " Üyelik kurulumu tamamlanamadı."
+            : "⚠️ Üyelik kurulumu tamamlanamadı."
+        );
+      }
+
+      // 5) Dashboard'a geç
+      router.push("/dashboard");
     } catch (err) {
-      console.error("[login after-signin]", err);
-      setMessage("⚠️ Giriş yapıldı fakat üyelik/kurucu kurulumu hata verdi: " + (err?.message || err));
+      console.error("[login]", err);
+      setMessage("❌ Beklenmedik hata: " + (err?.message || String(err)));
     } finally {
       setLoading(false);
-      router.push("/dashboard");
     }
   };
 
